@@ -6,6 +6,7 @@
 package graph;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 
 
@@ -13,14 +14,14 @@ public class Arco {
    Nodo da,a;
    int numColors;
    int index;
-   ArrayList<Integer> colors;
+   ArrayList<Integer> colori;
 
    public Arco(int pIndex, Nodo da, Nodo a) {
       this.da = da;
       this.a = a;
       this.numColors = 0;
       this.index = pIndex;
-      this.colors = new ArrayList<>();
+      this.colori = new ArrayList<>();
    }
    
    public Arco(Nodo da, Nodo a, ArrayList<Integer> pColors) {
@@ -32,16 +33,16 @@ public class Arco {
       else
           this.numColors = 0;
       
-      this.colors = pColors;
+      this.colori = pColors;
    }
    
-   //Set an edge with random colors
+   //Set an edge with random colori
    public Arco(int pIndex, Nodo da, Nodo a, int pNumColors) {
       this.da = da;
       this.a = a;
       this.numColors = pNumColors;
       this.index = pIndex;
-      this.colors = randomColors();
+      this.colori = randomColors();
    }
 
    public Nodo getDa() {
@@ -60,16 +61,16 @@ public class Arco {
       this.a = a;
    }
 
-    public ArrayList<Integer> getColors() {
-        return colors;
+    public ArrayList<Integer> getColori() {
+        return colori;
     }
 
-    public void setColors(ArrayList<Integer> colors) {
-        this.colors = colors;
+    public void setColori(ArrayList<Integer> colori) {
+        this.colori = colori;
     }
 
     public void removeColor (int pColor) {
-       this.colors.set(pColor, 0);
+       this.colori.set(pColor, 0);
     }
 
     public int getIndex() {
@@ -103,4 +104,42 @@ public class Arco {
         
         return randomColorList;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Arco other = (Arco) obj;
+        if (this.numColors != other.numColors) {
+            return false;
+        }
+        if (this.index != other.index) {
+            return false;
+        }
+        if (!Objects.equals(this.da, other.da)) {
+            return false;
+        }
+        if (!Objects.equals(this.a, other.a)) {
+            return false;
+        }
+        if (!Objects.equals(this.colori, other.colori)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

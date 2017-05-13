@@ -21,7 +21,7 @@ public class main {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
         //Grafo grafo = new Grafo(5, 10, 3, 1);
-        Grafo grafo = new Grafo("src/GrafiColorati3Colori/50_200_50_13_1.mlst");
+        /*Grafo grafo = new Grafo("src/GrafiColorati3Colori/50_200_50_13_1.mlst");
         System.out.println("LOAD FINISHED!!!!");
         NUM_COLOR = grafo.numColor;
         //grafo.stampa();
@@ -39,7 +39,7 @@ public class main {
             edgeWithMinColors = getEdgesWithMinNumberOfColors(grafo.getArchi());
 
             //Se gli archi minimi non hanno colori, inseriscili nel mlst
-            if (sum(edgeWithMinColors.get(0).getColors()) == 0) {
+            if (sum(edgeWithMinColors.get(0).getColori()) == 0) {
                 mlstGraph.addArchi(edgeWithMinColors);
 
                 for (Arco a : edgeWithMinColors) {
@@ -88,7 +88,7 @@ public class main {
 
         for (Arco a : pEdges) {
             if (a != null) {
-                totColorForEdge = a.getColors().size();
+                totColorForEdge = a.getColori().size();
 
                 //Primo arco analizzato
                 if (previousTotColorEdge == -1) {
@@ -125,10 +125,10 @@ public class main {
                 index = 0;
 
                 do {
-                    if (a.getColors().get(index) == i) {
+                    if (a.getColori().get(index) == i) {
                         sumColor++;
                     }
-                } while (a.getColors().get(index) != i && ++index < a.getColors().size());
+                } while (a.getColori().get(index) != i && ++index < a.getColori().size());
                 
             }
 
@@ -167,9 +167,9 @@ public class main {
                             posMaxColor = posMaxValue(tmpTotEdgeForColorList);
 
                             //Controllo se i due archi che sto confrontando hanno quel colore
-                            if (pEdge.get(posMinValue).getColors().get(posMaxColor) == 1) {
+                            if (pEdge.get(posMinValue).getColori().get(posMaxColor) == 1) {
                                 find = true;
-                            } else if (pEdge.get(i).getColors().get(posMaxColor) == 1) {
+                            } else if (pEdge.get(i).getColori().get(posMaxColor) == 1) {
                                 posMinValue = i;
                                 find = true;
                             } else {
@@ -209,6 +209,7 @@ public class main {
             }
         }
 
-        return pos;
+        return pos;*/
     }
+
 }
