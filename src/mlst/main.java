@@ -21,7 +21,7 @@ public class main {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
         //Grafo grafo = new Grafo(5, 10, 3, 1);
-        Grafo grafo = new Grafo("src/GrafiColorati3Colori/50_200_50_13_1.mlst");
+        Grafo grafo = new Grafo("src/GrafiColorati3Colori/1000_8000_1000_125_1.mlst");
         System.out.println("LOAD FINISHED!!!!");
         NUM_COLOR = grafo.numColor;
         //grafo.stampa();
@@ -40,11 +40,11 @@ public class main {
 
             //Se gli archi minimi non hanno colori, inseriscili nel mlst
             if (sum(edgeWithMinColors.get(0).getColors()) == 0) {
-                mlstGraph.addArchi(edgeWithMinColors);
-
                 for (Arco a : edgeWithMinColors) {
                     grafo.rimuoviArco(a);
                 }
+                
+                mlstGraph.addArchiSenzaInserireCicli(edgeWithMinColors);
                 //Elimino eventuali cicli
                 //while (tmpMlstGraph.checkCycle()) {
                 //Da implementare

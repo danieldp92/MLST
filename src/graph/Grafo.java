@@ -23,6 +23,12 @@ public class Grafo {
         this.numColor = 0;
     }
 
+    public Grafo(Grafo pGrafo) {
+        this.nodi = pGrafo.getNodi();
+        this.archi = pGrafo.getArchi();
+        this.numColor = pGrafo.numColor;
+    }
+
     public Grafo(int pNumColor) {
         this.nodi = new ArrayList<>();
         this.archi = new ArrayList<>();
@@ -145,13 +151,14 @@ public class Grafo {
                 }
 
                 numColor = Integer.parseInt(split[2]) + 1;
-                
+
             } else {
                 primoNodo = new Nodo(Integer.parseInt(split[0]));
                 secondoNodo = new Nodo(Integer.parseInt(split[1]));
 
-                for (int j = 2; j < split.length; j++)
+                for (int j = 2; j < split.length; j++) {
                     listaColori.add(Integer.parseInt(split[j]));
+                }
 
                 this.archi.add(new Arco(primoNodo, secondoNodo, new ArrayList<>(listaColori)));
 
@@ -242,8 +249,35 @@ public class Grafo {
     }
 
     public void addArchi(ArrayList<Arco> pEdges) {
-        for (Arco a : pEdges)
+        for (Arco a : pEdges) {
             addArco(a);
+        }
+    }
+
+    public void addArchiSenzaInserireCicli(ArrayList<Arco> pEdges) {
+        this.addArchi(pEdges);
+
+        if (!this.checkCycle()) { //Grafo senza cicli
+            //Non fare nulla
+        } else {
+            for (Arco a : pEdges)
+                this.rimuoviArco(a);
+            
+            if (pEdges.size() > 1) {
+                ArrayList<Arco> firstHalfEdgeList = new ArrayList<>();
+                ArrayList<Arco> lastHalfEdgeList = new ArrayList<>();
+
+                for (int i = 0; i < (pEdges.size() / 2); i++) {
+                    firstHalfEdgeList.add(pEdges.get(i));
+                }
+                for (int i = (pEdges.size() / 2); i < pEdges.size(); i++) {
+                    lastHalfEdgeList.add(pEdges.get(i));
+                }
+
+                this.addArchiSenzaInserireCicli(firstHalfEdgeList);
+                this.addArchiSenzaInserireCicli(lastHalfEdgeList);
+            }
+        }
     }
 
     public void addArco(Arco pEdge) {
@@ -267,13 +301,12 @@ public class Grafo {
 
         Nodo nodo1 = this.getNodo(keyNodo1);
         Nodo nodo2 = this.getNodo(keyNodo2);
-        
 
         nodo1.getIncidenti().remove(arcoDaRimuovere);
         nodo2.getIncidenti().remove(arcoDaRimuovere);
 
         this.getArchi().remove(arcoDaRimuovere);
-        
+
     }
 
     private void setArchiDallaListaNodi() {
@@ -318,9 +351,10 @@ public class Grafo {
 
     public void deleteColor(int pColor) {
         int index = 0;
-        
-        for (Arco a : this.getArchi())
+
+        for (Arco a : this.getArchi()) {
             a.getColors().remove(Integer.valueOf(pColor));
+        }
     }
 
     public boolean dfs() {
@@ -328,13 +362,14 @@ public class Grafo {
         if (this.getNodi().size() == 0) {
             return false;
         }
-        
-        if (this.getArchi().size() < (this.getNodi().size() - 1))
+
+        if (this.getArchi().size() < (this.getNodi().size() - 1)) {
             return false;
-        
-        if (this.getArchi().size() == ((this.getNodi().size() * (this.getNodi().size() - 1)) / 2))
+        }
+
+        if (this.getArchi().size() == ((this.getNodi().size() * (this.getNodi().size() - 1)) / 2)) {
             return true;
-        
+        }
 
         Grafo vertexVisited = getConnectedComponent(this.getNodi().get(0));
 
@@ -348,47 +383,49 @@ public class Grafo {
 
     public boolean checkCycle() {
         ArrayList<Grafo> listaSottoGrafi = this.getConnectedComponents();
-        
-        for (Grafo g : listaSottoGrafi)
-            if (g.getArchi().size() >= g.getNodi().size())
+
+        for (Grafo g : listaSottoGrafi) {
+            if (g.getArchi().size() >= g.getNodi().size()) {
                 return true;
-        
+            }
+        }
+
         return false;
     }
 
-    public void destroyCycle (Grafo previousGraph) {
+    public void destroyCycle(Grafo previousGraph) {
         ArrayList<Arco> archiNuovi = new ArrayList<>();
         ArrayList<ArrayList<Arco>> splittedEdges = new ArrayList<>();
         boolean find = false;
         int split = 2;
-        
+
         //Prendi gli archi che non sono presenti nel previous graph
         for (Arco a : this.getArchi()) {
             int i = 0;
             find = false;
-            
+
             while (!find && i < previousGraph.getArchi().size()) {
-                if (a.getDa().getKey() == previousGraph.getArchi().get(i).getDa().getKey() &&
-                        a.getA().getKey() == previousGraph.getArchi().get(i).getA().getKey())
+                if (a.getDa().getKey() == previousGraph.getArchi().get(i).getDa().getKey()
+                        && a.getA().getKey() == previousGraph.getArchi().get(i).getA().getKey()) {
                     find = true;
+                }
                 i++;
             }
-            
-            if (!find)
+
+            if (!find) {
                 archiNuovi.add(a);
+            }
         }
-        
-        
+
         while (archiNuovi.size() > 0) {
             //Splitta lista archi
             int splitSize = archiNuovi.size() / split;
-            
+
             for (int i = 0; i < split; i++) {
-                
+
             }
         }
-        
-        
+
         /*ArrayList<Grafo> listaSottoGrafi = this.getConnectedComponents();
         double random = Math.random();
         
@@ -399,7 +436,7 @@ public class Grafo {
             }
         }*/
     }
-    
+
     public int minColorEdge() {
         int minTotColor = numColor + 1;
 
@@ -475,41 +512,42 @@ public class Grafo {
         }
     }
 
-    private ArrayList<Grafo> getConnectedComponents () {
+    private ArrayList<Grafo> getConnectedComponents() {
         ArrayList<Grafo> listaSottoGrafi = new ArrayList<>();
-        
+
         ArrayList<Integer> verticiDaEsaminare = new ArrayList<>();
-        for (Nodo n : this.getNodi())
+        for (Nodo n : this.getNodi()) {
             verticiDaEsaminare.add(n.getKey());
-        
+        }
+
         while (verticiDaEsaminare.size() > 0) {
             Grafo sottoGrafo = this.getConnectedComponent(this.getNodo(verticiDaEsaminare.get(0)));
-            
-            for (Nodo n : sottoGrafo.getNodi())
+
+            for (Nodo n : sottoGrafo.getNodi()) {
                 verticiDaEsaminare.removeAll(Arrays.asList(n.getKey()));
-            
+            }
+
             listaSottoGrafi.add(sottoGrafo);
         }
-        
-        
+
         return listaSottoGrafi;
     }
-    
+
     private Grafo getConnectedComponent(Nodo pStart) {
         Grafo sottoGrafo = new Grafo(this.numColor);
         Stack s = new Stack();
 
         LinkedHashMap<Integer, Boolean> vertexVisited = new LinkedHashMap<>();
-        
+
         for (int i = 0; i < this.getNodi().size(); i++) {
             vertexVisited.put(this.getNodi().get(i).getKey(), false);
         }
-        
+
         s.push(pStart);
 
         while (!s.isEmpty()) {
             Nodo tmp = (Nodo) s.pop();
-            
+
             vertexVisited.put(tmp.getKey(), true);
             ArrayList<Nodo> vertexAdj = getAdjVertex(tmp);
 
