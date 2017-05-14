@@ -38,9 +38,8 @@ public class GestoreGrafo {
             return true;
         }
 
-        boolean[] visitati = inizializzaRicerca();
-        return bsf(visitati, this.grafo.getNodo(0));    //Inizio la ricerca in ampiezza dal nodo avente chiave 0
-        //return dsf(visitati, this.grafo.getNodo(0));    //Inizio la ricerca in ampiezza dal nodo avente chiave 0
+        return new Ricerca(grafo).bsf(this.grafo.getNodo(0));      //Inizio la ricerca in ampiezza dal nodo avente chiave 0
+        //return new Ricerca(grafo).dsf(this.grafo.getNodo(0));    //Inizio la ricerca in profondità dal nodo avente chiave 0
     }
 
     private boolean[] inizializzaRicerca() {
@@ -51,61 +50,8 @@ public class GestoreGrafo {
         return visitati;
     }
 
-    private boolean bsf(boolean[] pVisitati, Nodo pRadice) {
-        boolean[] visitato = pVisitati;
-
-        Queue<Nodo> coda = new LinkedList();
-        coda.add(pRadice);
-
-        while (!coda.isEmpty()) {
-            Nodo nodo = coda.poll();
-
-            if (!visitato[nodo.getChiave()]) {
-                visitato[nodo.getChiave()] = true;
-                //Aggiungi in coda tutti i nodi adiacenti al nodo
-                //for (Integer adiacente : getNodiAdiacenti(nodo)) {
-                //    coda.add(this.grafo.getNodo(adiacente));
-                //}
-                for (Nodo adiacente : getNodiAdiacenti(nodo)) {
-                    coda.add(adiacente);
-                }
-            }
-        }
-
-        //Controllo se tutti i nodi sono stati visitati
-        int i = 0;
-        while (i < visitato.length && visitato[i]) {
-            i++;
-        }
-
-        return (i == visitato.length);
-    }
-
-    private boolean dsf(boolean[] pVisitati, Nodo pRadice) {
-        boolean[] visitato = pVisitati;
-
-        Stack<Nodo> pila = new Stack();
-        pila.push(pRadice);
-
-        while (!pila.isEmpty()) {
-            Nodo nodo = pila.pop();
-
-            if (!visitato[nodo.getChiave()]) {
-                visitato[nodo.getChiave()] = true;
-                //Aggiungi in coda tutti i nodi adiacenti al nodo
-                for (Nodo adiacente : getNodiAdiacenti(nodo)) {
-                    pila.push(adiacente);
-                }
-            }
-        }
-
-        //Controllo se tutti i nodi sono stati visitati
-        int i = 0;
-        while (i < visitato.length && visitato[i]) {
-            i++;
-        }
-
-        return (i == visitato.length);
+    public ArrayList<Nodo> getNodiAdiacenti(Nodo pNodo) {
+        return this.grafo.getNodo(pNodo.getChiave()).getAdiacenti();
     }
 
     /**
@@ -117,10 +63,6 @@ public class GestoreGrafo {
      */
     public ArrayList<Grafo> getComponentiConnesse(Nodo pRadice, int colore) {
         return new ArrayList();
-    }
-
-    public ArrayList<Nodo> getNodiAdiacenti(Nodo pNodo) {
-        return this.grafo.getNodo(pNodo.getChiave()).getAdiacenti();
     }
 
     /*
