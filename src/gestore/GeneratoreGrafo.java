@@ -63,16 +63,31 @@ public class GeneratoreGrafo {
                 numColor = Integer.parseInt(line[2]) + 1;
 
             } else {
-                primoNodo = new Nodo(Integer.parseInt(line[0]));
-                secondoNodo = new Nodo(Integer.parseInt(line[1]));
+                int chiaveNodo1 = Integer.parseInt(line[0]);
+                int chiaveNodo2 = Integer.parseInt(line[1]);
+                //primoNodo = new Nodo(chiaveNodo1);
+                //secondoNodo = new Nodo(chiaveNodo2);
 
+                primoNodo = nodi.get(chiaveNodo1);
+                secondoNodo = nodi.get(chiaveNodo2);
+
+                // primoNodo.addNodoAdiacente(secondoNodo.getChiave());
+                // secondoNodo.addNodoAdiacente(secondoNodo.getChiave());
+                //  nodi.get(chiaveNodo1).addNodoAdiacente(secondoNodo.getChiave());
+                //  nodi.get(chiaveNodo2).addNodoAdiacente(primoNodo.getChiave());
                 for (int j = 2; j < line.length; j++) {
                     int colore = Integer.parseInt(line[j]);
                     coloriGrafo.add(colore);
                     coloriArco.add(colore);
                 }
+                Arco arco = new Arco(primoNodo, secondoNodo, new ArrayList(coloriArco));
+                archi.add(arco);
                 coloriArco.clear();
-                archi.add(new Arco(primoNodo, secondoNodo, new ArrayList(coloriArco)));
+
+                primoNodo.addArcoIncidente(arco);
+                secondoNodo.addArcoIncidente(arco);
+                primoNodo.addNodoAdiacente(secondoNodo);
+                secondoNodo.addNodoAdiacente(primoNodo);
             }
         }
 

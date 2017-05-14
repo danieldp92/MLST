@@ -9,17 +9,27 @@ public class Grafo {
     ArrayList<Nodo> nodi;
     ArrayList<Arco> archi;
     Set<Integer> colori;
+    int numeroColori;
 
     public Grafo() {
         this.nodi = new ArrayList<>();
         this.archi = new ArrayList<>();
         this.colori = new HashSet<>();
+        this.numeroColori = 0;
+    }
+
+    public Grafo(int pNumeroColori) {
+        this.nodi = new ArrayList<>();
+        this.archi = new ArrayList<>();
+        this.colori = new HashSet<>(pNumeroColori);
+        this.numeroColori = pNumeroColori;
     }
 
     public Grafo(ArrayList<Nodo> pNodi, ArrayList<Arco> pArchi, Set<Integer> pColori) {
         this.nodi = pNodi;
         this.archi = pArchi;
         this.colori = pColori;
+        this.numeroColori = pColori.size();
     }
 
     public ArrayList<Arco> getArchi() {
@@ -49,6 +59,10 @@ public class Grafo {
         return arco;
     }
 
+    public Nodo getNodo(Nodo pNodo) {
+        return this.nodi.get(this.nodi.indexOf(pNodo));
+    }
+    
     public Nodo getNodo(int pChiave) {
         int indice = this.nodi.indexOf(new Nodo(pChiave));
 
@@ -125,16 +139,23 @@ public class Grafo {
             this.nodi.remove(nodoDaRimuovere);
         }
     }
-    
-    /**
-     * Restituisce l dimensione del grafo intesa come numero di nodi. 
-     * @return la dimensione del grafo
-     */
-    public int dimensione(){
-        return this.nodi.size();
+
+    public Set<Integer> getColori(){
+        return this.colori;
     }
     
-    public int numeroColori(){
+    
+    
+    /**
+     * Restituisce l dimensione del grafo intesa come numero di nodi.
+     *
+     * @return la dimensione del grafo
+     */
+    public int dimensione() {
+        return this.nodi.size();
+    }
+
+    public int numeroColori() {
         return this.colori.size();
     }
 }

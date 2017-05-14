@@ -3,9 +3,9 @@ package gestore;
 import graph.Grafo;
 import graph.Nodo;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
+import stack.Stack;
 
 /**
  * Questa classe permette di ricavare informazioni sulla strutta del Grafo
@@ -26,21 +26,6 @@ public class GestoreGrafo {
      * @return true se il grafo è connesso; false altrimenti.
      */
     public boolean connesso() {
-        boolean[] visitati = inizializzaRicerca();
-
-        return false;
-    }
-
-    private boolean[] inizializzaRicerca() {
-        boolean[] visitati = new boolean[grafo.dimensione()];
-        for (int i = 0; i < visitati.length; i++) {
-            visitati[i] = false;
-        }
-        return visitati;
-    }
-
-    private boolean dfs() {
-
         if (this.grafo.dimensione() == 0) {
             return false;
         }
@@ -53,74 +38,74 @@ public class GestoreGrafo {
             return true;
         }
 
-        // Grafo nodiVIsitati = getConnectedComponent(this.getNodi().get(0));
-        //  if (nodiVIsitati.getNodi().size() != this.getNodi().size()) {
-        //      return false;
-        //  }
-          return true;
+        boolean[] visitati = inizializzaRicerca();
+        return bsf(visitati, this.grafo.getNodo(0));    //Inizio la ricerca in ampiezza dal nodo avente chiave 0
+        //return dsf(visitati, this.grafo.getNodo(0));    //Inizio la ricerca in ampiezza dal nodo avente chiave 0
     }
 
-    /**
-     * Ricava le componenti connesse del grafo.
-     *
-     * @return una lista di componenti connesse - sottografi.
-     */
-    public ArrayList<Grafo> getComponentiConnesse() {
-        ArrayList<Grafo> sottografi = new ArrayList<>();
-        ArrayList<Integer> verticiDaEsaminare = new ArrayList<>();
-
-        for (Nodo n : this.grafo.getNodi()) {
-            verticiDaEsaminare.add(n.getChiave());
+    private boolean[] inizializzaRicerca() {
+        boolean[] visitati = new boolean[grafo.dimensione()];
+        for (int i = 0; i < visitati.length; i++) {
+            visitati[i] = false;
         }
-
-        /*while (verticiDaEsaminare.size() > 0) {
-            Grafo sottografo = this.getComponenteConnessa(this.grafo.getNodo(verticiDaEsaminare.get(0)));
-
-            for (Nodo n : sottografo.getNodi()) {
-                verticiDaEsaminare.removeAll(Arrays.asList(n.getChiave()));
-            }
-
-            sottografi.add(sottografo);
-        }*/
-
-        return sottografi;
+        return visitati;
     }
 
-   /* private Grafo getComponenteConnessa(Nodo pInizio) {
-        Grafo sottografo = new Grafo(this.grafo.numeroColori());
-        Stack s = new Stack();
+    private boolean bsf(boolean[] pVisitati, Nodo pRadice) {
+        boolean[] visitato = pVisitati;
 
-        LinkedHashMap<Integer, Boolean> vertexVisited = new LinkedHashMap<>();
+        Queue<Nodo> coda = new LinkedList();
+        coda.add(pRadice);
 
-        for (int i = 0; i < this.getNodi().size(); i++) {
-            vertexVisited.put(this.getNodi().get(i).getKey(), false);
-        }
+        while (!coda.isEmpty()) {
+            Nodo nodo = coda.poll();
 
-        s.push(pInizio);
-
-        while (!s.isEmpty()) {
-            Nodo tmp = (Nodo) s.pop();
-
-            vertexVisited.put(tmp.getKey(), true);
-            ArrayList<Nodo> vertexAdj = getAdjVertex(tmp);
-
-            for (Nodo n : vertexAdj) {
-                if (!vertexVisited.get(n.getKey()) && (s.isEmpty() || !s.isInStack(n))) {
-                    s.push(n);
+            if (!visitato[nodo.getChiave()]) {
+                visitato[nodo.getChiave()] = true;
+                //Aggiungi in coda tutti i nodi adiacenti al nodo
+                //for (Integer adiacente : getNodiAdiacenti(nodo)) {
+                //    coda.add(this.grafo.getNodo(adiacente));
+                //}
+                for (Nodo adiacente : getNodiAdiacenti(nodo)) {
+                    coda.add(adiacente);
                 }
             }
         }
 
-        for (int i : vertexVisited.keySet()) {
-            if (vertexVisited.get(i)) {
-                //Aggiungi il nodo i al sottografo
-                sottografo.addNodo(this.getNodo(i));
+        //Controllo se tutti i nodi sono stati visitati
+        int i = 0;
+        while (i < visitato.length && visitato[i]) {
+            i++;
+        }
+
+        return (i == visitato.length);
+    }
+
+    private boolean dsf(boolean[] pVisitati, Nodo pRadice) {
+        boolean[] visitato = pVisitati;
+
+        Stack<Nodo> pila = new Stack();
+        pila.push(pRadice);
+
+        while (!pila.isEmpty()) {
+            Nodo nodo = pila.pop();
+
+            if (!visitato[nodo.getChiave()]) {
+                visitato[nodo.getChiave()] = true;
+                //Aggiungi in coda tutti i nodi adiacenti al nodo
+                for (Nodo adiacente : getNodiAdiacenti(nodo)) {
+                    pila.push(adiacente);
+                }
             }
         }
 
-        sottografo.setArchiDallaListaNodi();
+        //Controllo se tutti i nodi sono stati visitati
+        int i = 0;
+        while (i < visitato.length && visitato[i]) {
+            i++;
+        }
 
-        return sottografo;
+        return (i == visitato.length);
     }
 
     /**
@@ -130,30 +115,30 @@ public class GestoreGrafo {
      * componenti connesse
      * @return una lista di componenti connesse - sottografi.
      */
-    public ArrayList<Grafo> getComponentiConnesse(int colore) {
+    public ArrayList<Grafo> getComponentiConnesse(Nodo pRadice, int colore) {
         return new ArrayList();
     }
 
+    public ArrayList<Nodo> getNodiAdiacenti(Nodo pNodo) {
+        return this.grafo.getNodo(pNodo.getChiave()).getAdiacenti();
+    }
+
     /*
-     
-    //TODO refactoring --------------------------------------------------------
-    private void setArchiDallaListaNodi() {
-        this.getArchi().clear();
+      private void setArchiDallaListaNodi() {
+        this.grafo.getArchi().clear();
         boolean find = false;
 
-        for (int i = 0; i < this.getNodi().size(); i++) {
-            this.getArchi().addAll(this.getNodi().get(i).getIncidenti());
+        for (int i = 0; i < this.grafo.dimensione(); i++) {
+            this.grafo.getArchi().addAll(this.grafo.getNodi().get(i).getIncidenti());
         }
 
         //Delete copies
-        for (int i = 0; i < this.getArchi().size() - 1; i++) {
+        for (int i = 0; i < this.grafo.getArchi().size() - 1; i++) {
             int j = i + 1;
-            while (!find && j < this.getArchi().size()) {
-                if (this.getArchi().get(i).getDa().getKey()
-                        == this.getArchi().get(j).getDa().getKey()
-                        && this.getArchi().get(i).getA().getKey()
-                        == this.getArchi().get(j).getA().getKey()) {
-                    this.getArchi().remove(j);
+            while (!find && j < this.grafo.getArchi().size()) {
+                if (this.grafo.getArchi().get(i).getDa().equals(this.grafo.getArchi().get(j).getDa())
+                        && this.grafo.getArchi().get(i).getA().equals(this.grafo.getArchi().get(j).getA().getChiave())) {
+                    this.grafo.getArchi().remove(j);
                     find = true;
                 }
                 j++;
@@ -163,18 +148,11 @@ public class GestoreGrafo {
         }
     }
 
-    public ArrayList<Nodo> getAdjVertex(Nodo pNodo) {
-        ArrayList<Nodo> tmpVertexAdj = new ArrayList<>();
+    
+    //TODO refactoring --------------------------------------------------------
+    
 
-        for (Arco a : this.getArchi()) {
-            if (a.getDa().getKey() == pNodo.getKey()) {
-                tmpVertexAdj.add(a.getA());
-            } else if (a.getA().getKey() == pNodo.getKey()) {
-                tmpVertexAdj.add(a.getDa());
-            }
-        }
-        return tmpVertexAdj;
-    }
+   
 
     public ArrayList<Nodo> getAdjVertexWithColor(Nodo pNodo, int colore) {
         ArrayList<Nodo> tmpVertexAdj = new ArrayList<>();

@@ -12,43 +12,59 @@ import java.util.ArrayList;
  * @author carmine
  */
 public class Nodo {
-   int chiave;
-   ArrayList<Arco> incidenti;
 
-   public Nodo(int pChiave) {
-      this.chiave = pChiave;
-      this.incidenti = new ArrayList<>();
-   }
+    int chiave;
+    ArrayList<Nodo> adiacenti;
+    ArrayList<Arco> incidenti;
 
-   public int getChiave() {
-      return chiave;
-   }
+    public Nodo(int pChiave) {
+        this.chiave = pChiave;
+        this.adiacenti = new ArrayList<>();
+        this.incidenti = new ArrayList<>();
+    }
 
-   public void setChiave(int chiave) {
-      this.chiave = chiave;
-   }
+    public int getChiave() {
+        return chiave;
+    }
 
-   
-   public ArrayList<Arco> getIncidenti() {
-      return incidenti;
-   }
+    public ArrayList<Nodo> getAdiacenti() {
+        return adiacenti;
+    }
 
-   public void addArcoIncidente(Arco pArco){
-       if(!this.incidenti.contains(pArco)){
-           this.incidenti.add(pArco);
-       }
-   }
-   
-   public void rimuoviArcoIncidente(Arco pArco){
-       if(!this.incidenti.contains(pArco)){
-           this.incidenti.remove(pArco);
-       }
-   }
-   
-   @Override
-   public String toString() {
-      return chiave+"";
-   }
+    public ArrayList<Arco> getIncidenti() {
+        return incidenti;
+    }
+
+    public void setChiave(int chiave) {
+        this.chiave = chiave;
+    }
+
+    public void addNodoAdiacente(Nodo pNodo) {
+        this.adiacenti.add(pNodo);
+    }
+
+    public void rimuoviNodoAdiacente(Nodo pNodo) {
+        if (!this.adiacenti.contains(pNodo)) {
+            this.adiacenti.remove(pNodo);
+        }
+    }
+
+    public void addArcoIncidente(Arco pArco) {
+        if (!this.incidenti.contains(pArco)) {
+            this.incidenti.add(pArco);
+        }
+    }
+
+    public void rimuoviArcoIncidente(Arco pArco) {
+        if (!this.incidenti.contains(pArco)) {
+            this.incidenti.remove(pArco);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return chiave + "";
+    }
 
     @Override
     public int hashCode() {
@@ -72,5 +88,5 @@ public class Nodo {
             return false;
         }
         return true;
-    }   
+    }
 }
