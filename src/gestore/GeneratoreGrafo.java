@@ -30,7 +30,6 @@ public class GeneratoreGrafo {
         ArrayList<Nodo> nodi = new ArrayList<>();
         ArrayList<Arco> archi = new ArrayList<>();
         Set<Integer> coloriGrafo = new HashSet<>();
-        int numColor = 0;
 
         Nodo primoNodo;
         Nodo secondoNodo;
@@ -59,8 +58,6 @@ public class GeneratoreGrafo {
                 for (int j = 0; j < numeroNodi; j++) {
                     nodi.add(new Nodo(j));
                 }
-
-                numColor = Integer.parseInt(line[2]) + 1;
 
             } else {
                 primoNodo = nodi.get(Integer.parseInt(line[0]));

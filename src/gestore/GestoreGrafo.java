@@ -1,5 +1,6 @@
 package gestore;
 
+import graph.Arco;
 import graph.Grafo;
 import graph.Nodo;
 import java.util.ArrayList;
@@ -56,6 +57,31 @@ public class GestoreGrafo {
      */
     public ArrayList<Grafo> getComponentiConnesse(Nodo pRadice, int colore) {
         return new ArrayList();
+    }
+
+    public void addArchiSenzaInserireCicli(ArrayList<Arco> pArco) {
+        this.grafo.addArchi(pArco);
+
+        if (ciclo()) {
+            for (Arco a : pArco) {
+                this.grafo.rimuoviArco(a);
+            }
+
+            if (pArco.size() > 1) {
+                ArrayList<Arco> primaMetaListaArchi = new ArrayList<>();
+                ArrayList<Arco> secondaMetaListaArchi = new ArrayList<>();
+
+                for (int i = 0; i < (pArco.size() / 2); i++) {
+                    primaMetaListaArchi.add(pArco.get(i));
+                }
+                for (int i = (pArco.size() / 2); i < pArco.size(); i++) {
+                    secondaMetaListaArchi.add(pArco.get(i));
+                }
+
+                this.addArchiSenzaInserireCicli(primaMetaListaArchi);
+                this.addArchiSenzaInserireCicli(secondaMetaListaArchi);
+            }
+        }
     }
 
     /*

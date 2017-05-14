@@ -26,8 +26,8 @@ public class main {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
         //Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/7_11_4.mlst"));
-        Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/7_11_4_1.mlst"));
-        //Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/10000_160000_10000_625_1.mlst"));
+        //Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/7_11_4_1.mlst"));
+        Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/10000_160000_10000_625_1.mlst"));
         /*InfoGrafo info = new InfoGrafo(grafo);
         info.stampaNodi();
         info.stampaArchi();
