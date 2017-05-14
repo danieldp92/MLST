@@ -3,12 +3,9 @@ package gestore;
 import graph.Grafo;
 import graph.Nodo;
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import stack.Stack;
 
 /**
- * Questa classe permette di ricavare informazioni sulla strutta del Grafo
+ * Questa classe permette di ricavare informazioni sulla struttura del Grafo
  *
  * @author Stefano Dalla Palma
  */
@@ -42,16 +39,12 @@ public class GestoreGrafo {
         //return new Ricerca(grafo).dsf(this.grafo.getNodo(0));    //Inizio la ricerca in profondità dal nodo avente chiave 0
     }
 
-    private boolean[] inizializzaRicerca() {
-        boolean[] visitati = new boolean[grafo.dimensione()];
-        for (int i = 0; i < visitati.length; i++) {
-            visitati[i] = false;
-        }
-        return visitati;
-    }
-
     public ArrayList<Nodo> getNodiAdiacenti(Nodo pNodo) {
         return this.grafo.getNodo(pNodo.getChiave()).getAdiacenti();
+    }
+
+    public boolean ciclo() {
+        return connesso() && grafo.getArchi().size() != grafo.dimensione() - 1;
     }
 
     /**
@@ -95,23 +88,6 @@ public class GestoreGrafo {
     
 
    
-
-    public ArrayList<Nodo> getAdjVertexWithColor(Nodo pNodo, int colore) {
-        ArrayList<Nodo> tmpVertexAdj = new ArrayList<>();
-
-        for (Arco a : this.getArchi()) {
-            if (a.getDa().getKey() == pNodo.getKey()) {
-                if (a.getColori().contains(colore)) {
-                    tmpVertexAdj.add(a.getA());
-                }
-            } else if (a.getA().getKey() == pNodo.getKey()) {
-                if (a.getColori().contains(colore)) {
-                    tmpVertexAdj.add(a.getDa());
-                }
-            }
-        }
-        return tmpVertexAdj;
-    }
 
     public void deleteColor(int pColor) {
         int index = 0;

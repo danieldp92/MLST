@@ -26,7 +26,8 @@ public class main {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
         //Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/7_11_4.mlst"));
-        Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/10000_160000_10000_625_1.mlst"));
+        Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/7_11_4_1.mlst"));
+        //Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/10000_160000_10000_625_1.mlst"));
         /*InfoGrafo info = new InfoGrafo(grafo);
         info.stampaNodi();
         info.stampaArchi();
@@ -37,7 +38,8 @@ public class main {
         //InfoGrafo.stampaArco(arco);
         GestoreGrafo gestore = new GestoreGrafo(grafo);
         long inizio = System.currentTimeMillis();
-        System.out.println("Connesso:" + gestore.connesso());
+        //System.out.println("Connesso:" + gestore.connesso());
+        System.out.println("Ciclo:" + gestore.ciclo());
         System.out.println("tempo: " + (System.currentTimeMillis() - inizio));
 
 //Grafo grafo = new Grafo(5, 10, 3, 1);
