@@ -6,16 +6,10 @@ import gestore.InfoGrafo;
 import gestore.Ricerca;
 import graph.Arco;
 import graph.Grafo;
-import graph.Nodo;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Random;
-import java.util.Scanner;
 
 /**
  *
@@ -28,33 +22,37 @@ public class main {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         //Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/7_11_4.mlst"));
         //Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/7_11_4_1.mlst"));
+        //Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/10000_160000_10000_625_1.mlst"));
 
         long inizio = System.currentTimeMillis();
         System.out.print("Caricamento grafo... ");
-        Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/10000_160000_10000_625_1.mlst"));
+        Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/7_11_4_1.mlst"));
         System.out.format("fatto (%d ms)\n", System.currentTimeMillis() - inizio);
-
-        GestoreGrafo gestore = new GestoreGrafo(grafo);
-        inizio = System.currentTimeMillis();
+        NUM_COLOR = grafo.getColori().size();
+        //GestoreGrafo gestore = new GestoreGrafo(grafo);
+        //inizio = System.currentTimeMillis();
         //System.out.println("Connesso:" + gestore.connesso());
-        System.out.println("Ciclo:" + gestore.ciclo());
-        System.out.println("tempo: " + (System.currentTimeMillis() - inizio));
+        //System.out.println("Ciclo:" + gestore.ciclo());
+        //System.out.println("tempo: " + (System.currentTimeMillis() - inizio));
 
-        Grafo mlst = new Grafo(grafo.getNodi().size());
+        Grafo mlst = new Grafo(grafo.getNodi());
+        GestoreGrafo gestoreMlst = new GestoreGrafo(mlst);
+
         ArrayList<Integer> colorList = new ArrayList<>();
         ArrayList<Arco> edgeWithMinColors = new ArrayList<>();
         int m = 1;
 
         //Ciclo, fin quando mlst non e' connesso
-        Ricerca ricercaSuGrafo = new Ricerca(mlst);
-        while (!ricercaSuGrafo.bsf(mlst.getNodo(0))) {
-
+        while (!gestoreMlst.connesso()) {
             System.out.println("Iterata " + m++);
-            //Prendi gli archi con il num colori minore
+            //Prendi gli archi con il minor numero di colori 
             edgeWithMinColors = getEdgesWithMinNumberOfColors(grafo.getArchi());
+
             //Se gli archi minimi non hanno colori, inseriscili nel mlst
             if (sum(edgeWithMinColors.get(0).getColori()) == 0) {
-                mlst.addArchi(edgeWithMinColors);
+                //mlst.addArchi(edgeWithMinColors);
+                gestoreMlst.addArchiSenzaInserireCicli(edgeWithMinColors);
+
                 for (Arco a : edgeWithMinColors) {
                     grafo.rimuoviArco(a);
                 }
@@ -66,13 +64,15 @@ public class main {
                 //Determino il colore più ricorrente in edgeWithMinColors
                 int mostCommonColor = mostCommonColor(edgeWithMinColors);
                 //Elimino il colore
-                grafo.deleteColor(mostCommonColor);
+                grafo.rimuoviColore(mostCommonColor);
                 //Aggiungo il colore alla lista dei colori presi
                 colorList.add(mostCommonColor);
             }
         }
         System.out.println();
-        mlst.stampa();
+        InfoGrafo infoMlst = new InfoGrafo(mlst);
+        infoMlst.stampaNodi();
+        infoMlst.stampaArchi();
         System.out.println();
         System.out.println("Colori usati: " + colorList.size());
         for (int i : colorList) {
@@ -194,7 +194,7 @@ public class main {
                 pos = i;
             }
         }
-        return pos;  */
+        return pos;
     }
 
 }

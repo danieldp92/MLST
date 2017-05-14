@@ -58,7 +58,7 @@ public class Grafo {
     public Nodo getNodo(Nodo pNodo) {
         return this.nodi.get(this.nodi.indexOf(pNodo));
     }
-    
+
     public Nodo getNodo(int pChiave) {
         int indice = this.nodi.indexOf(new Nodo(pChiave));
 
@@ -119,6 +119,10 @@ public class Grafo {
         this.archi.remove(arcoDaRimuovere);
     }
 
+    public void rimuoviArchi(ArrayList<Arco> pArchi) {
+        this.archi.removeAll(pArchi);
+    }
+
     public void rimuoviNodo(Nodo pNodo) {
 
         if (this.nodi.contains(pNodo)) {
@@ -136,12 +140,18 @@ public class Grafo {
         }
     }
 
-    public Set<Integer> getColori(){
+    public Set<Integer> getColori() {
         return this.colori;
     }
-    
-    
-    
+
+    public void rimuoviColore(int pColore) {
+        this.colori.remove(pColore);
+    }
+
+    public void rimuoviColori(HashSet pColori) {
+        this.colori.removeAll(pColori);
+    }
+
     /**
      * Restituisce l dimensione del grafo intesa come numero di nodi.
      *

@@ -3,8 +3,10 @@ package greedy;
 import graph.Arco;
 import graph.Grafo;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -19,11 +21,11 @@ public class GreedyKrumke {
         this.grafo = pGrafo;
     }
 
-   /* public void esegui() {
+    public void esegui() {
         Set colori = new HashSet();
         Grafo mlst = new Grafo();
-        
-        do {
+
+        /*do {
             int coloreCheMinimizzaNumeroComponenti = 0;
             int minorNumeroComponenti = -1;
             ArrayList<Grafo> componenti = new ArrayList();
@@ -37,7 +39,7 @@ public class GreedyKrumke {
                     continue;
                 }
 
-                ArrayList<Grafo> connectedComponents = grafo.getConnectedComponents(colore);
+                ArrayList<Grafo> connectedComponents = grafo.getComponentiConnesse(colore);
                 int numeroComponenti = connectedComponents.size();
 
                 if (minorNumeroComponenti == -1) {
@@ -72,17 +74,37 @@ public class GreedyKrumke {
             //mlst.addColore(coloreCheMinimizzaNumeroComponenti);
             colori.add(coloreCheMinimizzaNumeroComponenti);
 
-        } while (!mlst.dfs());    //finchè il sottografo è connesso
+        } while (!mlst.co());    //finchè il sottografo è connesso
 
         if (mlst.getNodi().size() == grafo.getNodi().size()) {
 
-            System.out.println("MLST: \n");
-            System.out.println("Numero colori: " + colori.size() + "\n");
-            System.out.println("Colori: " + colori.toString() + "\n");
-            mlst.stampa();
-            mlst.stampaMatriceColori();
 
+        }*/
+    }
+
+    public void greedy() {
+
+        Map<Arco, Integer> mappaArchi = new HashMap();
+        Map<Integer, int[]> mappaColori = new HashMap();
+        int i = 0;
+
+        //Creo mappa arco-indice
+        for (Arco arco : grafo.getArchi()) {
+            mappaArchi.put(arco, i++);
         }
-    }*/
+
+        //Creo mappa colore-array appartenenza colore ad arco
+        for (int colore : grafo.getColori()) {
+            int[] array = new int[grafo.getArchi().size()];
+            for (i = 0; i < array.length; i++) {
+                
+                for
+                
+                array[i] = 0;
+            }
+            mappaColori.put(colore, array);
+        }
+
+    }
 
 }

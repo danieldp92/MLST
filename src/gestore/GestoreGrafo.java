@@ -59,23 +59,21 @@ public class GestoreGrafo {
         return new ArrayList();
     }
 
-    public void addArchiSenzaInserireCicli(ArrayList<Arco> pArco) {
-        this.grafo.addArchi(pArco);
+    public void addArchiSenzaInserireCicli(ArrayList<Arco> pArchi) {
+        this.grafo.addArchi(pArchi);
 
         if (ciclo()) {
-            for (Arco a : pArco) {
-                this.grafo.rimuoviArco(a);
-            }
+                this.grafo.rimuoviArchi(pArchi);
 
-            if (pArco.size() > 1) {
+            if (pArchi.size() > 1) {
                 ArrayList<Arco> primaMetaListaArchi = new ArrayList<>();
                 ArrayList<Arco> secondaMetaListaArchi = new ArrayList<>();
 
-                for (int i = 0; i < (pArco.size() / 2); i++) {
-                    primaMetaListaArchi.add(pArco.get(i));
+                for (int i = 0; i < (pArchi.size() / 2); i++) {
+                    primaMetaListaArchi.add(pArchi.get(i));
                 }
-                for (int i = (pArco.size() / 2); i < pArco.size(); i++) {
-                    secondaMetaListaArchi.add(pArco.get(i));
+                for (int i = (pArchi.size() / 2); i < pArchi.size(); i++) {
+                    secondaMetaListaArchi.add(pArchi.get(i));
                 }
 
                 this.addArchiSenzaInserireCicli(primaMetaListaArchi);
