@@ -180,5 +180,5 @@ public class Grafo {
 
     public int numeroColori() {
         return this.colori.size();
-    }
+    }  
 }
