@@ -1,5 +1,6 @@
 package graph;
 
+import gestore.Ricerca;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -9,176 +10,83 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Random;
+import java.util.Set;
 import stack.Stack;
 
 public class Grafo {
 
     ArrayList<Nodo> nodi;
     ArrayList<Arco> archi;
-    public int numColor;
+    Set<Integer> colori;
 
     public Grafo() {
         this.nodi = new ArrayList<>();
         this.archi = new ArrayList<>();
-        this.numColor = 0;
+        this.colori = new HashSet<>();
     }
 
-    public Grafo(Grafo pGrafo) {
-        this.nodi = pGrafo.getNodi();
-        this.archi = pGrafo.getArchi();
-        this.numColor = pGrafo.numColor;
-    }
-
-    public Grafo(int pNumColor) {
-        this.nodi = new ArrayList<>();
+    public Grafo(ArrayList<Nodo> pNodi) {
+        this.nodi = pNodi;
         this.archi = new ArrayList<>();
-        this.numColor = pNumColor;
+        this.colori = new HashSet<>();
     }
 
-    //Crea grafo non orientato, con colori
-    public Grafo(int pNumNodi, int pNumArchi, int pNumColor, int pSeme) {
-        this.nodi = new ArrayList<>();
-        this.archi = new ArrayList<>();
-        this.numColor = pNumColor;
-
-        for (int i = 0; i < pNumNodi; i++) {
-            Nodo nd = new Nodo(i);
-            this.getNodi().add(nd);
-        }
-
-        Random r = new Random(pSeme);
-        HashSet<String> archi = new HashSet<>(pNumArchi * 2);
-        if (pNumArchi > (pNumNodi * (pNumNodi - 1) / 2)) {
-            pNumArchi = (pNumNodi * (pNumNodi - 1) / 2);
-        }
-
-        while (pNumArchi > 0) {
-            int da = r.nextInt(pNumNodi - 1);
-            int a = da + 1;
-            if (a < pNumNodi - 1) {
-                a += r.nextInt((pNumNodi - 1) - (da));
-            }
-            String ck = da + "-" + a;
-            if (!archi.contains(ck)) {
-                pNumArchi--;
-                archi.add(ck);
-                Arco ar = new Arco(this.getArchi().size(), this.getNodi().get(da), this.getNodi().get(a), pNumColor);
-                this.getNodi().get(da).getIncidenti().add(ar);
-                this.getNodi().get(a).getIncidenti().add(ar);
-            }
-        }
-
-        this.setArchiDallaListaNodi();
+    public Grafo(ArrayList<Nodo> pNodi, ArrayList<Arco> pArchi, Set<Integer> pColori) {
+        this.nodi = pNodi;
+        this.archi = pArchi;
+        this.colori = pColori;
     }
 
-    //Crea grafo non orientato, senza colori
-    public Grafo(int pNumNodi, int pNumArchi, int pSeme) {
-        this.nodi = new ArrayList<>();
-        this.archi = new ArrayList<>();
-        this.numColor = 0;
-
-        for (int i = 0; i < pNumNodi; i++) {
-            Nodo nd = new Nodo(i);
-            this.getNodi().add(nd);
-        }
-
-        Random r = new Random(pSeme);
-        HashSet<String> archi = new HashSet<>(pNumArchi * 2);
-        if (pNumArchi > (pNumNodi * (pNumNodi - 1) / 2)) {
-            pNumArchi = (pNumNodi * (pNumNodi - 1) / 2);
-        }
-
-        while (pNumArchi > 0) {
-            int da = r.nextInt(pNumNodi - 1);
-            int a = da + 1;
-            if (a < pNumNodi - 1) {
-                a += r.nextInt((pNumNodi - 1) - (da));
-            }
-            String ck = da + "-" + a;
-            if (!archi.contains(ck)) {
-                pNumArchi--;
-                archi.add(ck);
-                Arco ar = new Arco(this.getArchi().size(), this.getNodi().get(da), this.getNodi().get(a));
-                this.getNodi().get(da).getIncidenti().add(ar);
-                this.getNodi().get(a).getIncidenti().add(ar);
-                this.getArchi().add(ar);
-            }
-        }
+    public ArrayList<Nodo> getNodi() {
+        return nodi;
     }
 
-    //Grafo senza archi
-    public Grafo(int numNodi, int pNumColor) {
-        this.nodi = new ArrayList<>();
-        for (int i = 0; i < numNodi; i++) {
-            this.nodi.add(new Nodo(i));
-        }
-
-        this.archi = new ArrayList<>();
-        this.numColor = pNumColor;
+    public ArrayList<Arco> getArchi() {
+        return archi;
     }
 
-    public Grafo(String path) throws FileNotFoundException, IOException {
-        this.nodi = new ArrayList<>();
-        this.archi = new ArrayList<>();
-        this.numColor = 0;
+    public Arco getArco(Nodo pNodoDa, Nodo pNodoA) {
+        Arco arco = null;
 
-        Nodo primoNodo = null;
-        Nodo secondoNodo = null;
-        ArrayList<Integer> listaColori = new ArrayList<>();
-        int numNodi = 0;
+        boolean trovato = false;
+        int i = 0;
 
-        BufferedReader br = new BufferedReader(new FileReader(path));
+        while (!trovato && i < this.getArchi().size()) {
+            if ((this.getArchi().get(i).getDa().equals(pNodoDa) && this.getArchi().get(i).getA().equals(pNodoA))
+                    || (this.getArchi().get(i).getA().equals(pNodoDa) && this.getArchi().get(i).getDa().equals(pNodoA))) {
 
-        ArrayList<String> file = new ArrayList<>();
-        String line = null;
-
-        try {
-            while ((line = br.readLine()) != null) {
-                file.add(line);
+                arco = this.getArchi().get(i);
+                trovato = true;
             }
-        } finally {
-            br.close();
+            i++;
         }
 
-        for (int i = 0; i < file.size(); i++) {
-            String[] split = file.get(i).split(" ");
-
-            if (i == 0) {
-                //Lista nodi
-                numNodi = Integer.parseInt(split[0]);
-                for (int j = 0; j < numNodi; j++) {
-                    this.nodi.add(new Nodo(j));
-                }
-
-                numColor = Integer.parseInt(split[2]) + 1;
-
-            } else {
-                primoNodo = new Nodo(Integer.parseInt(split[0]));
-                secondoNodo = new Nodo(Integer.parseInt(split[1]));
-
-                for (int j = 2; j < split.length; j++) {
-                    listaColori.add(Integer.parseInt(split[j]));
-                }
-
-                this.archi.add(new Arco(primoNodo, secondoNodo, new ArrayList<>(listaColori)));
-
-                listaColori.clear();
-            }
-        }
+        return arco;
     }
 
-    public Nodo getNodo(int pKey) {
+    public Nodo getNodo(Nodo pNodo) {
+        return this.nodi.get(this.nodi.indexOf(pNodo));
+    }
+
+    public Nodo getNodo(int pChiave) {
         Nodo nodo = null;
 
+        /*int indice = this.nodi.indexOf(new Nodo(pChiave));
+
+        if (indice != -1) {
+            return this.nodi.get(indice);
+        }
+
+        return null;*/
         //Se gli indici dei nodi corrispondono alle loro key, evitiamo di ciclare inutilmente
-        if (this.getNodi().get(pKey).getKey() == pKey) {
-            nodo = this.getNodi().get(pKey);
+        if (this.getNodi().get(pChiave).getChiave() == pChiave) {
+            nodo = this.getNodi().get(pChiave);
         } else {
             boolean find = false;
             int i = 0;
 
             while (!find && i < this.getNodi().size()) {
-                if (this.getNodi().get(i).getKey() == pKey) {
+                if (this.getNodi().get(i).getChiave() == pChiave) {
                     nodo = this.getNodi().get(i);
                     find = true;
                 }
@@ -189,10 +97,6 @@ public class Grafo {
         return nodo;
     }
 
-    public ArrayList<Nodo> getNodi() {
-        return nodi;
-    }
-
     public void addNodi(ArrayList<Nodo> pNodi) {
         this.getNodi().addAll(pNodi);
     }
@@ -201,7 +105,7 @@ public class Grafo {
         boolean exist = false;
 
         for (Nodo n : this.getNodi()) {
-            if (n.getKey() == pNodo.getKey()) {
+            if (n.getChiave() == pNodo.getChiave()) {
                 exist = true;
             }
         }
@@ -211,58 +115,39 @@ public class Grafo {
         }
     }
 
-    public void rimuoviNodo(Nodo pNodo) {
-        Nodo vertexToRemove = this.getNodi().get(pNodo.getKey());
-        ArrayList<Arco> edgeToRemove = new ArrayList<>();
-        edgeToRemove.addAll(vertexToRemove.getIncidenti());
-
-        System.out.println("Tot Archi: " + edgeToRemove.size());
-        for (Arco a : edgeToRemove) {
-            this.getArchi().remove(a);
-        }
-
-        this.getNodi().remove(vertexToRemove);
-    }
-
-    public Arco getArco(int keyNodo1, int keyNodo2) {
-        Arco tmp = null;
-
-        boolean find = false;
-        int i = 0;
-
-        while (!find && i < this.getArchi().size()) {
-            if ((this.getArchi().get(i).getDa().getKey() == keyNodo1
-                    && this.getArchi().get(i).getA().getKey() == keyNodo2)
-                    || (this.getArchi().get(i).getA().getKey() == keyNodo1
-                    && this.getArchi().get(i).getDa().getKey() == keyNodo2)) {
-                tmp = this.getArchi().get(i);
-                find = true;
-            }
-            i++;
-        }
-
-        return tmp;
-    }
-
-    public ArrayList<Arco> getArchi() {
-        return archi;
-    }
-
     public void addArchi(ArrayList<Arco> pEdges) {
         for (Arco a : pEdges) {
             addArco(a);
         }
     }
 
+    public void addArco(Arco pArco) {
+
+        if (!this.archi.contains(pArco)) {
+            this.archi.add(pArco);
+
+            for (Nodo n : this.getNodi()) {
+                if (n.equals(pArco.getDa()) || n.equals(pArco.getA())) {
+                    n.addArcoIncidente(pArco);
+                }
+            }
+
+            // Aggiungo i colori
+            pArco.colori.forEach((colore) -> {
+                colori.add(colore);
+            });
+        }
+
+    }
+
     public void addArchiSenzaInserireCicli(ArrayList<Arco> pEdges) {
         this.addArchi(pEdges);
 
-        if (!this.checkCycle()) { //Grafo senza cicli
-            //Non fare nulla
-        } else {
-            for (Arco a : pEdges)
+        if (this.checkCycle()) {
+            for (Arco a : pEdges) {
                 this.rimuoviArco(a);
-            
+            }
+
             if (pEdges.size() > 1) {
                 ArrayList<Arco> firstHalfEdgeList = new ArrayList<>();
                 ArrayList<Arco> lastHalfEdgeList = new ArrayList<>();
@@ -280,33 +165,35 @@ public class Grafo {
         }
     }
 
-    public void addArco(Arco pEdge) {
-        this.archi.add(pEdge);
+    public void rimuoviNodo(Nodo pNodo) {
+        Nodo vertexToRemove = this.getNodi().get(pNodo.getChiave());
+        ArrayList<Arco> edgeToRemove = new ArrayList<>();
+        edgeToRemove.addAll(vertexToRemove.getIncidenti());
 
-        for (Nodo n : this.getNodi()) {
-            if (n.getKey() == pEdge.getDa().getKey()
-                    || n.getKey() == pEdge.getA().getKey()) {
-                n.getIncidenti().add(pEdge);
-            }
+        System.out.println("Tot Archi: " + edgeToRemove.size());
+        for (Arco a : edgeToRemove) {
+            this.getArchi().remove(a);
         }
 
+        this.getNodi().remove(vertexToRemove);
     }
 
-    public void rimuoviArco(Arco pEdge) {
-        rimuoviArco(pEdge.getDa().getKey(), pEdge.getA().getKey());
+    public void rimuoviArco(Arco pArco) {
+        rimuoviArco(pArco.getDa(), pArco.getA());
     }
 
-    public void rimuoviArco(int keyNodo1, int keyNodo2) {
-        Arco arcoDaRimuovere = this.getArco(keyNodo1, keyNodo2);
+    private void rimuoviArco(Nodo pNodoDa, Nodo pNodoA) {
+        Arco arcoDaRimuovere = this.getArco(pNodoDa, pNodoA);
 
-        Nodo nodo1 = this.getNodo(keyNodo1);
-        Nodo nodo2 = this.getNodo(keyNodo2);
+        if (arcoDaRimuovere != null) {
+            Nodo nodo1 = this.nodi.get(this.nodi.indexOf(pNodoDa));
+            Nodo nodo2 = this.nodi.get(this.nodi.indexOf(pNodoA));
 
-        nodo1.getIncidenti().remove(arcoDaRimuovere);
-        nodo2.getIncidenti().remove(arcoDaRimuovere);
+            nodo1.rimuoviArcoIncidente(arcoDaRimuovere);
+            nodo2.rimuoviArcoIncidente(arcoDaRimuovere);
 
-        this.getArchi().remove(arcoDaRimuovere);
-
+            this.archi.remove(arcoDaRimuovere);
+        }
     }
 
     private void setArchiDallaListaNodi() {
@@ -321,10 +208,10 @@ public class Grafo {
         for (int i = 0; i < this.getArchi().size() - 1; i++) {
             int j = i + 1;
             while (!find && j < this.getArchi().size()) {
-                if (this.getArchi().get(i).getDa().getKey()
-                        == this.getArchi().get(j).getDa().getKey()
-                        && this.getArchi().get(i).getA().getKey()
-                        == this.getArchi().get(j).getA().getKey()) {
+                if (this.getArchi().get(i).getDa().getChiave()
+                        == this.getArchi().get(j).getDa().getChiave()
+                        && this.getArchi().get(i).getA().getChiave()
+                        == this.getArchi().get(j).getA().getChiave()) {
                     this.getArchi().remove(j);
                     find = true;
                 }
@@ -335,51 +222,39 @@ public class Grafo {
         }
     }
 
-    public ArrayList<Nodo> getAdjVertex(Nodo pNodo) {
-        ArrayList<Nodo> tmpVertexAdj = new ArrayList<>();
-
-        for (Arco a : this.getArchi()) {
-            if (a.getDa().getKey() == pNodo.getKey()) {
-                tmpVertexAdj.add(a.getA());
-            } else if (a.getA().getKey() == pNodo.getKey()) {
-                tmpVertexAdj.add(a.getDa());
-            }
-        }
-
-        return tmpVertexAdj;
+    public Set<Integer> getColori() {
+        return this.colori;
+    }
+    
+    public void rimuoviColore (int pColore) {
+        this.colori.remove(pColore);
+        
+        for (Arco arco : this.archi)
+            arco.rimuoviColore(pColore);
+    }
+    
+    public void rimuoviColori(HashSet pColori) {
+        this.colori.removeAll(pColori);
+    }
+    
+    /**
+     * Restituisce l dimensione del grafo intesa come numero di nodi.
+     *
+     * @return la dimensione del grafo
+     */
+    public int dimensione() {
+        return this.nodi.size();
     }
 
-    public void deleteColor(int pColor) {
-        int index = 0;
-
-        for (Arco a : this.getArchi()) {
-            a.getColors().remove(Integer.valueOf(pColor));
-        }
+    public int numeroColori() {
+        return this.colori.size();
     }
-
-    public boolean dfs() {
-
-        if (this.getNodi().size() == 0) {
-            return false;
-        }
-
-        if (this.getArchi().size() < (this.getNodi().size() - 1)) {
-            return false;
-        }
-
-        if (this.getArchi().size() == ((this.getNodi().size() * (this.getNodi().size() - 1)) / 2)) {
-            return true;
-        }
-
-        Grafo vertexVisited = getConnectedComponent(this.getNodi().get(0));
-
-        if (vertexVisited.getNodi().size() != this.getNodi().size()) {
-            return false;
-        }
-
-        return true;
-
-    }
+    
+    
+    
+    
+    
+    
 
     public boolean checkCycle() {
         ArrayList<Grafo> listaSottoGrafi = this.getConnectedComponents();
@@ -393,6 +268,7 @@ public class Grafo {
         return false;
     }
 
+    /*
     public void destroyCycle(Grafo previousGraph) {
         ArrayList<Arco> archiNuovi = new ArrayList<>();
         ArrayList<ArrayList<Arco>> splittedEdges = new ArrayList<>();
@@ -426,7 +302,7 @@ public class Grafo {
             }
         }
 
-        /*ArrayList<Grafo> listaSottoGrafi = this.getConnectedComponents();
+        ArrayList<Grafo> listaSottoGrafi = this.getConnectedComponents();
         double random = Math.random();
         
         for (Grafo g : listaSottoGrafi) {
@@ -434,90 +310,15 @@ public class Grafo {
             if (g.getArchi().size() >= g.getNodi().size()) {
                 
             }
-        }*/
-    }
-
-    public int minColorEdge() {
-        int minTotColor = numColor + 1;
-
-        int cont = 0;
-        for (Arco a : this.getArchi()) {
-            for (int i : a.getColors()) {
-                cont += i;
-            }
-
-            if (cont < minTotColor) {
-                minTotColor = cont;
-            }
-
-            cont = 0;
         }
-
-        return minTotColor;
-    }
-
-    public void stampa() {
-        System.out.println(nodi.size() + " " + archi.size());
-        for (Arco arco : archi) {
-            System.out.print(arco.da + " " + arco.a + " Colors:");
-
-            for (int i = 0; i < arco.getColors().size(); i++) {
-                System.out.print(" " + arco.getColors().get(i));
-            }
-
-            System.out.println();
-        }
-    }
-
-    public void stampaMatriceColori() {
-        System.out.print("\t\t Colori\n\t\t");
-
-        for (int i = 0; i < this.archi.get(0).getColors().size(); i++) {
-            System.out.print(" " + i);
-        }
-
-        System.out.println();
-        System.out.println();
-
-        for (int i = 0; i < this.archi.size(); i++) {
-            System.out.print("Arco " + i + ": \t");
-
-            for (int j = 0; j < this.archi.get(i).getColors().size(); j++) {
-                System.out.print(" " + this.archi.get(i).getColors().get(j));
-            }
-
-            System.out.println();
-        }
-    }
-
-    public void stampaMatriceColori(ArrayList<Integer> pColorForEdge) {
-        System.out.print("\t\t Colori\t        Tot Colori\n\t\t");
-
-        for (int i = 0; i < this.archi.get(0).getColors().size(); i++) {
-            System.out.print(" " + i);
-        }
-
-        System.out.println();
-        System.out.println();
-
-        for (int i = 0; i < this.archi.size(); i++) {
-            System.out.print("Arco " + i + ": \t");
-
-            for (int j = 0; j < this.archi.get(i).getColors().size(); j++) {
-                System.out.print(" " + this.archi.get(i).getColors().get(j));
-            }
-
-            System.out.print("\t" + pColorForEdge.get(i));
-            System.out.println();
-        }
-    }
+    }*/
 
     private ArrayList<Grafo> getConnectedComponents() {
         ArrayList<Grafo> listaSottoGrafi = new ArrayList<>();
 
         ArrayList<Integer> verticiDaEsaminare = new ArrayList<>();
         for (Nodo n : this.getNodi()) {
-            verticiDaEsaminare.add(n.getKey());
+            verticiDaEsaminare.add(n.getChiave());
         }
 
         while (verticiDaEsaminare.size() > 0) {

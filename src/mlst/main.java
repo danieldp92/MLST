@@ -21,13 +21,17 @@ public class main {
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
         //Grafo grafo = new Grafo(5, 10, 3, 1);
-        Grafo grafo = new Grafo("src/GrafiColorati3Colori/1000_8000_1000_125_1.mlst");
+        Grafo grafo = new Grafo("src/GrafiColorati3Colori/7_11_4.mlst");
         System.out.println("LOAD FINISHED!!!!");
         NUM_COLOR = grafo.numColor;
         //grafo.stampa();
         
         Grafo mlstGraph = new Grafo(grafo.getNodi().size(), grafo.numColor);
-        Grafo tmpMlstGraph = new Grafo(grafo.getNodi().size(), grafo.numColor);
+        ArrayList<Arco> archiTmp = new ArrayList<>();
+        for (Arco a : grafo.getArchi()) {
+            archiTmp.add(new Arco(a));
+        }
+        
         ArrayList<Integer> colorList = new ArrayList<>();
         ArrayList<Arco> edgeWithMinColors = new ArrayList<>();
 
@@ -36,12 +40,18 @@ public class main {
         while (!mlstGraph.dfs()) {
             System.out.println("Iterata " + m++);
             //Prendi gli archi con il num colori minore
-            edgeWithMinColors = getEdgesWithMinNumberOfColors(grafo.getArchi());
+            edgeWithMinColors = getEdgesWithMinNumberOfColors(archiTmp);
 
             //Se gli archi minimi non hanno colori, inseriscili nel mlst
-            if (sum(edgeWithMinColors.get(0).getColors()) == 0) {
+            if (edgeWithMinColors.get(0).getColors().size() == 0) {
+                //mlstGraph.addArchi(edgeWithMinColors);
+                
                 for (Arco a : edgeWithMinColors) {
-                    grafo.rimuoviArco(a);
+                    Arco originale = grafo.getArco(a.getDa().getKey(), a.getA().getKey());
+                    mlstGraph.addArco(originale);
+                    
+                    archiTmp.remove(a);
+                    //grafo.rimuoviArco(a);
                 }
                 
                 mlstGraph.addArchiSenzaInserireCicli(edgeWithMinColors);
@@ -53,8 +63,10 @@ public class main {
                 //Determino il colore più ricorrente in edgeWithMinColors
                 int mostCommonColor = mostCommonColor(edgeWithMinColors);
 
+                for (Arco a : archiTmp)
+                    a.removeColor(mostCommonColor);
                 //Elimino il colore
-                grafo.deleteColor(mostCommonColor);
+                //grafo.deleteColor(mostCommonColor);
 
                 //Aggiungo il colore alla lista dei colori presi
                 colorList.add(mostCommonColor);
@@ -69,6 +81,8 @@ public class main {
         for (int i : colorList) {
             System.out.println(i);
         }
+        
+        System.out.println("MLST dfs: " + mlstGraph.dfs());
     }
 
     private static int sum(ArrayList<Integer> pList) {
