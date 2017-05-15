@@ -24,6 +24,7 @@ public class Greedy {
         ArrayList<Arco> archiTmp = grafo.getCopiaArchi();
         
         ArrayList<Arco> edgeWithMinColors;
+        ArrayList<Arco> archiOriginali = new ArrayList<>();
         int m = 1;
 
         //Ciclo, fin quando mlst non e' connesso
@@ -38,11 +39,13 @@ public class Greedy {
 
                     //mlst.getArco(a).setColore(grafo.getColore(a)
                     Arco originale = grafo.getArco(a.getDa(), a.getA());
-                    mlst.addArco(originale);
+                    archiOriginali.add(originale);
 
                     //grafo.rimuoviArco(a);
                     archiTmp.remove(a);
                 }
+                
+                gestoreMlst.addArchiSenzaInserireCicli(archiOriginali);
 
             } else {
                 //Determino il colore più ricorrente in edgeWithMinColors
