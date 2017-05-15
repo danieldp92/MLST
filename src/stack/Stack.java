@@ -77,7 +77,7 @@ public class Stack<Item> implements Iterable<Item> {
         Iterator<Nodo> iter = (Iterator<Nodo>) this.iterator();
         
         while (iter.hasNext()) {
-            if (iter.next().getKey() == pItem.getKey())
+            if (iter.next().getChiave() == pItem.getChiave())
                 return true;
         }
         

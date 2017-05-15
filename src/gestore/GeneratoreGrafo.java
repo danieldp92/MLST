@@ -9,7 +9,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Random;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -81,74 +80,4 @@ public class GeneratoreGrafo {
         }
         return new Grafo(nodi, archi, coloriGrafo);
     }
-    
-    /*
-    public static Grafo generaGrafoRandom(int pNumNodi, int pNumArchi, int pSeme) {
-        this.nodi = new ArrayList<>();
-        this.archi = new ArrayList<>();
-        this.colori = new HashSet<>();
-
-        for (int i = 0; i < pNumNodi; i++) {
-            Nodo nd = new Nodo(i);
-            this.getNodi().add(nd);
-        }
-
-        Random r = new Random(pSeme);
-        HashSet<String> archi = new HashSet<>(pNumArchi * 2);
-        if (pNumArchi > (pNumNodi * (pNumNodi - 1) / 2)) {
-            pNumArchi = (pNumNodi * (pNumNodi - 1) / 2);
-        }
-
-        while (pNumArchi > 0) {
-            int da = r.nextInt(pNumNodi - 1);
-            int a = da + 1;
-            if (a < pNumNodi - 1) {
-                a += r.nextInt((pNumNodi - 1) - (da));
-            }
-            String ck = da + "-" + a;
-            if (!archi.contains(ck)) {
-                pNumArchi--;
-                archi.add(ck);
-                Arco ar = new Arco(this.getArchi().size(), this.getNodi().get(da), this.getNodi().get(a));
-                this.getNodi().get(da).getIncidenti().add(ar);
-                this.getNodi().get(a).getIncidenti().add(ar);
-                this.getArchi().add(ar);
-            }
-        }
-    }
-    
-    public static Grafo generaGrafoRandomConColori(int pNumNodi, int pNumArchi, int pNumColor, int pSeme) {
-        this.nodi = new ArrayList<>();
-        this.archi = new ArrayList<>();
-        this.numColor = pNumColor;
-
-        for (int i = 0; i < pNumNodi; i++) {
-            Nodo nd = new Nodo(i);
-            this.getNodi().add(nd);
-        }
-
-        Random r = new Random(pSeme);
-        HashSet<String> archi = new HashSet<>(pNumArchi * 2);
-        if (pNumArchi > (pNumNodi * (pNumNodi - 1) / 2)) {
-            pNumArchi = (pNumNodi * (pNumNodi - 1) / 2);
-        }
-
-        while (pNumArchi > 0) {
-            int da = r.nextInt(pNumNodi - 1);
-            int a = da + 1;
-            if (a < pNumNodi - 1) {
-                a += r.nextInt((pNumNodi - 1) - (da));
-            }
-            String ck = da + "-" + a;
-            if (!archi.contains(ck)) {
-                pNumArchi--;
-                archi.add(ck);
-                Arco ar = new Arco(this.getArchi().size(), this.getNodi().get(da), this.getNodi().get(a), pNumColor);
-                this.getNodi().get(da).getIncidenti().add(ar);
-                this.getNodi().get(a).getIncidenti().add(ar);
-            }
-        }
-
-        this.setArchiDallaListaNodi();
-    }*/
 }

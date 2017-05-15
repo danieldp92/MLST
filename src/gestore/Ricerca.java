@@ -4,20 +4,22 @@ import graph.Grafo;
 import graph.Nodo;
 import java.util.LinkedList;
 import java.util.Queue;
-import stack.Stack;
+import java.util.Stack;
 
 /**
- * Questa classe permette di effettuare ricerche sul grafo
- * @author Stefano Dalla Palma
+ * Questa classe permette di effettuare ricerche sul grafo <<<<<<< HEAD
+ * @a
+ *
+ * uthor Stefano Dalla Palma
  */
 public class Ricerca {
-    
-    private Grafo grafo; 
-    
+
+    private Grafo grafo;
+
     public Ricerca(Grafo pGrafo) {
         this.grafo = pGrafo;
     }
-    
+
     private boolean[] inizializzaRicerca() {
         boolean[] visitati = new boolean[grafo.dimensione()];
         for (int i = 0; i < visitati.length; i++) {
@@ -26,19 +28,21 @@ public class Ricerca {
         return visitati;
     }
 
-    public boolean bfs (Nodo pRadice) {
-        boolean [] visitato = bfsArray(pRadice);
+    public boolean bfs(Nodo pRadice) {
+        
+        boolean[] visitato = bfsArray(pRadice);
         
         int i = 0;
         while (i < visitato.length) {
-            if (!visitato[i++])
+            if (!visitato[i++]) {
                 return false;
+            }
         }
 
         return true;
     }
-    
-    public boolean [] bfsArray (Nodo pRadice) {
+
+    public boolean[] bfsArray(Nodo pRadice) {
 
         boolean[] visitato = inizializzaRicerca();
 
@@ -59,19 +63,20 @@ public class Ricerca {
         return visitato;
     }
 
-    public boolean dfs (Nodo pRadice) {
-        boolean [] visitato = dfsArray(pRadice);
-        
+    public boolean dfs(Nodo pRadice) {
+        boolean[] visitato = dfsArray(pRadice);
+
+        //Controllo se tutti i nodi sono stati visitati
         int i = 0;
         while (i < visitato.length) {
-            if (!visitato[i++])
+            if (!visitato[i++]) {
                 return false;
+            }
         }
-
         return true;
     }
-    
-    public boolean [] dfsArray (Nodo pRadice) {
+
+    public boolean[] dfsArray(Nodo pRadice) {
         boolean[] visitato = inizializzaRicerca();
 
         Stack<Nodo> pila = new Stack();
@@ -88,8 +93,6 @@ public class Ricerca {
                 }
             }
         }
-
         return visitato;
     }
-    
 }
