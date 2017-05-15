@@ -8,19 +8,17 @@ import stack.Stack;
 
 /**
  * Questa classe permette di effettuare ricerche sul grafo
+ *
  * @author Stefano Dalla Palma
  */
 public class Ricerca {
-    
+
     private Grafo grafo;
-    private GestoreGrafo gestoreGrafo; 
-    
+
     public Ricerca(Grafo pGrafo) {
         this.grafo = pGrafo;
-        this.gestoreGrafo = new GestoreGrafo(grafo);
     }
-    
-        
+
     private boolean[] inizializzaRicerca() {
         boolean[] visitati = new boolean[grafo.dimensione()];
         for (int i = 0; i < visitati.length; i++) {
@@ -29,7 +27,7 @@ public class Ricerca {
         return visitati;
     }
 
-    public boolean bsf(Nodo pRadice) {
+    public boolean bfs(Nodo pRadice) {
 
         boolean[] visitato = inizializzaRicerca();
 
@@ -41,7 +39,7 @@ public class Ricerca {
 
             if (!visitato[nodo.getChiave()]) {
                 visitato[nodo.getChiave()] = true;
-                for (Nodo adiacente : gestoreGrafo.getNodiAdiacenti(nodo)) {
+                for (Nodo adiacente : nodo.getAdiacenti()) {
                     coda.add(adiacente);
                 }
             }
@@ -49,14 +47,16 @@ public class Ricerca {
 
         //Controllo se tutti i nodi sono stati visitati
         int i = 0;
-        while (i < visitato.length && visitato[i]) {
-            i++;
+        while (i < visitato.length) {
+            if (!visitato[i++]) {
+                return false;
+            }
         }
 
-        return (i == visitato.length);
+        return true;
     }
 
-    public boolean dsf(Nodo pRadice) {
+    public boolean dfs(Nodo pRadice) {
         boolean[] visitato = inizializzaRicerca();
 
         Stack<Nodo> pila = new Stack();
@@ -68,7 +68,7 @@ public class Ricerca {
             if (!visitato[nodo.getChiave()]) {
                 visitato[nodo.getChiave()] = true;
                 //Aggiungi in coda tutti i nodi adiacenti al nodo
-                for (Nodo adiacente : gestoreGrafo.getNodiAdiacenti(nodo)) {
+                for (Nodo adiacente : nodo.getAdiacenti()) {
                     pila.push(adiacente);
                 }
             }
@@ -76,13 +76,12 @@ public class Ricerca {
 
         //Controllo se tutti i nodi sono stati visitati
         int i = 0;
-        while (i < visitato.length && visitato[i]) {
-            i++;
+        while (i < visitato.length) {
+            if (!visitato[i++]) {
+                return false;
+            }
         }
-
-        return (i == visitato.length);
+        return true;
     }
 
-    
-    
 }

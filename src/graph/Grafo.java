@@ -31,6 +31,15 @@ public class Grafo {
     public ArrayList<Arco> getArchi() {
         return archi;
     }
+   
+    public ArrayList<Arco> getCopiaArchi() {
+        ArrayList<Arco> copiaArchi = new ArrayList<Arco>();
+        for(Arco originale : this.archi){
+            Arco copia = new Arco(originale.getDa(), originale.getA(), originale.getColori());
+            copiaArchi.add(copia);
+        }
+        return copiaArchi;
+    }
 
     public ArrayList<Nodo> getNodi() {
         return nodi;
@@ -70,7 +79,12 @@ public class Grafo {
     }
 
     public void addArchi(ArrayList<Arco> pArchi) {
-        this.archi.addAll(pArchi); //Da modificare per evitare di inserire archi uguali
+
+        for (Arco arco : pArchi) {
+            addArco(arco);
+        }
+
+        //this.archi.addAll(pArchi); //Da modificare per evitare di inserire archi uguali
     }
 
     public void addArco(Arco pArco) {
@@ -102,21 +116,21 @@ public class Grafo {
     }
 
     public void rimuoviArco(Arco pArco) {
-        if (this.archi.contains(pArco)) {
-            rimuoviArco(pArco.getDa(), pArco.getA());
-        }
+        rimuoviArco(pArco.getDa(), pArco.getA());
     }
 
     private void rimuoviArco(Nodo pNodoDa, Nodo pNodoA) {
         Arco arcoDaRimuovere = this.getArco(pNodoDa, pNodoA);
 
-        Nodo nodo1 = this.nodi.get(this.nodi.indexOf(pNodoDa));
-        Nodo nodo2 = this.nodi.get(this.nodi.indexOf(pNodoA));
+        if (arcoDaRimuovere != null) {
+            Nodo nodo1 = this.nodi.get(this.nodi.indexOf(pNodoDa));
+            Nodo nodo2 = this.nodi.get(this.nodi.indexOf(pNodoA));
 
-        nodo1.rimuoviArcoIncidente(arcoDaRimuovere);
-        nodo2.rimuoviArcoIncidente(arcoDaRimuovere);
+            nodo1.rimuoviArcoIncidente(arcoDaRimuovere);
+            nodo2.rimuoviArcoIncidente(arcoDaRimuovere);
 
-        this.archi.remove(arcoDaRimuovere);
+            this.archi.remove(arcoDaRimuovere);
+        }
     }
 
     public void rimuoviArchi(ArrayList<Arco> pArchi) {
@@ -146,6 +160,9 @@ public class Grafo {
 
     public void rimuoviColore(int pColore) {
         this.colori.remove(pColore);
+        for (Arco arco : this.archi) {
+            arco.rimuoviColore(pColore);
+        }
     }
 
     public void rimuoviColori(HashSet pColori) {
@@ -153,7 +170,7 @@ public class Grafo {
     }
 
     /**
-     * Restituisce l dimensione del grafo intesa come numero di nodi.
+     * Restituisce la dimensione del grafo intesa come numero di nodi.
      *
      * @return la dimensione del grafo
      */

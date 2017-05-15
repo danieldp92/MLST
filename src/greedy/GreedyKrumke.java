@@ -82,7 +82,7 @@ public class GreedyKrumke {
         }*/
     }
 
-    public void greedy() {
+   /* public void greedy() {
 
         Map<Arco, Integer> mappaArchi = new HashMap();
         Map<Integer, int[]> mappaColori = new HashMap();
@@ -105,6 +105,6 @@ public class GreedyKrumke {
             mappaColori.put(colore, array);
         }
 
-    }
+    }*/
 
 }

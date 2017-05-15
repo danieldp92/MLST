@@ -1,5 +1,4 @@
 package gestore;
-
 import graph.Arco;
 import graph.Grafo;
 import graph.Nodo;

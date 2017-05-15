@@ -3,13 +3,15 @@ package mlst;
 import gestore.GeneratoreGrafo;
 import gestore.GestoreGrafo;
 import gestore.InfoGrafo;
-import gestore.Ricerca;
 import graph.Arco;
 import graph.Grafo;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 /**
  *
@@ -26,12 +28,13 @@ public class main {
 
         long inizio = System.currentTimeMillis();
         System.out.print("Caricamento grafo... ");
-        Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/7_11_4_1.mlst"));
+        Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/10000_40000_10000_2500_2.mlst"));
+        //Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/7_11_4.mlst"));
         System.out.format("fatto (%d ms)\n", System.currentTimeMillis() - inizio);
         NUM_COLOR = grafo.getColori().size();
-        //GestoreGrafo gestore = new GestoreGrafo(grafo);
+        GestoreGrafo gestore = new GestoreGrafo(grafo);
         //inizio = System.currentTimeMillis();
-        //System.out.println("Connesso:" + gestore.connesso());
+        System.out.println("Connesso:" + gestore.connesso());
         //System.out.println("Ciclo:" + gestore.ciclo());
         //System.out.println("tempo: " + (System.currentTimeMillis() - inizio));
 
@@ -39,6 +42,9 @@ public class main {
         GestoreGrafo gestoreMlst = new GestoreGrafo(mlst);
 
         ArrayList<Integer> colorList = new ArrayList<>();
+
+        ArrayList<Arco> archiTmp = grafo.getCopiaArchi();
+        
         ArrayList<Arco> edgeWithMinColors = new ArrayList<>();
         int m = 1;
 
@@ -46,36 +52,50 @@ public class main {
         while (!gestoreMlst.connesso()) {
             System.out.println("Iterata " + m++);
             //Prendi gli archi con il minor numero di colori 
-            edgeWithMinColors = getEdgesWithMinNumberOfColors(grafo.getArchi());
+            // edgeWithMinColors = getEdgesWithMinNumberOfColors(grafo.getArchi());
+            edgeWithMinColors = getEdgesWithMinNumberOfColors(archiTmp);
 
             //Se gli archi minimi non hanno colori, inseriscili nel mlst
-            if (sum(edgeWithMinColors.get(0).getColori()) == 0) {
+            if (edgeWithMinColors.get(0).getColori().isEmpty()) {
                 //mlst.addArchi(edgeWithMinColors);
-                gestoreMlst.addArchiSenzaInserireCicli(edgeWithMinColors);
+                //gestoreMlst.addArchiSenzaInserireCicli(edgeWithMinColors);
 
                 for (Arco a : edgeWithMinColors) {
-                    grafo.rimuoviArco(a);
+
+                    //mlst.getArco(a).setColore(grafo.getColore(a)
+                    Arco originale = grafo.getArco(a.getDa(), a.getA());
+                    mlst.addArco(originale);
+
+                    //grafo.rimuoviArco(a);
+                    archiTmp.remove(a);
                 }
-                //Elimino eventuali cicli
-                //while (tmpMlstGraph.checkCycle()) {
-                //Da implementare
-                //}
+
             } else {
                 //Determino il colore più ricorrente in edgeWithMinColors
                 int mostCommonColor = mostCommonColor(edgeWithMinColors);
                 //Elimino il colore
-                grafo.rimuoviColore(mostCommonColor);
+                //grafo.rimuoviColore(mostCommonColor);
+
+                for (Arco arco : archiTmp) {
+                    arco.rimuoviColore(mostCommonColor);
+                }
+
                 //Aggiungo il colore alla lista dei colori presi
                 colorList.add(mostCommonColor);
             }
         }
         System.out.println();
-        InfoGrafo infoMlst = new InfoGrafo(mlst);
-        infoMlst.stampaNodi();
-        infoMlst.stampaArchi();
+        //InfoGrafo infoMlst = new InfoGrafo(mlst);
+        //infoMlst.stampaNodi();
+        //infoMlst.stampaArchi();
         System.out.println();
-        System.out.println("Colori usati: " + colorList.size());
-        for (int i : colorList) {
+        //System.out.println("Colori usati: " + colorList.size());
+        System.out.println("Colori usati: " + mlst.getColori().size());
+        System.out.println("MLST numero nodi: " + mlst.dimensione());
+        System.out.println("MLST numero archi: " + mlst.getArchi().size());
+        System.out.println("MLST connesso: " + gestoreMlst.connesso());
+        // for (int i : colorList) {
+        for (int i : mlst.getColori()) {
             System.out.println(i);
         }
     }

@@ -36,13 +36,13 @@ public class GestoreGrafo {
             return true;
         }
 
-        return new Ricerca(grafo).bsf(this.grafo.getNodo(0));      //Inizio la ricerca in ampiezza dal nodo avente chiave 0
-        //return new Ricerca(grafo).dsf(this.grafo.getNodo(0));    //Inizio la ricerca in profondità dal nodo avente chiave 0
+        return new Ricerca(grafo).bfs(this.grafo.getNodo(0));      //Inizio la ricerca in ampiezza dal nodo avente chiave 0
+        //return new Ricerca(grafo).dfs(this.grafo.getNodo(0));    //Inizio la ricerca in profondità dal nodo avente chiave 0
     }
 
-    public ArrayList<Nodo> getNodiAdiacenti(Nodo pNodo) {
+    /*public ArrayList<Nodo> getNodiAdiacenti(Nodo pNodo) {
         return this.grafo.getNodo(pNodo.getChiave()).getAdiacenti();
-    }
+    }*/
 
     public boolean ciclo() {
         return connesso() && grafo.getArchi().size() != grafo.dimensione() - 1;
