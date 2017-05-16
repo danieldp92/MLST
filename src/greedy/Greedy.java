@@ -18,6 +18,7 @@ public class Greedy {
     }
 
     public Grafo esegui() {
+        long inizio = System.currentTimeMillis();
         Grafo mlst = new Grafo(grafo.getNodi());
         mlst.clear();
         GestoreGrafo gestoreMlst = new GestoreGrafo(mlst);
@@ -28,10 +29,22 @@ public class Greedy {
         ArrayList<Arco> archiOriginali = new ArrayList<>();
         int m = 1;
 
+        
+        long time = 0;
+        long timeRecuperoArchiConColoreMinimo = 0;
+        long timeRecuperoArchiConColoreMinimoCount = 0;
+        long timeDeterminazioneColorePiuRicorrente = 0;
+        long timeDeterminazioneColorePiuRicorrenteCount = 0;
+        long timeRimozioneColorePiuRicorrente = 0;
+        long timeRimozioneColorePiuRicorrenteCount = 0;
+        long timeInserimentoArchiSenzaCiclo = 0;
+        long timeInserimentoArchiSenzaCicloCount = 0;
+        
         //Ciclo, fin quando mlst non e' connesso
         while (!gestoreMlst.connesso()) {
+            System.out.println("Iterata " + m++ + ": " + (System.currentTimeMillis() - inizio));
             //Prendi gli archi con il minor numero di colori 
-            edgeWithMinColors = getEdgesWithMinNumberOfColors(archiTmp);            
+            edgeWithMinColors = getEdgesWithMinNumberOfColors(archiTmp);
             
             //Se gli archi minimi non hanno colori, inseriscili nel mlst
             if (edgeWithMinColors.get(0).getColori().isEmpty()) {
@@ -46,13 +59,22 @@ public class Greedy {
                     archiTmp.remove(a);
                 }
 
+                time = System.currentTimeMillis();
                 gestoreMlst.addArchiSenzaInserireCicli(archiOriginali);
+                timeInserimentoArchiSenzaCiclo += System.currentTimeMillis() - time;
+                timeInserimentoArchiSenzaCicloCount++;
+                System.out.println("Tempo di inserimento archi senza ciclo: " + (System.currentTimeMillis() - time));
+                
                 archiOriginali.clear();
 
             } else {
+                time = System.currentTimeMillis();
                 //Determino il colore più ricorrente in edgeWithMinColors
                 int mostCommonColor = mostCommonColor(edgeWithMinColors);
-
+                timeDeterminazioneColorePiuRicorrente += System.currentTimeMillis() - time;
+                timeDeterminazioneColorePiuRicorrenteCount++;
+                System.out.println("Tempo di determinazione colore più ricorrente: " + (System.currentTimeMillis() - time));
+                
                 //Elimino il colore dagli archi (temporanei)
                 for (Arco arco : archiTmp) {
                     arco.rimuoviColore(mostCommonColor);
@@ -60,6 +82,16 @@ public class Greedy {
             }
         }
 
+        double meanTimeIterate = (System.currentTimeMillis() - inizio) / --m;
+        double meanTimeDeterminazioneColorePiuRicorrente = timeDeterminazioneColorePiuRicorrente / timeDeterminazioneColorePiuRicorrenteCount;
+        double meanTimeInserimentoArchiSenzaCiclo = timeInserimentoArchiSenzaCiclo / timeInserimentoArchiSenzaCicloCount;
+        
+        System.out.println();
+        System.out.println("Numero Iterate: " + m);
+        System.out.println("Media tempo iterata: " + meanTimeIterate);
+        System.out.println("Media determinazione colore più ricorrente: " + meanTimeDeterminazioneColorePiuRicorrente);
+        System.out.println("Media inserimento archi senza ciclo: " + meanTimeInserimentoArchiSenzaCiclo);
+        
         return mlst;
     }
 
