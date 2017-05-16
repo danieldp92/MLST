@@ -132,6 +132,11 @@ public class Grafo {
             for (Nodo n : this.getNodi()) {
                 if (n.equals(pArco.getDa()) || n.equals(pArco.getA())) {
                     n.addArcoIncidente(pArco);
+                    
+                    if (n.equals(pArco.getDa()))
+                        n.addNodoAdiacente(pArco.getA());
+                    else
+                        n.addNodoAdiacente(pArco.getDa());
                 }
             }
 
@@ -173,7 +178,9 @@ public class Grafo {
     }
 
     public void rimuoviArchi(ArrayList<Arco> pArchi) {
-        this.archi.removeAll(pArchi);
+        //this.archi.removeAll(pArchi);
+        for (Arco arcoDaRimuovere : pArchi)
+            rimuoviArco(arcoDaRimuovere);
     }
 
     public void rimuoviNodo(Nodo pNodo) {
@@ -220,4 +227,13 @@ public class Grafo {
     public int numeroColori() {
         return this.colori.size();
     }  
+    
+    public void clear () {
+        this.archi.clear();
+        
+        for (Nodo nodo : this.nodi) {
+            nodo.getIncidenti().clear();
+            nodo.getAdiacenti().clear();
+        }
+    }
 }

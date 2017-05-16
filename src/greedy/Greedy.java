@@ -10,19 +10,20 @@ import java.util.ArrayList;
  * @author Stefano Dalla Palma
  */
 public class Greedy {
-    
+
     Grafo grafo;
 
     public Greedy(Grafo grafo) {
         this.grafo = grafo;
     }
-    
-    public Grafo esegui(){
+
+    public Grafo esegui() {
         Grafo mlst = new Grafo(grafo.getNodi());
+        mlst.clear();
         GestoreGrafo gestoreMlst = new GestoreGrafo(mlst);
 
         ArrayList<Arco> archiTmp = grafo.getCopiaArchi();
-        
+
         ArrayList<Arco> edgeWithMinColors;
         ArrayList<Arco> archiOriginali = new ArrayList<>();
         int m = 1;
@@ -30,38 +31,39 @@ public class Greedy {
         //Ciclo, fin quando mlst non e' connesso
         while (!gestoreMlst.connesso()) {
             //Prendi gli archi con il minor numero di colori 
-            edgeWithMinColors = getEdgesWithMinNumberOfColors(archiTmp);
-
+            edgeWithMinColors = getEdgesWithMinNumberOfColors(archiTmp);            
+            
             //Se gli archi minimi non hanno colori, inseriscili nel mlst
             if (edgeWithMinColors.get(0).getColori().isEmpty()) {
-               
+                
                 for (Arco a : edgeWithMinColors) {
 
-                    //mlst.getArco(a).setColore(grafo.getColore(a)
                     Arco originale = grafo.getArco(a.getDa(), a.getA());
                     archiOriginali.add(originale);
+                    //mlst.addArco(originale);
 
                     //grafo.rimuoviArco(a);
                     archiTmp.remove(a);
                 }
-                
+
                 gestoreMlst.addArchiSenzaInserireCicli(archiOriginali);
+                archiOriginali.clear();
 
             } else {
                 //Determino il colore più ricorrente in edgeWithMinColors
                 int mostCommonColor = mostCommonColor(edgeWithMinColors);
-                
+
                 //Elimino il colore dagli archi (temporanei)
                 for (Arco arco : archiTmp) {
                     arco.rimuoviColore(mostCommonColor);
                 }
             }
         }
-        
+
         return mlst;
     }
-    
-     private ArrayList<Arco> getEdgesWithMinNumberOfColors(ArrayList<Arco> pEdges) {
+
+    private ArrayList<Arco> getEdgesWithMinNumberOfColors(ArrayList<Arco> pEdges) {
         ArrayList<Arco> edgesWithMinColors = new ArrayList<>();
         int previousTotColorEdge = -1;
         int totColorForEdge = -1;
@@ -73,8 +75,7 @@ public class Greedy {
                     previousTotColorEdge = totColorForEdge;
                     edgesWithMinColors.add(a);
                 } else //Successivi
-                {
-                    if (totColorForEdge < previousTotColorEdge) {
+                 if (totColorForEdge < previousTotColorEdge) {
                         previousTotColorEdge = totColorForEdge;
                         //Svuoto la lista degli archi minori,
                         //poichè ho trovato un nuovo candidato
@@ -83,7 +84,6 @@ public class Greedy {
                     } else if (previousTotColorEdge == totColorForEdge) {
                         edgesWithMinColors.add(a);
                     }
-                }
             }
         }
         return edgesWithMinColors;
@@ -106,9 +106,10 @@ public class Greedy {
             //System.out.println("Totale colore " + i + ": " + sumColor);
             if (sumColor > prevSumColor) {
                 mostCommonColor = i;
+                prevSumColor = sumColor;
                 //System.out.println("Colore dominante");
             }
-            prevSumColor = sumColor;
+            
             sumColor = 0;
         }
         return mostCommonColor;

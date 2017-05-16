@@ -56,7 +56,6 @@ public class GestoreGrafo {
      */
     public boolean ciclo(Grafo pGrafo) {
         ArrayList<Grafo> listaSottografi = getComponentiConnesse();
-        
         for (Grafo g : listaSottografi)
             if (g.getArchi().size() >= g.dimensione())
                 return true;
