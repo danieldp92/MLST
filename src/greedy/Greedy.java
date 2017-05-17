@@ -31,12 +31,8 @@ public class Greedy {
 
         
         long time = 0;
-        long timeRecuperoArchiConColoreMinimo = 0;
-        long timeRecuperoArchiConColoreMinimoCount = 0;
         long timeDeterminazioneColorePiuRicorrente = 0;
         long timeDeterminazioneColorePiuRicorrenteCount = 0;
-        long timeRimozioneColorePiuRicorrente = 0;
-        long timeRimozioneColorePiuRicorrenteCount = 0;
         long timeInserimentoArchiSenzaCiclo = 0;
         long timeInserimentoArchiSenzaCicloCount = 0;
         

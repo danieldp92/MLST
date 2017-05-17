@@ -18,7 +18,9 @@ public class TestGreedy {
        //Carico il grafo
         //long inizio = System.currentTimeMillis();
         System.out.print("Caricamento grafo... ");
-        Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/10000_160000_10000_625_1.mlst"));
+        Grafo grafo = GeneratoreGrafo.generaGrafoConRicorrenzaColori(new File("src/GrafiColorati3Colori/1000_8000_1000_125_1.mlst"));
+        for (int i : grafo.ricorrenzaColori)
+            System.out.println(i);
         //System.out.format("fatto (%d ms)\n", System.currentTimeMillis() - inizio);
         
         //Ottengo un MLT eseguendo l'algoritmo greedy sul grafo

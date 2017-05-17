@@ -2,6 +2,7 @@ package graph;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Set;
 
 public class Grafo {
@@ -9,29 +10,41 @@ public class Grafo {
     ArrayList<Nodo> nodi;
     ArrayList<Arco> archi;
     Set<Integer> colori;
+    public ArrayList<Integer> ricorrenzaColori;
 
     public Grafo() {
         this.nodi = new ArrayList<>();
         this.archi = new ArrayList<>();
         this.colori = new HashSet<>();
+        this.ricorrenzaColori = new ArrayList<>();
     }
 
     public Grafo(ArrayList<Nodo> pNodi) {
         this.nodi = pNodi;
         this.archi = new ArrayList<>();
         this.colori = new HashSet<>();
+        this.ricorrenzaColori = new ArrayList<>();
     }
     
     public Grafo(ArrayList<Nodo> pNodi, ArrayList<Arco> pArchi) {
         this.nodi = pNodi;
         this.archi = pArchi;
         this.colori = new HashSet<>();
+        this.ricorrenzaColori = new ArrayList<>();
     }
 
     public Grafo(ArrayList<Nodo> pNodi, ArrayList<Arco> pArchi, Set<Integer> pColori) {
         this.nodi = pNodi;
         this.archi = pArchi;
         this.colori = pColori;
+        this.ricorrenzaColori = new ArrayList<>();
+    }
+    
+    public Grafo(ArrayList<Nodo> pNodi, ArrayList<Arco> pArchi, Set<Integer> pColori, ArrayList<Integer> pRicorrenzeColori) {
+        this.nodi = pNodi;
+        this.archi = pArchi;
+        this.colori = pColori;
+        this.ricorrenzaColori = pRicorrenzeColori;
     }
 
     public ArrayList<Arco> getArchi() {
