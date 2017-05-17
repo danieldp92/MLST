@@ -40,7 +40,7 @@ public class Nodo {
     }
 
     public void rimuoviNodoAdiacente(Nodo pNodo) {
-        if (!this.adiacenti.contains(pNodo)) {
+        if (this.adiacenti.contains(pNodo)) {
             this.adiacenti.remove(pNodo);
         }
     }
@@ -52,7 +52,7 @@ public class Nodo {
     }
 
     public void rimuoviArcoIncidente(Arco pArco) {
-        if (!this.incidenti.contains(pArco)) {
+        if (this.incidenti.contains(pArco)) {
             this.incidenti.remove(pArco);
         }
     }

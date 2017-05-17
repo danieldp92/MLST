@@ -1,6 +1,7 @@
 package mlst;
 
 import gestore.GeneratoreGrafo;
+import gestore.GestoreGrafo;
 import graph.Grafo;
 import greedy.Greedy;
 import java.io.File;
@@ -15,21 +16,26 @@ public class TestGreedy {
     
     public static void main() {
        //Carico il grafo
-        long inizio = System.currentTimeMillis();
+        //long inizio = System.currentTimeMillis();
         System.out.print("Caricamento grafo... ");
-        Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/100_1000_100_10_1.mlst"));
-        System.out.format("fatto (%d ms)\n", System.currentTimeMillis() - inizio);
+        Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/10000_160000_10000_625_1.mlst"));
+        //System.out.format("fatto (%d ms)\n", System.currentTimeMillis() - inizio);
         
         //Ottengo un MLT eseguendo l'algoritmo greedy sul grafo
         Grafo mlst = new Greedy(grafo).esegui();
+        GestoreGrafo gG = new GestoreGrafo(mlst);
         System.out.println("Colori usati: " + mlst.getColori().size());
         System.out.println("MLST numero nodi: " + mlst.dimensione());
         System.out.println("MLST numero archi: " + mlst.getArchi().size());
+        System.out.println("Connesso: " + gG.connesso());
+        boolean f = gG.ciclo(mlst);
+        System.out.println("Ciclo: " + f);
 
         //Stampo i colori usati
         for (int colore : mlst.getColori()) {
             System.out.println(colore);
         }
+        //System.out.format("Tempo di esecuzione: (%d ms)\n", System.currentTimeMillis() - inizio);
     }
 
 }
