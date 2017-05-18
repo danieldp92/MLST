@@ -1,5 +1,6 @@
 package gestore;
 
+import graph.Arco;
 import graph.Grafo;
 import graph.Nodo;
 import java.util.LinkedList;
@@ -7,8 +8,8 @@ import java.util.Queue;
 import java.util.Stack;
 
 /**
- * Questa classe permette di effettuare ricerche sul grafo <<<<<<< HEAD
- * @a
+ * Questa classe permette di effettuare ricerche sul grafo <<<<<<< HEAD @a
+ *
  *
  * uthor Stefano Dalla Palma
  */
@@ -29,9 +30,9 @@ public class Ricerca {
     }
 
     public boolean bfs(Nodo pRadice) {
-        
+
         boolean[] visitato = bfsArray(pRadice);
-        
+
         int i = 0;
         while (i < visitato.length) {
             if (!visitato[i++]) {
@@ -56,6 +57,30 @@ public class Ricerca {
                 visitato[nodo.getChiave()] = true;
                 for (Nodo adiacente : nodo.getAdiacenti()) {
                     coda.add(adiacente);
+                }
+            }
+        }
+
+        return visitato;
+    }
+
+    public boolean[] bfsArray(Nodo pRadice, int pColore) {
+
+        boolean[] visitato = inizializzaRicerca();
+
+        Queue<Nodo> coda = new LinkedList();
+        coda.add(pRadice);
+
+        while (!coda.isEmpty()) {
+            Nodo nodo = coda.poll();
+
+            if (!visitato[nodo.getChiave()]) {
+                visitato[nodo.getChiave()] = true;
+                for (Nodo adiacente : nodo.getAdiacenti()) {
+                    Arco arco = this.grafo.getArco(nodo, adiacente);
+                    if (arco != null && arco.getColori().contains(pColore)) {
+                        coda.add(adiacente);
+                    }
                 }
             }
         }

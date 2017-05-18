@@ -31,6 +31,18 @@ public class Nodo {
         return incidenti;
     }
 
+    public ArrayList<Arco> getIncidenti(int pColore) {
+        ArrayList<Arco> incidentiColorati = new ArrayList<>();
+
+        for (Arco arco : incidenti) {
+            if (arco.getColori().contains(pColore)) {
+                incidentiColorati.add(arco);
+            }
+        }
+
+        return incidentiColorati;
+    }
+
     public void setChiave(int chiave) {
         this.chiave = chiave;
     }

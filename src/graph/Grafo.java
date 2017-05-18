@@ -21,7 +21,7 @@ public class Grafo {
         this.archi = new ArrayList<>();
         this.colori = new HashSet<>();
     }
-    
+
     public Grafo(ArrayList<Nodo> pNodi, ArrayList<Arco> pArchi) {
         this.nodi = pNodi;
         this.archi = pArchi;
@@ -37,9 +37,11 @@ public class Grafo {
     public ArrayList<Arco> getArchi() {
         return archi;
     }
-    
+
     /**
-     * Questo metodo ritorna la lista degli archi correlati ad una lista di nodi data
+     * Questo metodo ritorna la lista degli archi correlati ad una lista di nodi
+     * data
+     *
      * @param pListaNodi la lista dei nodi data in input
      * @return la lista degli archi correlati
      */
@@ -67,17 +69,33 @@ public class Grafo {
 
             trovato = false;
         }
-        
+
         return listaArchi;
     }
-   
+
     public ArrayList<Arco> getCopiaArchi() {
         ArrayList<Arco> copiaArchi = new ArrayList();
-        for(Arco originale : this.archi){
+        for (Arco originale : this.archi) {
             Arco copia = new Arco(originale.getDa(), originale.getA(), originale.getColori());
             copiaArchi.add(copia);
         }
         return copiaArchi;
+    }
+
+    public ArrayList<Nodo> getCopiaNodi() {
+        ArrayList<Nodo> copiaNodi = new ArrayList();
+        for (Nodo originale : this.nodi) {
+            Nodo copia = new Nodo(originale.getChiave());
+
+            for (Nodo nodo : originale.getAdiacenti()) {
+                copia.addNodoAdiacente(nodo);
+            }
+            for (Arco arco : originale.getIncidenti()) {
+                copia.addArcoIncidente(arco);
+            }
+            copiaNodi.add(copia);
+        }
+        return copiaNodi;
     }
 
     public ArrayList<Nodo> getNodi() {
@@ -132,11 +150,12 @@ public class Grafo {
             for (Nodo n : this.getNodi()) {
                 if (n.equals(pArco.getDa()) || n.equals(pArco.getA())) {
                     n.addArcoIncidente(pArco);
-                    
-                    if (n.equals(pArco.getDa()))
+
+                    if (n.equals(pArco.getDa())) {
                         n.addNodoAdiacente(pArco.getA());
-                    else
+                    } else {
                         n.addNodoAdiacente(pArco.getDa());
+                    }
                 }
             }
 
@@ -179,8 +198,9 @@ public class Grafo {
 
     public void rimuoviArchi(ArrayList<Arco> pArchi) {
         //this.archi.removeAll(pArchi);
-        for (Arco arcoDaRimuovere : pArchi)
+        for (Arco arcoDaRimuovere : pArchi) {
             rimuoviArco(arcoDaRimuovere);
+        }
     }
 
     public void rimuoviNodo(Nodo pNodo) {
@@ -226,11 +246,11 @@ public class Grafo {
 
     public int numeroColori() {
         return this.colori.size();
-    }  
-    
-    public void clear () {
+    }
+
+    public void clear() {
         this.archi.clear();
-        
+
         for (Nodo nodo : this.nodi) {
             nodo.getIncidenti().clear();
             nodo.getAdiacenti().clear();

@@ -52,7 +52,6 @@ public class GestoreGrafo {
 
      /**
      * Controllo della ciclicità, controllando che ogni sottocomponente del grafo non abbia una ciclicità
-     * @return 
      */
     public boolean ciclo(Grafo pGrafo) {
         ArrayList<Grafo> listaSottografi = getComponentiConnesse();
@@ -98,6 +97,39 @@ public class GestoreGrafo {
 
         while ((indicePrimoNodoDelSottografo = getIndicePrimoFalse(nodiVisitati)) != -1) {
             boolean[] nodiSottografoVisitati = this.ricerca.bfsArray(this.grafo.getNodo(indicePrimoNodoDelSottografo));
+
+            ArrayList<Nodo> listaNodiSottografo = new ArrayList<>();
+            ArrayList<Arco> listaArchiSottografo = null;
+
+            for (int i = 0; i < nodiSottografoVisitati.length; i++) {
+                if (nodiSottografoVisitati[i]) {
+                    //Aggiorna la lista dei nodi visitati
+                    nodiVisitati[i] = true;
+                    //Aggiungo il nodo alla lista dei nodi del sottografo
+                    listaNodiSottografo.add(this.grafo.getNodo(i));
+                }
+            }
+            listaArchiSottografo = this.grafo.getArchi(listaNodiSottografo);
+            
+            listaSottografi.add(new Grafo(listaNodiSottografo, listaArchiSottografo));
+        }
+
+        return listaSottografi;
+    }
+    
+    
+    private ArrayList<Grafo> getComponentiConnesse(int pColore) {
+        ArrayList<Grafo> listaSottografi = new ArrayList<>();
+
+        int indicePrimoNodoDelSottografo = -1;
+
+        boolean[] nodiVisitati = new boolean[this.grafo.dimensione()];
+        for (int i = 0; i < this.grafo.dimensione(); i++) {
+            nodiVisitati[i] = false;
+        }
+
+        while ((indicePrimoNodoDelSottografo = getIndicePrimoFalse(nodiVisitati)) != -1) {
+            boolean[] nodiSottografoVisitati = this.ricerca.bfsArray(this.grafo.getNodo(indicePrimoNodoDelSottografo), pColore);
 
             ArrayList<Nodo> listaNodiSottografo = new ArrayList<>();
             ArrayList<Arco> listaArchiSottografo = null;

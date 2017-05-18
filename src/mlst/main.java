@@ -7,6 +7,7 @@ package mlst;
 public class main {
 
     public static void main(String[] args) {
-        TestGreedy.main();
+        //TestGreedy.main();
+        TestGreedyBFS.main();
     }
 }
