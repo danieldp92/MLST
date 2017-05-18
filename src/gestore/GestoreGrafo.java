@@ -50,7 +50,28 @@ public class GestoreGrafo {
         return connesso() && grafo.getArchi().size() != grafo.dimensione() - 1;
     }
 
-     /**
+    public void addArcoSenzaInserireCicli(Arco pArco) {
+        int componenteDiRiferimentoNodo1 = 0;
+        int componenteDiRiferimentoNodo2 = 0;
+
+        componenteDiRiferimentoNodo1 = this.grafo.getNodo(pArco.getDa().getChiave()).getComponenteDiRiferimento();
+        componenteDiRiferimentoNodo2 = this.grafo.getNodo(pArco.getA().getChiave()).getComponenteDiRiferimento();
+
+        //Se l'arco non genera cicli
+        if (componenteDiRiferimentoNodo1 != componenteDiRiferimentoNodo2) {
+            this.grafo.addArco(pArco);
+
+            for (Nodo n : this.grafo.getNodi()) {
+                if (n.getComponenteDiRiferimento() == componenteDiRiferimentoNodo2) {
+                    n.setComponenteDiRiferimento(componenteDiRiferimentoNodo1);
+                }
+            }
+        }
+
+    }
+    
+    
+    /**
      * Controllo della ciclicità, controllando che ogni sottocomponente del grafo non abbia una ciclicità
      * @return 
      */
@@ -61,29 +82,6 @@ public class GestoreGrafo {
                 return true;
         
         return false;
-    }
-
-    public void addArchiSenzaInserireCicli(ArrayList<Arco> pArchi) {
-        this.grafo.addArchi(pArchi);
-
-        if (ciclo(grafo)) {
-            this.grafo.rimuoviArchi(pArchi);
-
-            if (pArchi.size() > 1) {
-                ArrayList<Arco> primaMetaListaArchi = new ArrayList<>();
-                ArrayList<Arco> secondaMetaListaArchi = new ArrayList<>();
-
-                for (int i = 0; i < (pArchi.size() / 2); i++) {
-                    primaMetaListaArchi.add(pArchi.get(i));
-                }
-                for (int i = (pArchi.size() / 2); i < pArchi.size(); i++) {
-                    secondaMetaListaArchi.add(pArchi.get(i));
-                }
-
-                this.addArchiSenzaInserireCicli(primaMetaListaArchi);
-                this.addArchiSenzaInserireCicli(secondaMetaListaArchi);
-            }
-        }
     }
     
     private ArrayList<Grafo> getComponentiConnesse() {

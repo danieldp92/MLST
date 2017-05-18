@@ -1,6 +1,7 @@
 package gestore;
 
 import graph.Arco;
+import graph.Colore;
 import graph.Grafo;
 import graph.Nodo;
 import java.util.Iterator;
@@ -43,9 +44,9 @@ public class InfoGrafo {
     public void stampaColori() {
         System.out.println("___________Colori___________");
 
-        for (Iterator<Integer> iterator = grafo.getColori().iterator(); iterator.hasNext();) {
-            Integer colore = iterator.next();
-            System.out.format("Colore: %d\n", colore);
+        for (Iterator<Colore> iterator = grafo.getColori().iterator(); iterator.hasNext();) {
+            Colore colore = iterator.next();
+            System.out.format("Colore: %d\n", colore.getColore());
         }
 
         System.out.println();

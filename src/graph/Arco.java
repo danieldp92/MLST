@@ -48,31 +48,6 @@ public class Arco {
         this.colori.remove(Integer.valueOf(pColore));
     }
 
-    /*
-    private ArrayList<Integer> randomColors () {
-        boolean atLeastOneColor = false;
-        double random = 0;
-        ArrayList<Integer> randomColorList = new ArrayList<>();
-
-        for (int i = 0; i < this.numColori); i++) {
-            random = Math.random();
-
-            if (random < 0.5) {
-                randomColorList.add(0);
-            } else {
-                randomColorList.add(1);
-                atLeastOneColor = true;
-            }
-        }
-
-        if (!atLeastOneColor) {
-            int indexToChange = (int) (Math.random() * this.numColori);
-            randomColorList.set(indexToChange, 1);
-        }
-
-        return randomColorList;
-    }
-     */
     @Override
     public int hashCode() {
         int hash = 7;

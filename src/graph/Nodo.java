@@ -12,11 +12,13 @@ public class Nodo {
     int chiave;
     ArrayList<Nodo> adiacenti;
     ArrayList<Arco> incidenti;
+    int componenteDiRiferimento;
 
     public Nodo(int pChiave) {
         this.chiave = pChiave;
         this.adiacenti = new ArrayList<>();
         this.incidenti = new ArrayList<>();
+        this.componenteDiRiferimento = pChiave;
     }
 
     public int getChiave() {
@@ -55,6 +57,14 @@ public class Nodo {
         if (this.incidenti.contains(pArco)) {
             this.incidenti.remove(pArco);
         }
+    }
+
+    public int getComponenteDiRiferimento() {
+        return componenteDiRiferimento;
+    }
+
+    public void setComponenteDiRiferimento(int componenteDiRiferimento) {
+        this.componenteDiRiferimento = componenteDiRiferimento;
     }
 
     @Override
