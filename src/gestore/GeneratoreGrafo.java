@@ -1,6 +1,7 @@
 package gestore;
 
 import graph.Arco;
+import graph.Colore;
 import graph.Grafo;
 import graph.Nodo;
 import java.io.BufferedReader;
@@ -29,7 +30,7 @@ public class GeneratoreGrafo {
     public static Grafo generaGrafo(File pGrafo) {
         ArrayList<Nodo> nodi = new ArrayList<>();
         ArrayList<Arco> archi = new ArrayList<>();
-        Set<Integer> coloriGrafo = new HashSet<>();
+        ArrayList<Colore> colori = new ArrayList<>();
 
         Nodo primoNodo;
         Nodo secondoNodo;
@@ -58,6 +59,11 @@ public class GeneratoreGrafo {
                 for (int j = 0; j < numeroNodi; j++) {
                     nodi.add(new Nodo(j));
                 }
+                
+                //Colori
+                int numColori = Integer.parseInt(line[2]) + 1;
+                for (int j = 0; j < numColori; j++)
+                    colori.add(new Colore(j));
 
             } else {
                 primoNodo = nodi.get(Integer.parseInt(line[0]));
@@ -65,9 +71,10 @@ public class GeneratoreGrafo {
 
                 for (int j = 2; j < line.length; j++) {
                     int colore = Integer.parseInt(line[j]);
-                    coloriGrafo.add(colore);
                     coloriArco.add(colore);
+                    colori.get(colore).addIndiceArcoCollegato(i-1);
                 }
+                
                 Arco arco = new Arco(primoNodo, secondoNodo, new ArrayList(coloriArco));
                 archi.add(arco);
                 coloriArco.clear();
@@ -78,6 +85,6 @@ public class GeneratoreGrafo {
                 secondoNodo.addNodoAdiacente(primoNodo);
             }
         }
-        return new Grafo(nodi, archi, coloriGrafo);
+        return new Grafo(nodi, archi, colori);
     }
 }

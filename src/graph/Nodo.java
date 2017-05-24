@@ -12,11 +12,13 @@ public class Nodo {
     int chiave;
     ArrayList<Nodo> adiacenti;
     ArrayList<Arco> incidenti;
+    int componenteDiRiferimento;
 
     public Nodo(int pChiave) {
         this.chiave = pChiave;
         this.adiacenti = new ArrayList<>();
         this.incidenti = new ArrayList<>();
+        this.componenteDiRiferimento = pChiave;
     }
 
     public int getChiave() {
@@ -27,20 +29,25 @@ public class Nodo {
         return adiacenti;
     }
 
-    public ArrayList<Arco> getIncidenti() {
-        return incidenti;
-    }
+    public ArrayList<Nodo> getAdiacenti(Integer pColore) {
 
-    public ArrayList<Arco> getIncidenti(int pColore) {
-        ArrayList<Arco> incidentiColorati = new ArrayList<>();
+        ArrayList<Nodo> nodi = new ArrayList();
 
-        for (Arco arco : incidenti) {
-            if (arco.getColori().contains(pColore)) {
-                incidentiColorati.add(arco);
+        for (Nodo adiacente : adiacenti) {
+            for (Arco arco : incidenti) {
+                if (!arco.getDa().equals(adiacente) && arco.getColori().contains(pColore)) {
+                    nodi.add(adiacente);
+                } else if (arco.getColori().contains(pColore)) {
+                    nodi.add(adiacente);
+                }
             }
         }
 
-        return incidentiColorati;
+        return nodi;
+    }
+
+    public ArrayList<Arco> getIncidenti() {
+        return incidenti;
     }
 
     public void setChiave(int chiave) {
@@ -67,6 +74,14 @@ public class Nodo {
         if (this.incidenti.contains(pArco)) {
             this.incidenti.remove(pArco);
         }
+    }
+
+    public int getComponenteDiRiferimento() {
+        return componenteDiRiferimento;
+    }
+
+    public void setComponenteDiRiferimento(int componenteDiRiferimento) {
+        this.componenteDiRiferimento = componenteDiRiferimento;
     }
 
     @Override
