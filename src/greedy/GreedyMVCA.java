@@ -2,10 +2,10 @@ package greedy;
 
 import gestore.GestoreGrafo;
 import gestore.Ricerca;
-import graph.Arco;
-import graph.Colore;
-import graph.Grafo;
-import graph.MLST;
+import grafo.Arco;
+import grafo.Colore;
+import grafo.GrafoColorato;
+import grafo.MLST;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -15,16 +15,16 @@ import java.util.HashSet;
  */
 public class GreedyMVCA {
 
-    Grafo grafo;
+    GrafoColorato grafo;
 
-    public GreedyMVCA(Grafo pGrafo) {
+    public GreedyMVCA(GrafoColorato pGrafo) {
         this.grafo = pGrafo;
     }
 
     public MLST esegui() {
         boolean[] colori = new boolean[this.grafo.getColori().size()];
 
-        //Grafo mlst = new Grafo(this.grafo.getNodi());
+        //Grafo mlst = new GrafoColorato(this.grafo.getNodi());
         //MLST mlst = new MLST(this.grafo.getCopiaNodi(), this.grafo.getColori().size());
         MLST mlst = new MLST(this.grafo.getNodi(), this.grafo.getColori().size());
         GestoreGrafo gestoreMlst = new GestoreGrafo(mlst);
@@ -46,7 +46,7 @@ public class GreedyMVCA {
         HashSet<Colore> coloriTotali = new HashSet(this.grafo.getColori());
 
         do {
-            ArrayList<Grafo> componenti = new ArrayList();
+            ArrayList<GrafoColorato> componenti = new ArrayList();
             //trova sottografi con colore c
             int cstar = -1;
 
@@ -55,15 +55,15 @@ public class GreedyMVCA {
             for (Colore colore : coloriTotali) {
                 //if (!mlst.getColori().contains(colore)) {
                 long inizio2 = System.currentTimeMillis();
-                if (!colori[colore.getColore()]) {
-                    ArrayList<Grafo> componentiConnesse = gestoreMlst.getComponentiConnesse(colore);
+                if (!colori[colore.getId()]) {
+                    ArrayList<GrafoColorato> componentiConnesse = gestoreMlst.getComponentiConnesse(colore);
 
                     if (componenti.isEmpty()) {
                         componenti = componentiConnesse;
-                        cstar = colore.getColore();
+                        cstar = colore.getId();
                     } else if (componenti.size() > componentiConnesse.size()) {
                         componenti = componentiConnesse;    //Minor numero di componenti
-                        cstar = colore.getColore();
+                        cstar = colore.getId();
                     }
                 }
                 media += (System.currentTimeMillis() - inizio2);

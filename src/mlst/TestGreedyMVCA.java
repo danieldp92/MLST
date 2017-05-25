@@ -7,9 +7,9 @@ package mlst;
 
 import gestore.GeneratoreGrafo;
 import gestore.GestoreGrafo;
-import graph.Colore;
-import graph.Grafo;
-import graph.MLST;
+import grafo.Colore;
+import grafo.GrafoColorato;
+import grafo.MLST;
 import greedy.GreedyMVCA;
 import java.io.File;
 
@@ -26,7 +26,7 @@ public class TestGreedyMVCA {
 
         //for (int i = 0; i < 50; i++) {
            
-            Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/1000_8000_1000_125_1.mlst"));
+            GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/1000_8000_1000_125_1.mlst"));
 
             
             GreedyMVCA greedy = new GreedyMVCA(grafo);
@@ -39,7 +39,7 @@ public class TestGreedyMVCA {
             System.out.println("Connesso: " + gestore.connesso());
             //System.out.println("Numero colori: " + mlst.getColori().size());
             System.out.println("Numero colori: " + mlst.getNumeroColori());
-            System.out.println("Tempo esecuzione greey: " + tempoEsecuzione+"ms.");
+            System.out.println("Tempo esecuzione greedy: " + tempoEsecuzione+"ms.");
             /*for(Colore c : mlst.getColori()){
         System.out.println(c.getColore());
         }*/

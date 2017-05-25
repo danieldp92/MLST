@@ -1,24 +1,23 @@
 package gestore;
 
-import graph.Colore;
-import graph.Grafo;
-import graph.Nodo;
+import grafo.Colore;
+import grafo.GrafoColorato;
+import grafo.Nodo;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
 /**
- * Questa classe permette di effettuare ricerche sul grafo <<<<<<< HEAD @a
+ * Questa classe permette di effettuare ricerche sul grafo
  *
- *
- * uthor Stefano Dalla Palma
+ * Author Stefano Dalla Palma
  */
 public class Ricerca {
 
-    private Grafo grafo;
+    private GrafoColorato grafo;
 
-    public Ricerca(Grafo pGrafo) {
+    public Ricerca(GrafoColorato pGrafo) {
         this.grafo = pGrafo;
     }
 

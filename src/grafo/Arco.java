@@ -1,12 +1,12 @@
-package graph;
+package grafo;
 
 import java.util.ArrayList;
 import java.util.Objects;
 
 public class Arco {
 
-    Nodo da, a;
-    ArrayList<Integer> colori;
+    private Nodo da, a;
+    private ArrayList<Integer> colori;
 
     public Arco(Nodo da, Nodo a) {
         this.da = da;
@@ -66,13 +66,29 @@ public class Arco {
             return false;
         }
         final Arco other = (Arco) obj;
-        if (!Objects.equals(this.da, other.da)) {
+
+        if (Objects.equals(this.da, other.da) && !Objects.equals(this.a, other.a)) {
             return false;
         }
-        if (!Objects.equals(this.a, other.a)) {
+
+        if (!Objects.equals(this.da, other.da) && Objects.equals(this.a, other.a)) {
             return false;
         }
-       
+
+        /* if (Objects.equals(this.da, other.da) && Objects.equals(this.a, other.a)) {
+        return true;
+        }
+        if (Objects.equals(this.da, other.a) && Objects.equals(this.a, other.da)) {
+        return true;
+        }*/
+
         return true;
     }
+
+    @Override
+    public String toString() {
+        return "Arco{" + "da=" + da.getChiave() + ", a=" + a.getChiave() + ", colori=" + colori.toString() + '}';
+    }
+    
+    
 }

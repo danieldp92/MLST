@@ -1,9 +1,9 @@
 package gestore;
 
-import graph.Arco;
-import graph.Colore;
-import graph.Grafo;
-import graph.Nodo;
+import grafo.Arco;
+import grafo.Colore;
+import grafo.GrafoColorato;
+import grafo.Nodo;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -24,10 +24,10 @@ public class GeneratoreGrafo {
     /**
      * Genera un grafo dato in input un file di nodi archi colori
      *
-     * @param pGrafo il File contente le istruzioni per la costruzione del Grafo
-     * @return un Grafo
+     * @param pGrafo il File contente le istruzioni per la costruzione del GrafoColorato
+     * @return un GrafoColorato
      */
-    public static Grafo generaGrafo(File pGrafo) {
+    public static GrafoColorato generaGrafo(File pGrafo) {
         ArrayList<Nodo> nodi = new ArrayList<>();
         ArrayList<Arco> archi = new ArrayList<>();
         ArrayList<Colore> colori = new ArrayList<>();
@@ -85,6 +85,6 @@ public class GeneratoreGrafo {
                 secondoNodo.addNodoAdiacente(primoNodo);
             }
         }
-        return new Grafo(nodi, archi, colori);
+        return new GrafoColorato(nodi, archi, colori);
     }
 }
