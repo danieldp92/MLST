@@ -45,18 +45,16 @@ public class GestoreGrafo {
 
     /**
      * Controllo della ciclicità, senza controllare le sottocomponenti
-     * @return 
+     *
+     * @return
      */
     public boolean ciclo() {
         return connesso() && grafo.getArchi().size() != grafo.dimensione() - 1;
     }
 
     public void addArcoSenzaInserireCicli(Arco pArco) {
-        int componenteDiRiferimentoNodo1 = 0;
-        int componenteDiRiferimentoNodo2 = 0;
-
-        componenteDiRiferimentoNodo1 = this.grafo.getNodo(pArco.getDa().getChiave()).getComponenteDiRiferimento();
-        componenteDiRiferimentoNodo2 = this.grafo.getNodo(pArco.getA().getChiave()).getComponenteDiRiferimento();
+        int componenteDiRiferimentoNodo1 = this.grafo.getNodo(pArco.getDa().getChiave()).getComponenteDiRiferimento();
+        int componenteDiRiferimentoNodo2 = this.grafo.getNodo(pArco.getA().getChiave()).getComponenteDiRiferimento();
 
         //Se l'arco non genera cicli
         if (componenteDiRiferimentoNodo1 != componenteDiRiferimentoNodo2) {
@@ -68,23 +66,25 @@ public class GestoreGrafo {
                 }
             }
         }
-
     }
-    
-    
+
     /**
-     * Controllo della ciclicità, controllando che ogni sottocomponente del grafo non abbia una ciclicità
-     * @return 
+     * Controllo della ciclicità, controllando che ogni sottocomponente del
+     * grafo non abbia una ciclicità
+     *
+     * @return
      */
     public boolean ciclo(Grafo pGrafo) {
         ArrayList<Grafo> listaSottografi = getComponentiConnesse();
-        for (Grafo g : listaSottografi)
-            if (g.getArchi().size() >= g.dimensione())
+        for (Grafo g : listaSottografi) {
+            if (g.getArchi().size() >= g.dimensione()) {
                 return true;
-        
+            }
+        }
+
         return false;
     }
-    
+
     public ArrayList<Grafo> getComponentiConnesse() {
         ArrayList<Grafo> listaSottografi = new ArrayList<>();
 
@@ -110,26 +110,22 @@ public class GestoreGrafo {
                 }
             }
             listaArchiSottografo = this.grafo.getArchi(listaNodiSottografo);
-            
+
             listaSottografi.add(new Grafo(listaNodiSottografo, listaArchiSottografo));
         }
 
         return listaSottografi;
     }
-    
-    
-    public ArrayList<Grafo> getComponentiConnesse(Integer pColore) {
+
+    public ArrayList<Grafo> getComponentiConnesse(Colore pColore) {
         ArrayList<Grafo> listaSottografi = new ArrayList<>();
 
         int indicePrimoNodoDelSottografo = -1;
 
         boolean[] nodiVisitati = new boolean[this.grafo.dimensione()];
-        for (int i = 0; i < this.grafo.dimensione(); i++) {
-            nodiVisitati[i] = false;
-        }
 
         while ((indicePrimoNodoDelSottografo = getIndicePrimoFalse(nodiVisitati)) != -1) {
-            boolean[] nodiSottografoVisitati = this.ricerca.bfsArray(this.grafo.getNodo(indicePrimoNodoDelSottografo));
+            boolean[] nodiSottografoVisitati = this.ricerca.bfsArray(this.grafo.getNodo(indicePrimoNodoDelSottografo), pColore);
 
             ArrayList<Nodo> listaNodiSottografo = new ArrayList<>();
             ArrayList<Arco> listaArchiSottografo = null;
@@ -143,7 +139,7 @@ public class GestoreGrafo {
                 }
             }
             listaArchiSottografo = this.grafo.getArchi(listaNodiSottografo);
-            
+
             listaSottografi.add(new Grafo(listaNodiSottografo, listaArchiSottografo));
         }
 

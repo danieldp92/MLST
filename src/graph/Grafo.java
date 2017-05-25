@@ -47,8 +47,13 @@ public class Grafo {
         this.nodi = pNodi;
         this.archi = pArchi;
         this.colori = new ArrayList<>();
-        for(Arco arco:archi){
-            colori.add(arco.getColori());
+        for (Arco arco : archi) {
+            for (int colore : arco.getColori()) {
+                Colore c = new Colore(colore);
+                if (!colori.contains(c)) {
+                    colori.add(c);
+                }
+            }
         }
     }
 
@@ -111,6 +116,14 @@ public class Grafo {
         return nodi;
     }
 
+    public ArrayList<Nodo> getCopiaNodi() {
+        ArrayList<Nodo> copiaNodi = new ArrayList();
+        for (Nodo nodo : this.nodi) {
+            copiaNodi.add(new Nodo(nodo.getChiave()));
+        }
+        return copiaNodi;
+    }
+
     public Arco getArco(Nodo pNodoDa, Nodo pNodoA) {
         Arco arco = null;
 
@@ -156,6 +169,10 @@ public class Grafo {
         return colori;
     }
 
+    public void addColore(Colore pColore) {
+        this.colori.add(pColore);
+    }
+
     /**
      * Questo metodo restituisce la lista dei colori utilizzati nel grafo
      *
@@ -198,10 +215,17 @@ public class Grafo {
         getNodo(pArco.getA().getChiave()).addNodoAdiacente(getNodo(pArco.getDa().getChiave()));
         getNodo(pArco.getA().getChiave()).addArcoIncidente(pArco);
 
-        for (int colore : pArco.getColori()) {
+        //PROVA STEFANO
+        /*for (int colore : pArco.getColori()) {
+            Colore c = new Colore(colore);
+            if (!colori.contains(c)) {
+                colori.add(c);
+            }
+        }*/
+        ////FINE PROVA
+        /*for (int colore : pArco.getColori()) {
             this.colori.get(colore).addIndiceArcoCollegato(this.archi.size() - 1);
-        }
-
+        }*/
     }
 
     public void addNodi(ArrayList<Nodo> pNodi) {

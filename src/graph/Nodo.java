@@ -29,16 +29,20 @@ public class Nodo {
         return adiacenti;
     }
 
-    public ArrayList<Nodo> getAdiacenti(Integer pColore) {
+    public ArrayList<Nodo> getAdiacentiPerColore(Colore pColore) {
 
         ArrayList<Nodo> nodi = new ArrayList();
 
-        for (Nodo adiacente : adiacenti) {
-            for (Arco arco : incidenti) {
-                if (!arco.getDa().equals(adiacente) && arco.getColori().contains(pColore)) {
-                    nodi.add(adiacente);
-                } else if (arco.getColori().contains(pColore)) {
-                    nodi.add(adiacente);
+        ArrayList<Integer> indiciArchiCollegati = pColore.getIndiciArchiCollegati();
+
+        for (int indice : indiciArchiCollegati) {
+            if (indice < incidenti.size()) {
+
+                Arco arco = incidenti.get(indice);
+                if (arco.getDa().equals(this)) {
+                    nodi.add(arco.getA());
+                } else if (arco.getA().equals(this)) {
+                    nodi.add(arco.getDa());
                 }
             }
         }

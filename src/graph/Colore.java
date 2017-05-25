@@ -27,7 +27,7 @@ public class Colore {
     public void setColore(int colore) {
         this.colore = colore;
     }
-
+  
     public ArrayList<Integer> getIndiciArchiCollegati() {
         return indiciArchiCollegati;
     }
@@ -46,6 +46,33 @@ public class Colore {
         
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 47 * hash + this.colore;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Colore other = (Colore) obj;
+        if (this.colore != other.colore) {
+            return false;
+        }
+        return true;
+    }
+    
+    
     
     
 }
