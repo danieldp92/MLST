@@ -1,8 +1,8 @@
 package gestore;
 
-import graph.Arco;
-import graph.Grafo;
-import graph.Nodo;
+import grafo.Arco;
+import grafo.Grafo;
+import grafo.Nodo;
 import java.util.ArrayList;
 
 /**
@@ -50,7 +50,7 @@ public class GestoreGrafo {
         return connesso() && grafo.getArchi().size() != grafo.dimensione() - 1;
     }
 
-    public void addArcoSenzaInserireCicli(Arco pArco) {
+    public boolean addArcoSenzaInserireCicli(int indiceArco, Arco pArco) {
         int componenteDiRiferimentoNodo1 = 0;
         int componenteDiRiferimentoNodo2 = 0;
 
@@ -59,15 +59,18 @@ public class GestoreGrafo {
 
         //Se l'arco non genera cicli
         if (componenteDiRiferimentoNodo1 != componenteDiRiferimentoNodo2) {
-            this.grafo.addArco(pArco);
+            this.grafo.addArco(indiceArco, pArco);
 
             for (Nodo n : this.grafo.getNodi()) {
                 if (n.getComponenteDiRiferimento() == componenteDiRiferimentoNodo2) {
                     n.setComponenteDiRiferimento(componenteDiRiferimentoNodo1);
                 }
             }
+            
+            return true;
         }
 
+        return false;
     }
     
     
@@ -75,6 +78,7 @@ public class GestoreGrafo {
      * Controllo della ciclicità, controllando che ogni sottocomponente del grafo non abbia una ciclicità
      * @return 
      */
+    /*AGGIORNAMENTO HASHMAP
     public boolean ciclo(Grafo pGrafo) {
         ArrayList<Grafo> listaSottografi = getComponentiConnesse();
         for (Grafo g : listaSottografi)
@@ -83,6 +87,7 @@ public class GestoreGrafo {
         
         return false;
     }
+    
     
     private ArrayList<Grafo> getComponentiConnesse() {
         ArrayList<Grafo> listaSottografi = new ArrayList<>();
@@ -114,7 +119,7 @@ public class GestoreGrafo {
         }
 
         return listaSottografi;
-    }
+    }*/
 
     private int getIndicePrimoFalse(boolean[] pLista) {
         for (int i = 0; i < pLista.length; i++) {

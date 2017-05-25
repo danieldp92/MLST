@@ -1,4 +1,4 @@
-package graph;
+package grafo;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -38,6 +38,10 @@ public class Arco {
 
     public ArrayList<Integer> getColori() {
         return colori;
+    }
+    
+    public void addColore (int colore) {
+        this.colori.add(colore);
     }
 
     public void setColori(ArrayList<Integer> colori) {

@@ -2,9 +2,9 @@
 Grafo: 50_200_50_13_1.mlst
 #############################
 
-Tempo di esecuzione: 0,007s
-Numero Iterate: 80
-Colori usati: 33
+Tempo di esecuzione: 0,031s
+Numero Iterate: 54
+Colori usati: 28
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -13,9 +13,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_200_50_13_2.mlst
 #############################
 
-Tempo di esecuzione: 0,004s
-Numero Iterate: 68
-Colori usati: 34
+Tempo di esecuzione: 0,005s
+Numero Iterate: 58
+Colori usati: 30
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -24,9 +24,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_200_50_13_3.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 72
-Colori usati: 32
+Tempo di esecuzione: 0,003s
+Numero Iterate: 54
+Colori usati: 28
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -35,9 +35,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_200_50_13_4.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 72
-Colori usati: 31
+Tempo di esecuzione: 0,004s
+Numero Iterate: 58
+Colori usati: 30
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -47,8 +47,8 @@ Grafo: 50_200_50_13_5.mlst
 #############################
 
 Tempo di esecuzione: 0,002s
-Numero Iterate: 62
-Colori usati: 32
+Numero Iterate: 58
+Colori usati: 30
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -57,9 +57,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_200_50_13_6.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 58
-Colori usati: 30
+Tempo di esecuzione: 0,003s
+Numero Iterate: 52
+Colori usati: 27
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -68,8 +68,8 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_200_50_13_7.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 70
+Tempo di esecuzione: 0,003s
+Numero Iterate: 57
 Colori usati: 30
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
@@ -79,9 +79,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_200_50_13_8.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 62
-Colori usati: 32
+Tempo di esecuzione: 0,002s
+Numero Iterate: 58
+Colori usati: 30
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -90,9 +90,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_200_50_13_9.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 76
-Colori usati: 31
+Tempo di esecuzione: 0,002s
+Numero Iterate: 54
+Colori usati: 28
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -102,8 +102,8 @@ Grafo: 50_200_50_13_10.mlst
 #############################
 
 Tempo di esecuzione: 0,001s
-Numero Iterate: 74
-Colori usati: 29
+Numero Iterate: 54
+Colori usati: 28
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -112,9 +112,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_1000_50_3_1.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 40
-Colori usati: 19
+Tempo di esecuzione: 0,004s
+Numero Iterate: 32
+Colori usati: 17
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -123,7 +123,7 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_1000_50_3_2.mlst
 #############################
 
-Tempo di esecuzione: 0,003s
+Tempo di esecuzione: 0,005s
 Numero Iterate: 34
 Colori usati: 18
 Media tempo iterata: 0,000s
@@ -134,9 +134,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_1000_50_3_3.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 42
-Colori usati: 20
+Tempo di esecuzione: 0,004s
+Numero Iterate: 34
+Colori usati: 18
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -145,7 +145,7 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_1000_50_3_4.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
+Tempo di esecuzione: 0,004s
 Numero Iterate: 34
 Colori usati: 18
 Media tempo iterata: 0,000s
@@ -156,9 +156,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_1000_50_3_5.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 38
-Colori usati: 20
+Tempo di esecuzione: 0,003s
+Numero Iterate: 34
+Colori usati: 18
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -167,9 +167,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_1000_50_3_6.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 44
-Colori usati: 22
+Tempo di esecuzione: 0,005s
+Numero Iterate: 34
+Colori usati: 18
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -178,9 +178,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_1000_50_3_7.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 36
-Colori usati: 19
+Tempo di esecuzione: 0,006s
+Numero Iterate: 34
+Colori usati: 18
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -189,9 +189,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_1000_50_3_8.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 46
-Colori usati: 22
+Tempo di esecuzione: 0,004s
+Numero Iterate: 34
+Colori usati: 18
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -200,9 +200,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_1000_50_3_9.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 46
-Colori usati: 20
+Tempo di esecuzione: 0,004s
+Numero Iterate: 34
+Colori usati: 18
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -211,9 +211,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 50_1000_50_3_10.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 40
-Colori usati: 20
+Tempo di esecuzione: 0,006s
+Numero Iterate: 32
+Colori usati: 17
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -222,9 +222,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_400_100_25_1.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 142
-Colori usati: 65
+Tempo di esecuzione: 0,003s
+Numero Iterate: 112
+Colori usati: 57
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -233,9 +233,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_400_100_25_2.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 172
-Colori usati: 67
+Tempo di esecuzione: 0,003s
+Numero Iterate: 118
+Colori usati: 60
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -244,9 +244,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_400_100_25_3.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 129
-Colori usati: 64
+Tempo di esecuzione: 0,002s
+Numero Iterate: 113
+Colori usati: 58
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -255,9 +255,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_400_100_25_4.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 153
-Colori usati: 62
+Tempo di esecuzione: 0,002s
+Numero Iterate: 114
+Colori usati: 59
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -266,9 +266,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_400_100_25_5.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 121
-Colori usati: 61
+Tempo di esecuzione: 0,002s
+Numero Iterate: 111
+Colori usati: 57
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -278,8 +278,8 @@ Grafo: 100_400_100_25_6.mlst
 #############################
 
 Tempo di esecuzione: 0,002s
-Numero Iterate: 147
-Colori usati: 67
+Numero Iterate: 111
+Colori usati: 57
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -288,9 +288,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_400_100_25_7.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 136
-Colori usati: 61
+Tempo di esecuzione: 0,001s
+Numero Iterate: 106
+Colori usati: 54
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -299,9 +299,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_400_100_25_8.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 155
-Colori usati: 68
+Tempo di esecuzione: 0,003s
+Numero Iterate: 114
+Colori usati: 59
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -310,9 +310,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_400_100_25_9.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 154
-Colori usati: 59
+Tempo di esecuzione: 0,003s
+Numero Iterate: 112
+Colori usati: 57
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -321,9 +321,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_400_100_25_10.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 145
-Colori usati: 66
+Tempo di esecuzione: 0,002s
+Numero Iterate: 120
+Colori usati: 62
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -332,9 +332,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_800_100_13_1.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 126
-Colori usati: 50
+Tempo di esecuzione: 0,002s
+Numero Iterate: 88
+Colori usati: 45
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -343,9 +343,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_800_100_13_2.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 124
-Colori usati: 52
+Tempo di esecuzione: 0,003s
+Numero Iterate: 92
+Colori usati: 47
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -354,9 +354,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_800_100_13_3.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 122
-Colori usati: 51
+Tempo di esecuzione: 0,002s
+Numero Iterate: 94
+Colori usati: 48
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -365,9 +365,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_800_100_13_4.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 114
-Colori usati: 51
+Tempo di esecuzione: 0,002s
+Numero Iterate: 88
+Colori usati: 45
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -376,9 +376,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_800_100_13_5.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 142
-Colori usati: 54
+Tempo di esecuzione: 0,004s
+Numero Iterate: 92
+Colori usati: 47
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -387,9 +387,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_1000_100_10_1.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 108
-Colori usati: 48
+Tempo di esecuzione: 0,002s
+Numero Iterate: 84
+Colori usati: 43
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -399,8 +399,8 @@ Grafo: 100_1000_100_10_2.mlst
 #############################
 
 Tempo di esecuzione: 0,002s
-Numero Iterate: 124
-Colori usati: 50
+Numero Iterate: 82
+Colori usati: 42
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -409,9 +409,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_1000_100_10_3.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 116
-Colori usati: 50
+Tempo di esecuzione: 0,004s
+Numero Iterate: 84
+Colori usati: 43
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -420,9 +420,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_1000_100_10_4.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 104
-Colori usati: 48
+Tempo di esecuzione: 0,004s
+Numero Iterate: 82
+Colori usati: 42
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -431,9 +431,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_1000_100_10_5.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 98
-Colori usati: 46
+Tempo di esecuzione: 0,004s
+Numero Iterate: 84
+Colori usati: 43
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -443,8 +443,8 @@ Grafo: 100_1000_100_10_6.mlst
 #############################
 
 Tempo di esecuzione: 0,002s
-Numero Iterate: 116
-Colori usati: 52
+Numero Iterate: 88
+Colori usati: 45
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -454,8 +454,8 @@ Grafo: 100_1000_100_10_7.mlst
 #############################
 
 Tempo di esecuzione: 0,002s
-Numero Iterate: 124
-Colori usati: 49
+Numero Iterate: 82
+Colori usati: 42
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -464,9 +464,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_1000_100_10_8.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 104
-Colori usati: 48
+Tempo di esecuzione: 0,002s
+Numero Iterate: 84
+Colori usati: 43
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -475,9 +475,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_1000_100_10_9.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 102
-Colori usati: 48
+Tempo di esecuzione: 0,002s
+Numero Iterate: 84
+Colori usati: 43
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -487,8 +487,8 @@ Grafo: 100_1000_100_10_10.mlst
 #############################
 
 Tempo di esecuzione: 0,002s
-Numero Iterate: 96
-Colori usati: 46
+Numero Iterate: 78
+Colori usati: 40
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -497,9 +497,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_2000_100_5_1.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 78
-Colori usati: 39
+Tempo di esecuzione: 0,003s
+Numero Iterate: 68
+Colori usati: 35
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -508,9 +508,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_2000_100_5_2.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 92
-Colori usati: 39
+Tempo di esecuzione: 0,004s
+Numero Iterate: 70
+Colori usati: 36
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -519,9 +519,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_2000_100_5_3.mlst
 #############################
 
-Tempo di esecuzione: 0,003s
-Numero Iterate: 90
-Colori usati: 40
+Tempo di esecuzione: 0,004s
+Numero Iterate: 66
+Colori usati: 34
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -530,9 +530,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_2000_100_5_4.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 86
-Colori usati: 39
+Tempo di esecuzione: 0,003s
+Numero Iterate: 64
+Colori usati: 33
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -541,9 +541,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_2000_100_5_5.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 74
-Colori usati: 37
+Tempo di esecuzione: 0,003s
+Numero Iterate: 68
+Colori usati: 35
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -552,9 +552,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_2000_100_5_6.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 100
-Colori usati: 42
+Tempo di esecuzione: 0,003s
+Numero Iterate: 70
+Colori usati: 36
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -563,9 +563,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_2000_100_5_7.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 76
-Colori usati: 36
+Tempo di esecuzione: 0,003s
+Numero Iterate: 66
+Colori usati: 34
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -575,8 +575,8 @@ Grafo: 100_2000_100_5_8.mlst
 #############################
 
 Tempo di esecuzione: 0,003s
-Numero Iterate: 72
-Colori usati: 36
+Numero Iterate: 62
+Colori usati: 32
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -585,9 +585,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_2000_100_5_9.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 80
-Colori usati: 40
+Tempo di esecuzione: 0,003s
+Numero Iterate: 66
+Colori usati: 34
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -596,9 +596,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_2000_100_5_10.mlst
 #############################
 
-Tempo di esecuzione: 0,001s
-Numero Iterate: 74
-Colori usati: 37
+Tempo di esecuzione: 0,003s
+Numero Iterate: 62
+Colori usati: 32
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -607,9 +607,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_3000_100_4_1.mlst
 #############################
 
-Tempo di esecuzione: 0,003s
-Numero Iterate: 68
-Colori usati: 33
+Tempo di esecuzione: 0,005s
+Numero Iterate: 60
+Colori usati: 31
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -618,9 +618,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_3000_100_4_2.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 72
-Colori usati: 36
+Tempo di esecuzione: 0,005s
+Numero Iterate: 56
+Colori usati: 29
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -629,9 +629,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_3000_100_4_3.mlst
 #############################
 
-Tempo di esecuzione: 0,003s
-Numero Iterate: 74
-Colori usati: 34
+Tempo di esecuzione: 0,005s
+Numero Iterate: 58
+Colori usati: 30
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -640,9 +640,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_3000_100_4_4.mlst
 #############################
 
-Tempo di esecuzione: 0,003s
-Numero Iterate: 76
-Colori usati: 33
+Tempo di esecuzione: 0,007s
+Numero Iterate: 60
+Colori usati: 31
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -651,9 +651,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_3000_100_4_5.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 68
-Colori usati: 33
+Tempo di esecuzione: 0,008s
+Numero Iterate: 60
+Colori usati: 31
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -662,9 +662,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_3000_100_4_6.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 76
-Colori usati: 34
+Tempo di esecuzione: 0,005s
+Numero Iterate: 58
+Colori usati: 30
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -673,9 +673,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_3000_100_4_7.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 70
-Colori usati: 34
+Tempo di esecuzione: 0,003s
+Numero Iterate: 58
+Colori usati: 30
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -684,9 +684,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_3000_100_4_8.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 80
-Colori usati: 35
+Tempo di esecuzione: 0,004s
+Numero Iterate: 62
+Colori usati: 32
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -695,9 +695,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_3000_100_4_9.mlst
 #############################
 
-Tempo di esecuzione: 0,002s
-Numero Iterate: 84
-Colori usati: 37
+Tempo di esecuzione: 0,004s
+Numero Iterate: 62
+Colori usati: 32
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -706,9 +706,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 100_3000_100_4_10.mlst
 #############################
 
-Tempo di esecuzione: 0,003s
-Numero Iterate: 92
-Colori usati: 35
+Tempo di esecuzione: 0,004s
+Numero Iterate: 58
+Colori usati: 30
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -717,9 +717,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 500_2000_500_125_1.mlst
 #############################
 
-Tempo di esecuzione: 0,013s
-Numero Iterate: 870
-Colori usati: 324
+Tempo di esecuzione: 0,018s
+Numero Iterate: 584
+Colori usati: 296
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -728,9 +728,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 500_2000_500_125_2.mlst
 #############################
 
-Tempo di esecuzione: 0,014s
-Numero Iterate: 943
-Colori usati: 332
+Tempo di esecuzione: 0,015s
+Numero Iterate: 611
+Colori usati: 311
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -739,9 +739,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 500_2000_500_125_3.mlst
 #############################
 
-Tempo di esecuzione: 0,015s
-Numero Iterate: 883
-Colori usati: 322
+Tempo di esecuzione: 0,013s
+Numero Iterate: 580
+Colori usati: 294
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -750,9 +750,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 500_2000_500_125_4.mlst
 #############################
 
-Tempo di esecuzione: 0,015s
-Numero Iterate: 991
-Colori usati: 320
+Tempo di esecuzione: 0,014s
+Numero Iterate: 586
+Colori usati: 298
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -761,9 +761,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 500_2000_500_125_5.mlst
 #############################
 
-Tempo di esecuzione: 0,013s
-Numero Iterate: 839
-Colori usati: 318
+Tempo di esecuzione: 0,012s
+Numero Iterate: 581
+Colori usati: 294
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -772,9 +772,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 500_4000_500_63_1.mlst
 #############################
 
-Tempo di esecuzione: 0,021s
-Numero Iterate: 625
-Colori usati: 258
+Tempo di esecuzione: 0,019s
+Numero Iterate: 447
+Colori usati: 225
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -784,8 +784,8 @@ Grafo: 500_4000_500_63_2.mlst
 #############################
 
 Tempo di esecuzione: 0,020s
-Numero Iterate: 608
-Colori usati: 258
+Numero Iterate: 452
+Colori usati: 228
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -794,9 +794,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 500_4000_500_63_3.mlst
 #############################
 
-Tempo di esecuzione: 0,022s
-Numero Iterate: 629
-Colori usati: 259
+Tempo di esecuzione: 0,024s
+Numero Iterate: 454
+Colori usati: 229
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -805,9 +805,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 500_4000_500_63_4.mlst
 #############################
 
-Tempo di esecuzione: 0,021s
-Numero Iterate: 647
-Colori usati: 254
+Tempo di esecuzione: 0,023s
+Numero Iterate: 451
+Colori usati: 227
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -816,9 +816,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 500_4000_500_63_5.mlst
 #############################
 
-Tempo di esecuzione: 0,022s
-Numero Iterate: 659
-Colori usati: 252
+Tempo di esecuzione: 0,021s
+Numero Iterate: 447
+Colori usati: 225
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -827,9 +827,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 1000_4000_1000_250_1.mlst
 #############################
 
-Tempo di esecuzione: 0,057s
-Numero Iterate: 1756
-Colori usati: 624
+Tempo di esecuzione: 0,049s
+Numero Iterate: 1181
+Colori usati: 600
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -838,9 +838,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 1000_4000_1000_250_2.mlst
 #############################
 
-Tempo di esecuzione: 0,055s
-Numero Iterate: 1759
-Colori usati: 634
+Tempo di esecuzione: 0,050s
+Numero Iterate: 1172
+Colori usati: 597
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -849,9 +849,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 1000_4000_1000_250_3.mlst
 #############################
 
-Tempo di esecuzione: 0,065s
-Numero Iterate: 1901
-Colori usati: 639
+Tempo di esecuzione: 0,052s
+Numero Iterate: 1162
+Colori usati: 588
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -860,9 +860,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 1000_4000_1000_250_4.mlst
 #############################
 
-Tempo di esecuzione: 0,059s
-Numero Iterate: 1812
-Colori usati: 635
+Tempo di esecuzione: 0,050s
+Numero Iterate: 1155
+Colori usati: 585
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -871,9 +871,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 1000_4000_1000_250_5.mlst
 #############################
 
-Tempo di esecuzione: 0,056s
-Numero Iterate: 1750
-Colori usati: 644
+Tempo di esecuzione: 0,048s
+Numero Iterate: 1166
+Colori usati: 594
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -882,9 +882,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 1000_8000_1000_125_1.mlst
 #############################
 
-Tempo di esecuzione: 0,097s
-Numero Iterate: 1377
-Colori usati: 501
+Tempo di esecuzione: 0,080s
+Numero Iterate: 891
+Colori usati: 448
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -893,9 +893,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 1000_8000_1000_125_2.mlst
 #############################
 
-Tempo di esecuzione: 0,099s
-Numero Iterate: 1300
-Colori usati: 516
+Tempo di esecuzione: 0,078s
+Numero Iterate: 903
+Colori usati: 454
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -904,9 +904,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 1000_8000_1000_125_3.mlst
 #############################
 
-Tempo di esecuzione: 0,096s
-Numero Iterate: 1376
-Colori usati: 510
+Tempo di esecuzione: 0,073s
+Numero Iterate: 913
+Colori usati: 459
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -915,9 +915,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 1000_8000_1000_125_4.mlst
 #############################
 
-Tempo di esecuzione: 0,101s
-Numero Iterate: 1457
-Colori usati: 510
+Tempo di esecuzione: 0,074s
+Numero Iterate: 906
+Colori usati: 456
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -926,9 +926,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 1000_8000_1000_125_5.mlst
 #############################
 
-Tempo di esecuzione: 0,095s
-Numero Iterate: 1381
-Colori usati: 506
+Tempo di esecuzione: 0,075s
+Numero Iterate: 904
+Colori usati: 455
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -937,9 +937,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 10000_40000_10000_2500_1.mlst
 #############################
 
-Tempo di esecuzione: 8,260s
-Numero Iterate: 19760
-Colori usati: 6483
+Tempo di esecuzione: 6,179s
+Numero Iterate: 11764
+Colori usati: 5955
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -948,9 +948,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 10000_40000_10000_2500_2.mlst
 #############################
 
-Tempo di esecuzione: 8,411s
-Numero Iterate: 19466
-Colori usati: 6530
+Tempo di esecuzione: 6,437s
+Numero Iterate: 11781
+Colori usati: 5958
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -959,9 +959,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 10000_40000_10000_2500_3.mlst
 #############################
 
-Tempo di esecuzione: 7,812s
-Numero Iterate: 19376
-Colori usati: 6535
+Tempo di esecuzione: 6,252s
+Numero Iterate: 11806
+Colori usati: 5969
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -970,9 +970,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 10000_40000_10000_2500_4.mlst
 #############################
 
-Tempo di esecuzione: 7,898s
-Numero Iterate: 19151
-Colori usati: 6542
+Tempo di esecuzione: 6,345s
+Numero Iterate: 11796
+Colori usati: 5970
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -981,9 +981,9 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 10000_40000_10000_2500_5.mlst
 #############################
 
-Tempo di esecuzione: 7,673s
-Numero Iterate: 19681
-Colori usati: 6472
+Tempo di esecuzione: 6,445s
+Numero Iterate: 11802
+Colori usati: 5979
 Media tempo iterata: 0,000s
 Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
@@ -992,109 +992,109 @@ Media inserimento archi senza ciclo: 0,000s
 Grafo: 10000_80000_10000_1250_1.mlst
 #############################
 
-Tempo di esecuzione: 22,685s
-Numero Iterate: 17502
-Colori usati: 5150
+Tempo di esecuzione: 13,906s
+Numero Iterate: 9071
+Colori usati: 4558
 Media tempo iterata: 0,001s
-Media determinazione colore più ricorrente: 0,001s
+Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
 
 #############################
 Grafo: 10000_80000_10000_1250_2.mlst
 #############################
 
-Tempo di esecuzione: 22,009s
-Numero Iterate: 16536
-Colori usati: 5102
+Tempo di esecuzione: 13,168s
+Numero Iterate: 9035
+Colori usati: 4541
 Media tempo iterata: 0,001s
-Media determinazione colore più ricorrente: 0,001s
+Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
 
 #############################
 Grafo: 10000_80000_10000_1250_3.mlst
 #############################
 
-Tempo di esecuzione: 21,731s
-Numero Iterate: 16176
-Colori usati: 5126
+Tempo di esecuzione: 13,994s
+Numero Iterate: 9055
+Colori usati: 4550
 Media tempo iterata: 0,001s
-Media determinazione colore più ricorrente: 0,001s
+Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
 
 #############################
 Grafo: 10000_80000_10000_1250_4.mlst
 #############################
 
-Tempo di esecuzione: 21,186s
-Numero Iterate: 16417
-Colori usati: 5168
+Tempo di esecuzione: 13,191s
+Numero Iterate: 9071
+Colori usati: 4557
 Media tempo iterata: 0,001s
-Media determinazione colore più ricorrente: 0,001s
+Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
 
 #############################
 Grafo: 10000_80000_10000_1250_5.mlst
 #############################
 
-Tempo di esecuzione: 19,419s
-Numero Iterate: 15170
-Colori usati: 5145
+Tempo di esecuzione: 13,104s
+Numero Iterate: 9056
+Colori usati: 4551
 Media tempo iterata: 0,001s
-Media determinazione colore più ricorrente: 0,001s
+Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
 
 #############################
 Grafo: 10000_160000_10000_625_1.mlst
 #############################
 
-Tempo di esecuzione: 35,246s
-Numero Iterate: 12599
-Colori usati: 4084
-Media tempo iterata: 0,002s
-Media determinazione colore più ricorrente: 0,002s
+Tempo di esecuzione: 23,351s
+Numero Iterate: 7114
+Colori usati: 3566
+Media tempo iterata: 0,003s
+Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
 
 #############################
 Grafo: 10000_160000_10000_625_2.mlst
 #############################
 
-Tempo di esecuzione: 31,659s
-Numero Iterate: 11628
-Colori usati: 4103
-Media tempo iterata: 0,002s
-Media determinazione colore più ricorrente: 0,002s
+Tempo di esecuzione: 24,225s
+Numero Iterate: 7122
+Colori usati: 3568
+Media tempo iterata: 0,003s
+Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
 
 #############################
 Grafo: 10000_160000_10000_625_3.mlst
 #############################
 
-Tempo di esecuzione: 38,804s
-Numero Iterate: 13088
-Colori usati: 4106
-Media tempo iterata: 0,002s
-Media determinazione colore più ricorrente: 0,002s
+Tempo di esecuzione: 25,214s
+Numero Iterate: 7054
+Colori usati: 3537
+Media tempo iterata: 0,003s
+Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
 
 #############################
 Grafo: 10000_160000_10000_625_4.mlst
 #############################
 
-Tempo di esecuzione: 35,339s
-Numero Iterate: 11874
-Colori usati: 4048
-Media tempo iterata: 0,002s
-Media determinazione colore più ricorrente: 0,002s
+Tempo di esecuzione: 22,917s
+Numero Iterate: 7090
+Colori usati: 3553
+Media tempo iterata: 0,003s
+Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
 
 #############################
 Grafo: 10000_160000_10000_625_5.mlst
 #############################
 
-Tempo di esecuzione: 33,390s
-Numero Iterate: 11829
-Colori usati: 4096
-Media tempo iterata: 0,002s
-Media determinazione colore più ricorrente: 0,002s
+Tempo di esecuzione: 23,279s
+Numero Iterate: 7119
+Colori usati: 3568
+Media tempo iterata: 0,003s
+Media determinazione colore più ricorrente: 0,000s
 Media inserimento archi senza ciclo: 0,000s
 

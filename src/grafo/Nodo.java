@@ -3,22 +3,22 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package graph;
+package grafo;
 
 import java.util.ArrayList;
 
 public class Nodo {
 
     int chiave;
-    ArrayList<Nodo> adiacenti;
-    ArrayList<Arco> incidenti;
     int componenteDiRiferimento;
+    ArrayList<Nodo> adiacenti;
+    ArrayList<Integer> indiciArchiIncidenti;
 
     public Nodo(int pChiave) {
         this.chiave = pChiave;
-        this.adiacenti = new ArrayList<>();
-        this.incidenti = new ArrayList<>();
         this.componenteDiRiferimento = pChiave;
+        this.adiacenti = new ArrayList<>();
+        this.indiciArchiIncidenti = new ArrayList<>();
     }
 
     public int getChiave() {
@@ -29,8 +29,8 @@ public class Nodo {
         return adiacenti;
     }
 
-    public ArrayList<Arco> getIncidenti() {
-        return incidenti;
+    public ArrayList<Integer> getIndiciArchiIncidenti() {
+        return indiciArchiIncidenti;
     }
 
     public void setChiave(int chiave) {
@@ -47,15 +47,15 @@ public class Nodo {
         }
     }
 
-    public void addArcoIncidente(Arco pArco) {
-        if (!this.incidenti.contains(pArco)) {
-            this.incidenti.add(pArco);
+    public void addIndiceArcoIncidente(int pIndiceArco) {
+        if (!this.indiciArchiIncidenti.contains(pIndiceArco)) {
+            this.indiciArchiIncidenti.add(pIndiceArco);
         }
     }
 
-    public void rimuoviArcoIncidente(Arco pArco) {
-        if (this.incidenti.contains(pArco)) {
-            this.incidenti.remove(pArco);
+    public void rimuoviIndiceArcoIncidente(int pIndiceArco) {
+        if (this.indiciArchiIncidenti.contains(pIndiceArco)) {
+            this.indiciArchiIncidenti.remove(pIndiceArco);
         }
     }
 

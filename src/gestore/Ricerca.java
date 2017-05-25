@@ -1,7 +1,7 @@
 package gestore;
 
-import graph.Grafo;
-import graph.Nodo;
+import grafo.Grafo;
+import grafo.Nodo;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
