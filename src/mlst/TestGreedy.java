@@ -1,7 +1,6 @@
 package mlst;
 
 import gestore.GeneratoreGrafo;
-import grafo.Grafo;
 import grafo.GrafoColorato;
 import greedy.Greedy;
 import greedy.Statistiche;
@@ -19,7 +18,7 @@ import java.util.ArrayList;
  */
 public class TestGreedy {
 
-    public static void main() throws IOException {
+    public static void test() throws IOException {
         PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("src\\Risultati\\RisultatiGreedyAlternativo.txt")));
         //PrintWriter writer2 = new PrintWriter(new BufferedWriter(new FileWriter("src\\Risultati\\TabellaRisultatiGreedyAlternativo.txt")));
         //writer2.println("Nome Grafo\tTot. Colori");
