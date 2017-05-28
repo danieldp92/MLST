@@ -1,14 +1,12 @@
 package mlst;
 
 import gestore.GeneratoreGrafo;
+import gestore.XlsGrafo;
 import grafo.GrafoColorato;
 import greedy.Greedy;
 import greedy.Statistiche;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -19,45 +17,30 @@ import java.util.ArrayList;
 public class TestGreedy {
 
     public static void test() throws IOException {
-        PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("src\\Risultati\\RisultatiGreedyAlternativo.txt")));
-        //PrintWriter writer2 = new PrintWriter(new BufferedWriter(new FileWriter("src\\Risultati\\TabellaRisultatiGreedyAlternativo.txt")));
-        //writer2.println("Nome Grafo\tTot. Colori");
-        //writer2.println();
+        XlsGrafo xls = new XlsGrafo();
+        String pathTabellaRisultati = "src/Risultati/TabellaRisultati.xls";
+        xls.carica(pathTabellaRisultati);
+        
         ArrayList<String> listaGrafi = listaFile();
-
+        
         for (String s : listaGrafi) {
             //Carico il grafo
             System.out.println(s);
             GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
+            grafo.nomeGrafo = s;
 
-            writer.println("#############################");
-            writer.println("Grafo: " + s);
-            writer.println("#############################");
-            writer.println();
-
-            long t = System.currentTimeMillis();
             //Ottengo un MLT eseguendo l'algoritmo greedy sul grafo
-            //Grafo mlst = new Greedy(grafo, writer).esegui();
             Greedy greedy = new Greedy(grafo);
             GrafoColorato mlst = greedy.esegui();
 
             Statistiche statistiche = greedy.getStatistiche();
+            
+            xls.addInfoGrafo(grafo.nomeGrafo, "greedy", statistiche.tempoDiEsecuzione, mlst.getListaColori().size());
 
-            //writer2.print(listaGrafi.get(listaGrafi.size()-1) + "\t\t\t\t" + mlst.getListaColoriUsati().size() + "\t\t\t");
-            //writer2.printf("%.3fs\n", (float)(System.currentTimeMillis() - t)/1000);
-            System.out.printf("Tempo di esecuzione: %.3fs\n", (float) (System.currentTimeMillis() - t) / 1000);
-
-            writer.printf("Tempo di esecuzione: %.3fs\n", (float)(System.currentTimeMillis() - t) / 1000);
-            writer.println("Numero Iterate: " + statistiche.iter);
-            writer.println("Colori usati: " + mlst.getListaColori().size());
-            writer.printf("Media tempo iterata: %.3fs\n", (float) statistiche.meanTimeIterate / 1000);
-            writer.printf("Media determinazione colore più ricorrente: %.3fs\n", statistiche.meanTimeDeterminazioneColorePiuRicorrente / 1000);
-            writer.printf("Media inserimento archi senza ciclo: %.3fs\n", (float) statistiche.meanTimeInserimentoArchiSenzaCiclo / 1000);
-            writer.println();
+            System.out.println("Tempo di esecuzione: " + statistiche.tempoDiEsecuzione);
         }
 
-        writer.close();
-        //writer2.close();
+        xls.salva(pathTabellaRisultati);
     }
 
     public static ArrayList<String> listaFile() {

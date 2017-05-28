@@ -71,6 +71,13 @@ public class GeneratoreGrafo {
                 primoNodo = nodi.get(Integer.parseInt(line[0]));
                 secondoNodo = nodi.get(Integer.parseInt(line[1]));
                 
+                primoNodo.addIndiceArcoIncidente(i-1);
+                primoNodo.addIndiceArcoUscente(i-1);
+                secondoNodo.addIndiceArcoIncidente(i-1);
+                secondoNodo.addIndiceArcoEntrante(i-1);
+                primoNodo.addNodoAdiacente(secondoNodo);
+                secondoNodo.addNodoAdiacente(primoNodo);
+                
                 Arco arco = new Arco(primoNodo, secondoNodo, new ArrayList(coloriArco));
                 
                 for (int j = 2; j < line.length; j++) {
@@ -82,11 +89,6 @@ public class GeneratoreGrafo {
                 
                 archi.put((i-1), arco);
                 coloriArco.clear();
-
-                primoNodo.addIndiceArcoIncidente(i-1);
-                secondoNodo.addIndiceArcoIncidente(i-1);
-                primoNodo.addNodoAdiacente(secondoNodo);
-                secondoNodo.addNodoAdiacente(primoNodo);
             }
         }
         return new GrafoColorato(nodi, archi, colori);

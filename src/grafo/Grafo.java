@@ -7,6 +7,7 @@ import java.util.Map;
 
 public class Grafo {
 
+    public String nomeGrafo;
     ArrayList<Nodo> nodi;
     LinkedHashMap<Integer, Arco> archi;
     
@@ -18,6 +19,14 @@ public class Grafo {
     public Grafo(ArrayList<Nodo> pNodi) {
         this.nodi = pNodi;
         this.archi = new LinkedHashMap<>();
+        
+        //Clear nodi
+        for (Nodo nodo : this.nodi) {
+            nodo.getIndiciArchiIncidenti().clear();
+            nodo.getIndiciArchiEntranti().clear();
+            nodo.getIndiciArchiUscenti().clear();
+            nodo.getAdiacenti().clear();
+        }
     }
 
     public Grafo(ArrayList<Nodo> pNodi, LinkedHashMap<Integer, Arco> pArchi) {
@@ -44,6 +53,16 @@ public class Grafo {
             // Aggiungo tutti gli archi incidenti nel nodo
             nodo.getIndiciArchiIncidenti().forEach((incidente) -> {
                 nodoCopia.addIndiceArcoIncidente(incidente);
+            });
+            
+            // Aggiungo tutti gli archi entranti nel nodo
+            nodo.getIndiciArchiEntranti().forEach((entrante) -> {
+                nodoCopia.addIndiceArcoEntrante(entrante);
+            });
+            
+            // Aggiungo tutti gli archi uscenti nel nodo
+            nodo.getIndiciArchiUscenti().forEach((uscente) -> {
+                nodoCopia.addIndiceArcoUscente(uscente);
             });
 
             copiaNodi.add(nodoCopia);
@@ -109,22 +128,22 @@ public class Grafo {
     }
 
     public Arco getArco(Nodo da, Nodo a) {
-        Arco arco = null;
-        ArrayList<Arco> listaArchi = (ArrayList<Arco>) this.archi.values();
-        boolean trovato = false;
-        int i = 0;
-
-        while (!trovato && i < listaArchi.size()) {
-            if ((listaArchi.get(i).getDa().equals(da) && listaArchi.get(i).getA().equals(a))
-                    || (listaArchi.get(i).getA().equals(da) && listaArchi.get(i).getDa().equals(a))) {
-
-                arco = this.getArchi().get(i);
-                trovato = true;
+        for (Map.Entry<Integer, Arco> entry : archi.entrySet()) {
+            Integer key = entry.getKey();
+            Arco arco = entry.getValue();
+            
+            if ((arco.getDa().equals(da) && arco.getA().equals(a))
+                    || (arco.getA().equals(da) && arco.getDa().equals(a))) {
+                return arco;
             }
-            i++;
+            
         }
 
-        return arco;
+        return null;
+    }
+    
+    public Arco getArco(int chiaveDa, int chiaveA) {
+        return getArco(getNodo(chiaveDa), getNodo(chiaveA));
     }
 
     public Arco getArco(int indice) {
@@ -160,8 +179,10 @@ public class Grafo {
         
         da.addNodoAdiacente(a);
         da.addIndiceArcoIncidente(indiceArco);
+        da.addIndiceArcoUscente(indiceArco);
         a.addNodoAdiacente(da);
         a.addIndiceArcoIncidente(indiceArco);
+        a.addIndiceArcoEntrante(indiceArco);
     }
 
     public void addNodi(ArrayList<Nodo> pNodi) {

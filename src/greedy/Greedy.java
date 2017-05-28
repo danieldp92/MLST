@@ -5,9 +5,10 @@ import grafo.Arco;
 import grafo.Colore;
 import grafo.Grafo;
 import grafo.GrafoColorato;
-import java.io.PrintWriter;
+import grafo.Nodo;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.Queue;
 
 /**
  *
@@ -37,9 +38,9 @@ public class Greedy {
 
         ArrayList<Arco> edgeWithMinColors;
         ArrayList<Integer> indexOfEdgeWithMinColors;
+        
         int iter = 0;
-
-        long time = 0;
+        long time;
         long timeRecuperoArchiConColoreMinimo = 0;
         long timeRecuperoArchiConColoreMinimoCount = 0;
         long timeDeterminazioneColorePiuRicorrente = 0;
@@ -111,14 +112,16 @@ public class Greedy {
             }
         }
 
+        this.statistiche.tempoDiEsecuzione = (double)(System.currentTimeMillis() - inizio) / 1000;
         this.statistiche.iter = iter;
-        this.statistiche.meanTimeIterate = (System.currentTimeMillis() - inizio) / iter;
-        this.statistiche.meanTimeRecuperoArchiConColoreMinimo = timeRecuperoArchiConColoreMinimo / timeRecuperoArchiConColoreMinimoCount;
-        this.statistiche.meanTimeInserimentoArchiSenzaCiclo = timeInserimentoArchiSenzaCiclo / timeInserimentoArchiSenzaCicloCount;
-        this.statistiche.meanTimeRimozioneArchi = timeRimozioneArchi / timeRimozioneArchiCount;
-        this.statistiche.meanTimeDeterminazioneColorePiuRicorrente = timeDeterminazioneColorePiuRicorrente / timeDeterminazioneColorePiuRicorrenteCount;
-        this.statistiche.meanTimeRimozioneColorePiuRicorrente = timeRimozioneColorePiuRicorrente / timeRimozioneColorePiuRicorrenteCount;
+        this.statistiche.meanTimeIterate = (double)((System.currentTimeMillis() - inizio) / iter) / 1000;
+        this.statistiche.meanTimeRecuperoArchiConColoreMinimo = (double)(timeRecuperoArchiConColoreMinimo / timeRecuperoArchiConColoreMinimoCount) / 1000;
+        this.statistiche.meanTimeInserimentoArchiSenzaCiclo = (double)(timeInserimentoArchiSenzaCiclo / timeInserimentoArchiSenzaCicloCount) / 1000;
+        this.statistiche.meanTimeRimozioneArchi = (double)(timeRimozioneArchi / timeRimozioneArchiCount) / 1000;
+        this.statistiche.meanTimeDeterminazioneColorePiuRicorrente = (double)(timeDeterminazioneColorePiuRicorrente / timeDeterminazioneColorePiuRicorrenteCount) / 1000;
+        this.statistiche.meanTimeRimozioneColorePiuRicorrente = (double)(timeRimozioneColorePiuRicorrente / timeRimozioneColorePiuRicorrenteCount) / 1000;
         
+        System.out.println("Ciclo: " + gestoreMlst.ciclo());
         return mlst;
     }
 
@@ -216,5 +219,51 @@ public class Greedy {
             }
 
         }
+    }
+    
+    private GrafoColorato generaGrafoSenzaCicli (GrafoColorato mlst) {
+        ArrayList<Integer> listaNodiDiPartenza = new ArrayList<>();
+        for (int i = 0; i < mlst.dimensione(); i++)
+            listaNodiDiPartenza.add(-1);
+        
+        ArrayList<Arco> listaArchiCandidati = new ArrayList<>();
+        boolean[] visitato = new boolean[mlst.dimensione()];
+        
+        Queue<Nodo> coda = new LinkedList();
+        coda.add(mlst.getNodo(0));
+
+        while (!coda.isEmpty()) {
+            Nodo nodo = coda.poll();
+
+            if (!visitato[nodo.getChiave()]) {
+                visitato[nodo.getChiave()] = true;
+                
+                if (nodo.getChiave() != 0) {
+                    Arco tmp = mlst.getArco(nodo.getChiave(), listaNodiDiPartenza.get(nodo.getChiave()));
+                    listaArchiCandidati.add(tmp);
+                }
+                
+                
+                for (Nodo adiacente : nodo.getAdiacenti()) {
+                    if (!visitato[adiacente.getChiave()]) {
+                        coda.add(adiacente);
+                        listaNodiDiPartenza.set(adiacente.getChiave(), nodo.getChiave());
+                    }
+                }
+            }
+        }
+        
+        
+        ArrayList<Nodo> nodiMlst = new ArrayList<>();
+        for (int i = 0; i < mlst.dimensione(); i++)
+            nodiMlst.add(new Nodo(i));
+            
+        GrafoColorato mlstSenzaCicli = new GrafoColorato(nodiMlst, mlst.getColori().size());
+        
+        int index = 0;
+        for (Arco arco : listaArchiCandidati)
+            mlstSenzaCicli.addArco(index++, arco);
+        
+        return mlstSenzaCicli;
     }
 }

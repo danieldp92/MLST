@@ -156,8 +156,10 @@ public class GrafoColorato extends Grafo {
         
         da.addNodoAdiacente(a);
         da.addIndiceArcoIncidente(indiceArco);
+        da.addIndiceArcoUscente(indiceArco);
         a.addNodoAdiacente(da);
         a.addIndiceArcoIncidente(indiceArco);
+        a.addIndiceArcoEntrante(indiceArco);
 
         for (int colore : pArco.getColori()) {
             this.colori.get(colore).addIndiceArcoCollegato(indiceArco);

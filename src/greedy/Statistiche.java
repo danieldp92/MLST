@@ -8,6 +8,7 @@ package greedy;
  */
 public class Statistiche {
 
+    public double tempoDiEsecuzione;
     public int iter;
     public double meanTimeIterate;
     public double meanTimeRecuperoArchiConColoreMinimo;
@@ -18,4 +19,7 @@ public class Statistiche {
 
     public Statistiche() {}
 
+    public double convertiInSecondi (long valore) {
+        return (double)valore/1000;
+    }
 }

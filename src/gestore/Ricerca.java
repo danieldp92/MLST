@@ -55,7 +55,8 @@ public class Ricerca {
             if (!visitato[nodo.getChiave()]) {
                 visitato[nodo.getChiave()] = true;
                 for (Nodo adiacente : nodo.getAdiacenti()) {
-                    coda.add(adiacente);
+                    if (!visitato[adiacente.getChiave()])
+                        coda.add(adiacente);
                 }
             }
         }

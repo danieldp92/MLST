@@ -1,21 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mlst;
 
 import cplex.CPLEXModel;
 import gestore.GeneratoreGrafo;
+import gestore.XlsGrafo;
 import grafo.GrafoColorato;
-import greedy.Greedy;
-import greedy.Statistiche;
 import ilog.concert.IloException;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -25,42 +16,32 @@ import java.util.ArrayList;
 public class TestCPLEX {
     
     public static void test () throws IOException, IloException {
-        PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("src\\Risultati\\RisultatiCPLEX.txt")));
-        writer.println("################# CPLEX MODEL #################");
-        writer.println();
-        //PrintWriter writer2 = new PrintWriter(new BufferedWriter(new FileWriter("src\\Risultati\\TabellaRisultatiGreedyAlternativo.txt")));
-        //writer2.println("Nome Grafo\tTot. Colori");
-        //writer2.println();
+        XlsGrafo xls = new XlsGrafo();
+        String pathTabellaRisultati = "src/Risultati/TabellaRisultati.xls";
+        xls.carica(pathTabellaRisultati);
+        
         ArrayList<String> listaGrafi = listaFile();
-
+        
         for (String s : listaGrafi) {
             //Carico il grafo
             System.out.println(s);
             GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
+            grafo.nomeGrafo = s;
 
-            writer.println("#############################");
-            writer.println("Grafo: " + s);
-            writer.println("#############################");
-            writer.println();
-
-            long t = System.currentTimeMillis();
-            //Ottengo un MLT eseguendo l'algoritmo greedy sul grafo
-            //Grafo mlst = new Greedy(grafo, writer).esegui();
+            long inizio = System.currentTimeMillis();
+            
             CPLEXModel cplex = new CPLEXModel(grafo);
             int numColori = cplex.esegui();
+            
+            double tempoDiEsecuzione = (double)(System.currentTimeMillis() - inizio) / 1000;
+            xls.addInfoGrafo(grafo.nomeGrafo, "cplex", tempoDiEsecuzione, numColori);
 
 
-            //writer2.print(listaGrafi.get(listaGrafi.size()-1) + "\t\t\t\t" + mlst.getListaColoriUsati().size() + "\t\t\t");
-            //writer2.printf("%.3fs\n", (float)(System.currentTimeMillis() - t)/1000);
-            System.out.printf("Tempo di esecuzione: %.3fs\n", (float) (System.currentTimeMillis() - t) / 1000);
+            System.out.println("Tempo di esecuzione: " + tempoDiEsecuzione);
 
-            writer.printf("Tempo di esecuzione: %.3fs\n", (float)(System.currentTimeMillis() - t) / 1000);
-            writer.println("Colori usati: " + numColori);
-            writer.println();
         }
-
-        writer.close();
-        //writer2.close();
+        
+        xls.salva(pathTabellaRisultati);
     }
 
     public static ArrayList<String> listaFile() {
