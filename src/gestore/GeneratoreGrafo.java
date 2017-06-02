@@ -1,9 +1,9 @@
 package gestore;
 
-import graph.Arco;
-import graph.Colore;
-import graph.Grafo;
-import graph.Nodo;
+import grafo.Arco;
+import grafo.Colore;
+import grafo.Grafo;
+import grafo.Nodo;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;

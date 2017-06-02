@@ -1,8 +1,8 @@
 package gestore;
 
-import graph.Colore;
-import graph.Grafo;
-import graph.Nodo;
+import grafo.Colore;
+import grafo.Grafo;
+import grafo.Nodo;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;

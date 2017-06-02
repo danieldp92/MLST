@@ -1,9 +1,9 @@
 package greedy;
 
 import gestore.GestoreGrafo;
-import graph.Arco;
-import graph.Colore;
-import graph.Grafo;
+import grafo.Arco;
+import grafo.Colore;
+import grafo.Grafo;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 

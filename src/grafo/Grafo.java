@@ -1,4 +1,4 @@
-package graph;
+package grafo;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;

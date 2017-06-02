@@ -7,9 +7,9 @@ package mlst;
 
 import gestore.GeneratoreGrafo;
 import gestore.GestoreGrafo;
-import graph.Colore;
-import graph.Grafo;
-import graph.MLST;
+import grafo.Colore;
+import grafo.Grafo;
+import grafo.MLST;
 import greedy.GreedyMVCA;
 import java.io.File;
 

@@ -2,10 +2,10 @@ package greedy;
 
 import gestore.GestoreGrafo;
 import gestore.Ricerca;
-import graph.Arco;
-import graph.Colore;
-import graph.Grafo;
-import graph.MLST;
+import grafo.Arco;
+import grafo.Colore;
+import grafo.Grafo;
+import grafo.MLST;
 import java.util.ArrayList;
 import java.util.HashSet;
 
