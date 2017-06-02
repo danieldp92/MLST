@@ -1,4 +1,4 @@
-package grafo;
+package graph;
 
 import java.util.ArrayList;
 
@@ -6,7 +6,7 @@ import java.util.ArrayList;
  *
  * @author Stefano Dalla Palma
  */
-public class MLST extends GrafoColorato {
+public class MLST extends Grafo {
 
     boolean[] bColori;
 

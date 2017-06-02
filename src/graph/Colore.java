@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package grafo;
+package graph;
 
 import java.util.ArrayList;
 
@@ -12,20 +12,20 @@ import java.util.ArrayList;
  * @author Rhobar
  */
 public class Colore {
-    private int id;
+    private int colore;
     private ArrayList<Integer> indiciArchiCollegati;
     
     public Colore (int pColore) {
-        this.id = pColore;
+        this.colore = pColore;
         this.indiciArchiCollegati = new ArrayList<>();
     }
 
-    public int getId() {
-        return id;
+    public int getColore() {
+        return colore;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setColore(int colore) {
+        this.colore = colore;
     }
   
     public ArrayList<Integer> getIndiciArchiCollegati() {
@@ -40,7 +40,7 @@ public class Colore {
         return this.indiciArchiCollegati.size();
     }
     
-    public boolean usato () {
+    public boolean isUsed () {
         if (getOccorrenze() != 0)
             return true;
         
@@ -50,7 +50,7 @@ public class Colore {
     @Override
     public int hashCode() {
         int hash = 5;
-        hash = 47 * hash + this.id;
+        hash = 47 * hash + this.colore;
         return hash;
     }
 
@@ -66,7 +66,7 @@ public class Colore {
             return false;
         }
         final Colore other = (Colore) obj;
-        if (this.id != other.id) {
+        if (this.colore != other.colore) {
             return false;
         }
         return true;

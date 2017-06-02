@@ -1,6 +1,6 @@
 package stack;
 
-import grafo.Nodo;
+import graph.Nodo;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 

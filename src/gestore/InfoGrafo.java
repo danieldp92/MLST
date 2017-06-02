@@ -1,9 +1,9 @@
 package gestore;
 
-import grafo.Arco;
-import grafo.Colore;
-import grafo.GrafoColorato;
-import grafo.Nodo;
+import graph.Arco;
+import graph.Colore;
+import graph.Grafo;
+import graph.Nodo;
 import java.util.Iterator;
 
 /**
@@ -13,9 +13,9 @@ import java.util.Iterator;
  */
 public class InfoGrafo {
 
-    GrafoColorato grafo;
+    Grafo grafo;
 
-    public InfoGrafo(GrafoColorato grafo) {
+    public InfoGrafo(Grafo grafo) {
         this.grafo = grafo;
     }
 
@@ -46,7 +46,7 @@ public class InfoGrafo {
 
         for (Iterator<Colore> iterator = grafo.getColori().iterator(); iterator.hasNext();) {
             Colore colore = iterator.next();
-            System.out.format("Colore: %d\n", colore.getId());
+            System.out.format("Colore: %d\n", colore.getColore());
         }
 
         System.out.println();

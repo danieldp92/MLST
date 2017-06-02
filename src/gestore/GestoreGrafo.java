@@ -1,22 +1,22 @@
 package gestore;
 
-import grafo.Arco;
-import grafo.Colore;
-import grafo.GrafoColorato;
-import grafo.Nodo;
+import graph.Arco;
+import graph.Colore;
+import graph.Grafo;
+import graph.Nodo;
 import java.util.ArrayList;
 
 /**
- * Questa classe permette di ricavare informazioni sulla struttura del GrafoColorato
+ * Questa classe permette di ricavare informazioni sulla struttura del Grafo
  *
  * @author Stefano Dalla Palma
  */
 public class GestoreGrafo {
 
-    GrafoColorato grafo;
+    Grafo grafo;
     Ricerca ricerca;
 
-    public GestoreGrafo(GrafoColorato grafo) {
+    public GestoreGrafo(Grafo grafo) {
         this.grafo = grafo;
         this.ricerca = new Ricerca(this.grafo);
     }
@@ -46,7 +46,7 @@ public class GestoreGrafo {
     /**
      * Controllo della ciclicità, senza controllare le sottocomponenti
      *
-     * @return true se è presente un ciclo; false altrimenti
+     * @return
      */
     public boolean ciclo() {
         return connesso() && grafo.getArchi().size() != grafo.dimensione() - 1;
@@ -72,12 +72,11 @@ public class GestoreGrafo {
      * Controllo della ciclicità, controllando che ogni sottocomponente del
      * grafo non abbia una ciclicità
      *
-     * @param grafo il grafo da analizzare
-     * @return true se è presente un ciclo; false altrimenti
+     * @return
      */
-    public boolean ciclo(GrafoColorato grafo) {
-        ArrayList<GrafoColorato> listaSottografi = getComponentiConnesse();
-        for (GrafoColorato g : listaSottografi) {
+    public boolean ciclo(Grafo pGrafo) {
+        ArrayList<Grafo> listaSottografi = getComponentiConnesse();
+        for (Grafo g : listaSottografi) {
             if (g.getArchi().size() >= g.dimensione()) {
                 return true;
             }
@@ -86,8 +85,8 @@ public class GestoreGrafo {
         return false;
     }
 
-    public ArrayList<GrafoColorato> getComponentiConnesse() {
-        ArrayList<GrafoColorato> listaSottografi = new ArrayList<>();
+    public ArrayList<Grafo> getComponentiConnesse() {
+        ArrayList<Grafo> listaSottografi = new ArrayList<>();
 
         int indicePrimoNodoDelSottografo = -1;
 
@@ -112,14 +111,14 @@ public class GestoreGrafo {
             }
             listaArchiSottografo = this.grafo.getArchi(listaNodiSottografo);
 
-            listaSottografi.add(new GrafoColorato(listaNodiSottografo, listaArchiSottografo));
+            listaSottografi.add(new Grafo(listaNodiSottografo, listaArchiSottografo));
         }
 
         return listaSottografi;
     }
 
-    public ArrayList<GrafoColorato> getComponentiConnesse(Colore pColore) {
-        ArrayList<GrafoColorato> listaSottografi = new ArrayList<>();
+    public ArrayList<Grafo> getComponentiConnesse(Colore pColore) {
+        ArrayList<Grafo> listaSottografi = new ArrayList<>();
 
         int indicePrimoNodoDelSottografo = -1;
 
@@ -141,7 +140,7 @@ public class GestoreGrafo {
             }
             listaArchiSottografo = this.grafo.getArchi(listaNodiSottografo);
 
-            listaSottografi.add(new GrafoColorato(listaNodiSottografo, listaArchiSottografo));
+            listaSottografi.add(new Grafo(listaNodiSottografo, listaArchiSottografo));
         }
 
         return listaSottografi;
