@@ -1,16 +1,14 @@
 package gestore;
 
-import grafo.Colore;
 import grafo.Grafo;
 import grafo.Nodo;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
 /**
- * Questa classe permette di effettuare ricerche sul grafo <<<<<<< HEAD @a
- *
+ * Questa classe permette di effettuare ricerche sul grafo <<<<<<< HEAD
+ * @a
  *
  * uthor Stefano Dalla Palma
  */
@@ -23,18 +21,17 @@ public class Ricerca {
     }
 
     private boolean[] inizializzaRicerca() {
-        return new boolean[grafo.dimensione()];
-        /* boolean[] visitati = new boolean[grafo.dimensione()];
+        boolean[] visitati = new boolean[grafo.dimensione()];
         for (int i = 0; i < visitati.length; i++) {
             visitati[i] = false;
         }
-        return visitati;*/
+        return visitati;
     }
 
     public boolean bfs(Nodo pRadice) {
-
+        
         boolean[] visitato = bfsArray(pRadice);
-
+        
         int i = 0;
         while (i < visitato.length) {
             if (!visitato[i++]) {
@@ -58,29 +55,8 @@ public class Ricerca {
             if (!visitato[nodo.getChiave()]) {
                 visitato[nodo.getChiave()] = true;
                 for (Nodo adiacente : nodo.getAdiacenti()) {
-                    coda.add(adiacente);
-                }
-            }
-        }
-
-        return visitato;
-    }
-
-    public boolean[] bfsArray(Nodo pRadice, Colore pColore) {
-
-        boolean[] visitato = inizializzaRicerca();
-
-        Queue<Nodo> coda = new LinkedList();
-        coda.add(pRadice);
-
-        while (!coda.isEmpty()) {
-            Nodo nodo = coda.poll();
-
-            if (!visitato[nodo.getChiave()]) {
-                visitato[nodo.getChiave()] = true;
-                ArrayList<Nodo> adiacenti = nodo.getAdiacentiPerColore(pColore);
-                for (Nodo adiacente : adiacenti) {
-                    coda.add(adiacente);
+                    if (!visitato[adiacente.getChiave()])
+                        coda.add(adiacente);
                 }
             }
         }

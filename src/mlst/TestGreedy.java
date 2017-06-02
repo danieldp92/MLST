@@ -1,14 +1,12 @@
 package mlst;
 
 import gestore.GeneratoreGrafo;
-import gestore.GestoreGrafo;
-import grafo.Grafo;
+import gestore.XlsGrafo;
+import grafo.GrafoColorato;
 import greedy.Greedy;
-import java.io.BufferedWriter;
+import greedy.Statistiche;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 
 /**
@@ -18,27 +16,31 @@ import java.util.ArrayList;
  */
 public class TestGreedy {
 
-    public static void main() throws IOException {
-        PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter("src\\Risultati\\RisultatiGreedy.txt")));
+    public static void test() throws IOException {
+        XlsGrafo xls = new XlsGrafo();
+        String pathTabellaRisultati = "src/Risultati/TabellaRisultati.xls";
+        xls.carica(pathTabellaRisultati);
+        
         ArrayList<String> listaGrafi = listaFile();
-
+        
         for (String s : listaGrafi) {
             //Carico il grafo
             System.out.println(s);
-            Grafo grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
+            GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
+            grafo.nomeGrafo = s;
 
-            writer.println("#############################");
-            writer.println("Grafo: " + s);
-            writer.println("#############################");
-            writer.println();
-
-            long t = System.currentTimeMillis();
             //Ottengo un MLT eseguendo l'algoritmo greedy sul grafo
-            Grafo mlst = new Greedy(grafo, writer).esegui();
-            System.out.printf("Tempo di esecuzione: %.3fs\n", (float)(System.currentTimeMillis() - t)/1000);
+            Greedy greedy = new Greedy(grafo);
+            GrafoColorato mlst = greedy.esegui();
+
+            Statistiche statistiche = greedy.getStatistiche();
+            
+            xls.addInfoGrafo(grafo.nomeGrafo, "greedy", statistiche.tempoDiEsecuzione, mlst.getListaColori().size());
+
+            System.out.println("Tempo di esecuzione: " + statistiche.tempoDiEsecuzione);
         }
 
-        writer.close();
+        xls.salva(pathTabellaRisultati);
     }
 
     public static ArrayList<String> listaFile() {
@@ -98,17 +100,17 @@ public class TestGreedy {
         for (int i = 1; i <= 5; i++) {
             listaFile.add("1000_8000_1000_125_" + i + ".mlst");
         }
-        
+
         //Archi da 10000 40000 10000
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_40000_10000_2500_" + i + ".mlst");
         }
-        
+
         //Archi da 10000 80000 10000
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_80000_10000_1250_" + i + ".mlst");
         }
-        
+
         //Archi da 10000 160000 10000
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_160000_10000_625_" + i + ".mlst");

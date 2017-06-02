@@ -10,15 +10,19 @@ import java.util.ArrayList;
 public class Nodo {
 
     int chiave;
-    ArrayList<Nodo> adiacenti;
-    ArrayList<Arco> incidenti;
     int componenteDiRiferimento;
+    ArrayList<Nodo> adiacenti;
+    ArrayList<Integer> indiciArchiIncidenti;
+    ArrayList<Integer> indiciArchiEntranti;
+    ArrayList<Integer> indiciArchiUscenti;
 
     public Nodo(int pChiave) {
         this.chiave = pChiave;
-        this.adiacenti = new ArrayList<>();
-        this.incidenti = new ArrayList<>();
         this.componenteDiRiferimento = pChiave;
+        this.adiacenti = new ArrayList<>();
+        this.indiciArchiIncidenti = new ArrayList<>();
+        this.indiciArchiEntranti = new ArrayList<>();
+        this.indiciArchiUscenti = new ArrayList<>();
     }
 
     public int getChiave() {
@@ -29,29 +33,16 @@ public class Nodo {
         return adiacenti;
     }
 
-    public ArrayList<Nodo> getAdiacentiPerColore(Colore pColore) {
-
-        ArrayList<Nodo> nodi = new ArrayList();
-
-        ArrayList<Integer> indiciArchiCollegati = pColore.getIndiciArchiCollegati();
-
-        for (int indice : indiciArchiCollegati) {
-            if (indice < incidenti.size()) {
-
-                Arco arco = incidenti.get(indice);
-                if (arco.getDa().equals(this)) {
-                    nodi.add(arco.getA());
-                } else if (arco.getA().equals(this)) {
-                    nodi.add(arco.getDa());
-                }
-            }
-        }
-
-        return nodi;
+    public ArrayList<Integer> getIndiciArchiIncidenti() {
+        return indiciArchiIncidenti;
     }
 
-    public ArrayList<Arco> getIncidenti() {
-        return incidenti;
+    public ArrayList<Integer> getIndiciArchiEntranti() {
+        return indiciArchiEntranti;
+    }
+
+    public ArrayList<Integer> getIndiciArchiUscenti() {
+        return indiciArchiUscenti;
     }
 
     public void setChiave(int chiave) {
@@ -68,15 +59,39 @@ public class Nodo {
         }
     }
 
-    public void addArcoIncidente(Arco pArco) {
-        if (!this.incidenti.contains(pArco)) {
-            this.incidenti.add(pArco);
+    public void addIndiceArcoIncidente(int pIndiceArco) {
+        if (!this.indiciArchiIncidenti.contains(pIndiceArco)) {
+            this.indiciArchiIncidenti.add(pIndiceArco);
         }
     }
 
-    public void rimuoviArcoIncidente(Arco pArco) {
-        if (this.incidenti.contains(pArco)) {
-            this.incidenti.remove(pArco);
+    public void rimuoviIndiceArcoIncidente(int pIndiceArco) {
+        if (this.indiciArchiIncidenti.contains(pIndiceArco)) {
+            this.indiciArchiIncidenti.remove(pIndiceArco);
+        }
+    }
+    
+    public void addIndiceArcoEntrante(int pIndiceArco) {
+        if (!this.indiciArchiEntranti.contains(pIndiceArco)) {
+            this.indiciArchiEntranti.add(pIndiceArco);
+        }
+    }
+    
+    public void rimuoviIndiceArcoEntrante(int pIndiceArco) {
+        if (this.indiciArchiEntranti.contains(pIndiceArco)) {
+            this.indiciArchiEntranti.remove(pIndiceArco);
+        }
+    }
+    
+    public void addIndiceArcoUscente(int pIndiceArco) {
+        if (!this.indiciArchiUscenti.contains(pIndiceArco)) {
+            this.indiciArchiUscenti.add(pIndiceArco);
+        }
+    }
+    
+    public void rimuoviIndiceArcoUscente(int pIndiceArco) {
+        if (this.indiciArchiUscenti.contains(pIndiceArco)) {
+            this.indiciArchiUscenti.remove(pIndiceArco);
         }
     }
 

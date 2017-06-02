@@ -1,103 +1,116 @@
 package grafo;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
-import java.util.Set;
+import java.util.Map;
 
 public class Grafo {
 
+    public String nomeGrafo;
     ArrayList<Nodo> nodi;
-    ArrayList<Arco> archi;
-    ArrayList<Colore> colori;
-    public ArrayList<Integer> listaColoriOrdinataPerRicorrenzaMaggiore;
-
-    //Costruttori
+    LinkedHashMap<Integer, Arco> archi;
+    
     public Grafo() {
         this.nodi = new ArrayList<>();
-        this.archi = new ArrayList<>();
-        this.colori = new ArrayList<>();
+        this.archi = new LinkedHashMap<>();
     }
 
     public Grafo(ArrayList<Nodo> pNodi) {
         this.nodi = pNodi;
-        this.archi = new ArrayList<>();
-        this.colori = new ArrayList<>();
+        this.archi = new LinkedHashMap<>();
+        
+        //Clear nodi
+        for (Nodo nodo : this.nodi) {
+            nodo.getIndiciArchiIncidenti().clear();
+            nodo.getIndiciArchiEntranti().clear();
+            nodo.getIndiciArchiUscenti().clear();
+            nodo.getAdiacenti().clear();
+        }
+    }
+
+    public Grafo(ArrayList<Nodo> pNodi, LinkedHashMap<Integer, Arco> pArchi) {
+        this.nodi = pNodi;
+        this.archi = pArchi;
+    }
+
+    
+    //GET
+    public ArrayList<Nodo> getNodi() {
+        return nodi;
+    }
+
+    public ArrayList<Nodo> getCopiaNodi() {
+        ArrayList<Nodo> copiaNodi = new ArrayList();
+        this.nodi.forEach((nodo) -> {
+            Nodo nodoCopia = new Nodo(nodo.getChiave());
+
+            // Aggiungo tutti i nodi adiacenti
+            nodo.getAdiacenti().forEach((adiacente) -> {
+                nodoCopia.addNodoAdiacente(adiacente);
+            });
+
+            // Aggiungo tutti gli archi incidenti nel nodo
+            nodo.getIndiciArchiIncidenti().forEach((incidente) -> {
+                nodoCopia.addIndiceArcoIncidente(incidente);
+            });
+            
+            // Aggiungo tutti gli archi entranti nel nodo
+            nodo.getIndiciArchiEntranti().forEach((entrante) -> {
+                nodoCopia.addIndiceArcoEntrante(entrante);
+            });
+            
+            // Aggiungo tutti gli archi uscenti nel nodo
+            nodo.getIndiciArchiUscenti().forEach((uscente) -> {
+                nodoCopia.addIndiceArcoUscente(uscente);
+            });
+
+            copiaNodi.add(nodoCopia);
+        });
+        return copiaNodi;
     }
 
     /**
-     * Crea un grafo, partendo da una lista di nodi e da un numero prefissato di
-     * colori, a cui, inizialmente, non verrà associato nessun arco
+     * Questo metodo permette di cercare un nodo all'interno del grafo con una
+     * determinata chiave.
      *
-     * @param pNodi, lista di nodi
-     * @param pNumColori, lista di colori
+     * @param chiave la chiave del nodo da cercare.
+     * @return il nodo con chiave <i>chiave</i>
      */
-    public Grafo(ArrayList<Nodo> pNodi, int pNumColori) {
-        this.nodi = pNodi;
-        this.archi = new ArrayList<>();
+    public Nodo getNodo(int chiave) {
+        Nodo nodo = null;
 
-        this.colori = new ArrayList<>();
-        for (int i = 0; i < pNumColori; i++) {
-            this.colori.add(new Colore(i));
-        }
+        try {
+            nodo = this.nodi.get(chiave);
+        } catch (IndexOutOfBoundsException ex) { nodo = null; }
+
+        return nodo;
     }
 
-    public Grafo(ArrayList<Nodo> pNodi, ArrayList<Arco> pArchi) {
-        this.nodi = pNodi;
-        this.archi = pArchi;
-        this.colori = new ArrayList<>();
-        for (Arco arco : archi) {
-            for (int colore : arco.getColori()) {
-                Colore c = new Colore(colore);
-                if (!colori.contains(c)) {
-                    colori.add(c);
-                }
-            }
-        }
-    }
-
-    public Grafo(ArrayList<Nodo> pNodi, ArrayList<Arco> pArchi, ArrayList<Colore> pColori) {
-        this.nodi = pNodi;
-        this.archi = pArchi;
-        this.colori = pColori;
-    }
-
-    //Get
-    public ArrayList<Arco> getArchi() {
+    public LinkedHashMap<Integer, Arco> getArchi() {
         return archi;
     }
 
     /**
      * Questo metodo ritorna la lista degli archi correlati ad una lista di nodi
-     * data
+     * data.
      *
-     * @param pListaNodi la lista dei nodi data in input
+     * @param pListaNodi
      * @return la lista degli archi correlati
      */
-    public ArrayList<Arco> getArchi(ArrayList<Nodo> pListaNodi) {
-        ArrayList<Arco> listaArchi = new ArrayList<>();
-        boolean trovato = false;
+    public LinkedHashMap<Integer, Arco> getArchi(ArrayList<Nodo> pListaNodi) {
+        LinkedHashMap<Integer, Arco> listaArchi = new LinkedHashMap<>();
+        ArrayList<Integer> listaIndiciArchi = new ArrayList<>();
 
         for (int i = 0; i < pListaNodi.size(); i++) {
-            listaArchi.addAll(pListaNodi.get(i).getIncidenti());
+            listaIndiciArchi.addAll(pListaNodi.get(i).getIndiciArchiIncidenti());
         }
 
-        //Delete copies
-        for (int i = 0; i < listaArchi.size() - 1; i++) {
-            int j = i + 1;
-            while (!trovato && j < listaArchi.size()) {
-                if (listaArchi.get(i).getDa().getChiave()
-                        == listaArchi.get(j).getDa().getChiave()
-                        && listaArchi.get(i).getA().getChiave()
-                        == listaArchi.get(j).getA().getChiave()) {
-                    listaArchi.remove(j);
-                    trovato = true;
-                }
-                j++;
-            }
+        while (!listaIndiciArchi.isEmpty()) {
+            int indice = listaIndiciArchi.get(0);
 
-            trovato = false;
+            listaArchi.put(indice, this.archi.get(indice));
+            listaIndiciArchi.removeAll(Arrays.asList(indice));
         }
 
         return listaArchi;
@@ -105,85 +118,243 @@ public class Grafo {
 
     public ArrayList<Arco> getCopiaArchi() {
         ArrayList<Arco> copiaArchi = new ArrayList();
-        for (Arco originale : this.archi) {
-            Arco copia = new Arco(originale.getDa(), originale.getA(), originale.getColori());
-            copiaArchi.add(copia);
+        
+        for (Map.Entry<Integer, Arco> entry : archi.entrySet()) {
+            Arco arco = entry.getValue();
+            copiaArchi.add(new Arco(arco.getDa(), arco.getA()));
         }
+        
         return copiaArchi;
     }
 
-    public ArrayList<Nodo> getNodi() {
-        return nodi;
-    }
-
-    public ArrayList<Nodo> getCopiaNodi() {
-        ArrayList<Nodo> copiaNodi = new ArrayList();
-        for (Nodo nodo : this.nodi) {
-            copiaNodi.add(new Nodo(nodo.getChiave()));
-        }
-        return copiaNodi;
-    }
-
-    public Arco getArco(Nodo pNodoDa, Nodo pNodoA) {
-        Arco arco = null;
-
-        boolean trovato = false;
-        int i = 0;
-
-        while (!trovato && i < this.getArchi().size()) {
-            if ((this.getArchi().get(i).getDa().equals(pNodoDa) && this.getArchi().get(i).getA().equals(pNodoA))
-                    || (this.getArchi().get(i).getA().equals(pNodoDa) && this.getArchi().get(i).getDa().equals(pNodoA))) {
-
-                arco = this.getArchi().get(i);
-                trovato = true;
+    public Arco getArco(Nodo da, Nodo a) {
+        for (Map.Entry<Integer, Arco> entry : archi.entrySet()) {
+            Integer key = entry.getKey();
+            Arco arco = entry.getValue();
+            
+            if ((arco.getDa().equals(da) && arco.getA().equals(a))
+                    || (arco.getA().equals(da) && arco.getDa().equals(a))) {
+                return arco;
             }
-            i++;
+            
         }
 
-        return arco;
+        return null;
+    }
+    
+    public Arco getArco(int chiaveDa, int chiaveA) {
+        return getArco(getNodo(chiaveDa), getNodo(chiaveA));
     }
 
-    public Nodo getNodo(Nodo pNodo) {
-        return this.nodi.get(this.nodi.indexOf(pNodo));
+    public Arco getArco(int indice) {
+        return this.archi.get(indice);
     }
 
-    public Nodo getNodo(int pChiave) {
-        Nodo nodo = null;
-
-        try {
-            nodo = this.nodi.get(pChiave);
-        } catch (IndexOutOfBoundsException ex) {
-            nodo = null;
+    
+    //ADD
+    /**
+     * Questa funzione aggiunge nuovi archi al grafo, creando nuovi indici
+     *
+     * @param archi
+     */
+    public void addArchi(ArrayList<Arco> archi) {
+        //Trova l'indice più grande
+        int maxIndice = -1;
+        for (int i : this.archi.keySet()) {
+            if (i > maxIndice) {
+                maxIndice = i;
+            }
         }
 
-        return nodo;
+        for (Arco arco : archi) {
+            addArco(++maxIndice, arco);
+        }
+    }
+
+    public void addArco(int indiceArco, Arco pArco) {
+        this.archi.put(indiceArco, pArco);
+        
+        Nodo da = getNodo(pArco.getDa().getChiave());
+        Nodo a = getNodo(pArco.getA().getChiave());
+        
+        da.addNodoAdiacente(a);
+        da.addIndiceArcoIncidente(indiceArco);
+        da.addIndiceArcoUscente(indiceArco);
+        a.addNodoAdiacente(da);
+        a.addIndiceArcoIncidente(indiceArco);
+        a.addIndiceArcoEntrante(indiceArco);
+    }
+
+    public void addNodi(ArrayList<Nodo> pNodi) {
+        this.nodi.addAll(pNodi); //Da modificare per evitare di inserire nodi uguali
+    }
+
+    public void addNodo(Nodo pNodo) {
+        if (!this.nodi.contains(pNodo)) {
+            this.nodi.add(pNodo);
+        }
+    }
+
+    
+    //RIMUOVI
+    public void rimuoviArchi(ArrayList<Arco> pArchi) {
+        //this.archi.removeAll(pArchi);
+        for (Arco arcoDaRimuovere : pArchi) {
+            rimuoviArco(arcoDaRimuovere);
+        }
+    }
+    
+    public void rimuoviArco(int indiceArco) {
+        this.archi.remove(indiceArco);
     }
 
     /**
-     * Questo metodo restituisce i colori del grafo, indipendentemente dal fatto
-     * che essi siano stati utilizzati o meno
+     * Rimuove uno specifico arco
      *
-     * @return
+     * @param arco - l'arco da rimuovere
      */
+    public void rimuoviArco(Arco arco) {
+        rimuoviArco(arco.getDa(), arco.getA());
+    }
+
+    /**
+     * Rimuove uno specifico arco dati i due nodi che lo compongono
+     *
+     * @param nodoDa il primo nodo dell'arco.
+     * @param nodoA il secondo nodo dell'arco.
+     */
+    public void rimuoviArco(Nodo nodoDa, Nodo nodoA) {
+        Arco tmpArco = null;
+
+        for (int i : this.archi.keySet()) {
+            tmpArco = this.archi.get(i);
+
+            if ((tmpArco.getDa().equals(nodoDa) && tmpArco.getA().equals(nodoA))
+                    || (tmpArco.getA().equals(nodoDa) && tmpArco.getDa().equals(nodoA))) {
+                Nodo nodo1 = this.nodi.get(this.nodi.indexOf(nodoDa));
+                Nodo nodo2 = this.nodi.get(this.nodi.indexOf(nodoA));
+
+                nodo1.rimuoviIndiceArcoIncidente(i);
+                nodo2.rimuoviIndiceArcoIncidente(i);
+                nodo1.rimuoviNodoAdiacente(nodo2);
+                nodo2.rimuoviNodoAdiacente(nodo1);
+                
+                this.archi.remove(i);
+                
+                return;
+            }
+        }
+    }
+
+    public void rimuoviNodo(Nodo nodo) {
+        Arco arco = null;
+        if (this.nodi.contains(nodo)) {
+            Nodo nodoDaRimuovere = this.nodi.get(this.nodi.indexOf(nodo));
+            ArrayList<Integer> indiciArchiDaRimuovere = new ArrayList<>(nodoDaRimuovere.getIndiciArchiIncidenti());
+
+            for (int indiceArco : indiciArchiDaRimuovere) {
+                arco = this.archi.get(indiceArco);
+                
+                //Rimozione info arco dal nodo non eliminato
+                if (arco.getDa().equals(nodo)) {
+                    arco.getA().rimuoviIndiceArcoIncidente(indiceArco);
+                    arco.getA().rimuoviNodoAdiacente(nodo);
+                } else {
+                    arco.getDa().rimuoviIndiceArcoIncidente(indiceArco);  
+                    arco.getDa().rimuoviNodoAdiacente(nodo);
+                }
+                
+                //Rimozione arco
+                this.archi.remove(indiceArco);
+            }
+
+            this.nodi.remove(nodoDaRimuovere);
+        }
+    }
+
+    
+    
+    /**
+     * Restituisce la dimensione del grafo intesa come numero di nodi.
+     *
+     * @return la dimensione del grafo
+     */
+    public int dimensione() {
+        return nodi.size();
+    }
+
+    /**
+     * Questa funzione va ad eliminare tutti gli archi e tutti i suoi
+     * riferimenti
+     */
+    public void clear() {
+        this.archi.clear();
+        for (Nodo nodo : this.nodi) {
+            nodo.getIndiciArchiIncidenti().clear();
+            nodo.getAdiacenti().clear();
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+public class Grafo {
+
+    
+    public Grafo(ArrayList<Nodo> pNodi, int pNumColori) {
+        this.nodi = pNodi;
+        this.archi = new LinkedHashMap<>();
+
+        this.colori = new ArrayList<>();
+        for (int i = 0; i < pNumColori; i++) {
+            this.colori.add(new Colore(i));
+        }
+    }
+
+    public Grafo(ArrayList<Nodo> pNodi, LinkedHashMap<Integer, Arco> pArchi, ArrayList<Colore> pColori) {
+        this.nodi = pNodi;
+        this.archi = pArchi;
+        this.colori = pColori;
+    }
+
+
+    
+
+
     public ArrayList<Colore> getColori() {
         return colori;
     }
-
-    public void addColore(Colore pColore) {
-        this.colori.add(pColore);
+    
+    public ArrayList<Colore> getCopiaColori () {
+        ArrayList<Colore> copiaColori = new ArrayList<>();
+        Colore tmpColore = null;
+        
+        for (Colore colore : this.colori) {
+            tmpColore = new Colore(colore.getId(), new ArrayList<>(colore.getIndiciArchiCollegati()));
+            copiaColori.add(tmpColore);
+        }
+        
+        return copiaColori;
     }
 
-    /**
-     * Questo metodo restituisce la lista dei colori utilizzati nel grafo
-     *
-     * @return la lista dei colori utilizzati
-     */
-    public ArrayList<Integer> getListaColori() {
+    public ArrayList<Integer> getListaColoriUsati() {
         ArrayList<Integer> listaColori = new ArrayList<>();
 
         for (Colore c : this.colori) {
             if (c.isUsed()) {
-                listaColori.add(c.getColore());
+                listaColori.add(c.getId());
             }
         }
 
@@ -198,142 +369,23 @@ public class Grafo {
         return listaColoriOrdinataPerRicorrenzaMaggiore;
     }
 
+    
+    
+    
     //Add
-    public void addArchi(ArrayList<Arco> pArchi) {
-
-        for (Arco arco : pArchi) {
-            addArco(arco);
-        }
-    }
-
-    public void addArco(Arco pArco) {
-
-        this.archi.add(pArco);
-
-        getNodo(pArco.getDa().getChiave()).addNodoAdiacente(getNodo(pArco.getA().getChiave()));
-        getNodo(pArco.getDa().getChiave()).addArcoIncidente(pArco);
-        getNodo(pArco.getA().getChiave()).addNodoAdiacente(getNodo(pArco.getDa().getChiave()));
-        getNodo(pArco.getA().getChiave()).addArcoIncidente(pArco);
-
-        //PROVA STEFANO
-        /*for (int colore : pArco.getColori()) {
-            Colore c = new Colore(colore);
-            if (!colori.contains(c)) {
-                colori.add(c);
-            }
-        }*/
-        ////FINE PROVA
-        /*for (int colore : pArco.getColori()) {
-            this.colori.get(colore).addIndiceArcoCollegato(this.archi.size() - 1);
-        }*/
-    }
-
-    public void addNodi(ArrayList<Nodo> pNodi) {
-        this.nodi.addAll(pNodi); //Da modificare per evitare di inserire nodi uguali
-    }
-
-    public void addNodo(Nodo pNodo) {
-        if (!this.nodi.contains(pNodo)) {
-            this.nodi.add(pNodo);
-        }
-    }
 
     //Rimuovi
-    public void rimuoviArco(Arco pArco) {
-        rimuoviArco(pArco.getDa(), pArco.getA());
-    }
-
-    public void rimuoviArco(Nodo pNodoDa, Nodo pNodoA) {
-        Arco arcoDaRimuovere = this.getArco(pNodoDa, pNodoA);
-
-        if (arcoDaRimuovere != null) {
-            Nodo nodo1 = this.nodi.get(this.nodi.indexOf(pNodoDa));
-            Nodo nodo2 = this.nodi.get(this.nodi.indexOf(pNodoA));
-
-            nodo1.rimuoviArcoIncidente(arcoDaRimuovere);
-            nodo2.rimuoviArcoIncidente(arcoDaRimuovere);
-            nodo1.rimuoviNodoAdiacente(nodo2);
-            nodo2.rimuoviNodoAdiacente(nodo1);
-
-            this.archi.remove(arcoDaRimuovere);
-        }
-    }
-
-    public void rimuoviArchi(ArrayList<Arco> pArchi) {
-        //this.archi.removeAll(pArchi);
-        for (Arco arcoDaRimuovere : pArchi) {
-            rimuoviArco(arcoDaRimuovere);
-        }
-    }
-
-    public void rimuoviNodo(Nodo pNodo) {
-
-        if (this.nodi.contains(pNodo)) {
-            Nodo nodoDaRimuovere = this.nodi.get(this.nodi.indexOf(pNodo));
-            ArrayList<Arco> archiDaRimuovere = new ArrayList<>();
-            archiDaRimuovere.addAll(nodoDaRimuovere.getIncidenti());
-
-            System.out.println("Tot Archi: " + archiDaRimuovere.size()); //TODO da eliminare
-
-            for (Arco arco : archiDaRimuovere) {
-                this.archi.remove(arco);
-            }
-
-            this.nodi.remove(nodoDaRimuovere);
-        }
-    }
-
+    
     public void rimuoviColore(int pColore) {
         //Determino gli indici degli archi in cui è presente pColore
-        for (int i : this.colori.get(pColore).getIndiciArchiCollegati()) {
+        for (int i : this.colori.get(pColore).getIndiciArchiCollegati())
             this.archi.get(i).rimuoviColore(pColore);
-        }
 
         //Elimino ogni riferimento di pColore da ogni arco associato
         this.getColori().get(pColore).getIndiciArchiCollegati().clear();
     }
 
-    //Altro
-    /**
-     * Restituisce la dimensione del grafo intesa come numero di nodi.
-     *
-     * @return la dimensione del grafo
-     */
-    public int dimensione() {
-        return this.nodi.size();
-    }
-
-    /**
-     * Questa funzione va ad eliminare tutti gli archi e tutti i suoi
-     * riferimenti
-     */
-    public void clear() {
-        this.archi.clear();
-
-        for (Nodo nodo : this.nodi) {
-            nodo.getIncidenti().clear();
-            nodo.getAdiacenti().clear();
-        }
-
-        for (Colore colore : this.colori) {
-            colore.getIndiciArchiCollegati().clear();
-        }
-    }
-
-    /**
-     * Effettuo una copia del grafo, andando ad associare, ad ogni variabile, un
-     * nuovo indirizzo
-     *
-     * @return il grafo clonato
-     */
-    public Grafo clone() {
-        ArrayList<Nodo> copiaNodi = new ArrayList<>(this.nodi);
-        ArrayList<Arco> copiaArchi = this.getCopiaArchi();
-        ArrayList<Colore> copiaColori = new ArrayList<>(this.colori);
-
-        return new Grafo(copiaNodi, copiaArchi, copiaColori);
-    }
-
+    
     private void setListaColoriOrdinataPerRicorrenza() {
         ArrayList<Colore> tmpColori = new ArrayList<>(this.colori);
         this.listaColoriOrdinataPerRicorrenzaMaggiore = new ArrayList<>();
@@ -347,7 +399,7 @@ public class Grafo {
             for (int i = 0; i < tmpColori.size(); i++) {
                 if (tmpColori.get(i).getOccorrenze() > maxRicorrenza) {
                     maxRicorrenza = tmpColori.get(i).getOccorrenze();
-                    coloreMaxRicorrente = tmpColori.get(i).getColore();
+                    coloreMaxRicorrente = tmpColori.get(i).getId();
                     indexColoreMaxRicorrente = i;
                 }
             }
@@ -357,4 +409,4 @@ public class Grafo {
             this.listaColoriOrdinataPerRicorrenzaMaggiore.add(coloreMaxRicorrente);
         }
     }
-}
+}*/

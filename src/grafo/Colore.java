@@ -12,22 +12,27 @@ import java.util.ArrayList;
  * @author Rhobar
  */
 public class Colore {
-    private int colore;
+    private int id;
     private ArrayList<Integer> indiciArchiCollegati;
     
     public Colore (int pColore) {
-        this.colore = pColore;
+        this.id = pColore;
         this.indiciArchiCollegati = new ArrayList<>();
     }
-
-    public int getColore() {
-        return colore;
+    
+    public Colore (int pColore, ArrayList<Integer> pIndiciArchiCollegati) {
+        this.id = pColore;
+        this.indiciArchiCollegati = pIndiciArchiCollegati;
     }
 
-    public void setColore(int colore) {
-        this.colore = colore;
+    public int getId() {
+        return id;
     }
-  
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public ArrayList<Integer> getIndiciArchiCollegati() {
         return indiciArchiCollegati;
     }
@@ -36,24 +41,21 @@ public class Colore {
         this.indiciArchiCollegati.add(indiceArcoCollegato);
     }
     
+    public void rimuoviIndiceArcoCollegato (int indiceArco) {
+        this.indiciArchiCollegati.remove(Integer.valueOf(indiceArco));
+    }
+    
     public int getOccorrenze () {
         return this.indiciArchiCollegati.size();
     }
     
-    public boolean isUsed () {
+    public boolean usato () {
         if (getOccorrenze() != 0)
             return true;
         
         return false;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 47 * hash + this.colore;
-        return hash;
-    }
-
+    
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -66,11 +68,13 @@ public class Colore {
             return false;
         }
         final Colore other = (Colore) obj;
-        if (this.colore != other.colore) {
+        if (this.id != other.id) {
             return false;
         }
         return true;
     }
+    
+    
     
     
     

@@ -1,6 +1,9 @@
 package mlst;
 
+import gestore.XlsGrafo;
+import ilog.concert.IloException;
 import java.io.IOException;
+
 
 /**
  *
@@ -8,7 +11,8 @@ import java.io.IOException;
  */
 public class main {
 
-    public static void main(String[] args) throws IOException {
-        TestGreedy.main();
+    public static void main(String[] args) throws IOException, IloException {
+        TestGreedy.test();
+        //TestCPLEX.test();
     }
 }

@@ -1,7 +1,8 @@
 package random;
 
 import grafo.Arco;
-import grafo.GrafoColorato;
+import grafo.Grafo;
+//import grafo.GrafoColorato;
 import grafo.Nodo;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,17 +16,17 @@ import java.util.Random;
  */
 public class RandomBFS {
 
-    GrafoColorato grafo;
+    Grafo grafo;
     ArrayList<Arco> archi;
 
-    public RandomBFS(GrafoColorato grafo) {
+    public RandomBFS(Grafo grafo) {
         this.grafo = grafo;
         archi = new ArrayList();
     }
 
-    public GrafoColorato esegui(int chiaveNodoPartenza) {
+    public Grafo esegui(int chiaveNodoPartenza) {
 
-        GrafoColorato mlst = new GrafoColorato(grafo.getCopiaNodi());
+        Grafo mlst = new Grafo(grafo.getCopiaNodi());
         boolean ok = bfs(mlst.getNodi().get(chiaveNodoPartenza));
 
         if (ok) {
@@ -63,8 +64,16 @@ public class RandomBFS {
             if (!visitato[nodo.getChiave()]) {
                 visitato[nodo.getChiave()] = true;
                 LinkedList<Nodo> adiacenti = new LinkedList((Collection) nodo.getAdiacenti().clone());
-                LinkedList<Arco> incidenti = new LinkedList((Collection) nodo.getIncidenti().clone());
+               //SOSTITUIRE CON GET INDICI ARCHI INCIDENTI E PRENDERE GLI ARCHI CORRISPONDENTI DAL GRAFO
+               //LinkedList<Arco> incidenti = new LinkedList((Collection) nodo.getIncidenti().clone());
+               LinkedList<Integer> indiciIncidenti = new LinkedList((Collection) nodo.getIndiciArchiIncidenti().clone());
+               LinkedList<Arco> incidenti = new LinkedList();
+               
+               for(Integer indice : indiciIncidenti){
+                   incidenti.add(grafo.getArco(indice));
+               }
 
+               
                 for (Nodo adiacente : adiacenti) {
                     coda.add(adiacente);
                 }

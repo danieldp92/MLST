@@ -1,7 +1,7 @@
 package random;
 
 import grafo.Arco;
-import grafo.GrafoColorato;
+import grafo.Grafo;
 import grafo.Nodo;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,17 +15,17 @@ import java.util.Stack;
  */
 public class RandomDFS {
 
-    GrafoColorato grafo;
+    Grafo grafo;
     ArrayList<Arco> archi;
 
-    public RandomDFS(GrafoColorato grafo) {
+    public RandomDFS(Grafo grafo) {
         this.grafo = grafo;
         archi = new ArrayList();
     }
 
-    public GrafoColorato esegui(int chiaveNodoPartenza) {
+    public Grafo esegui(int chiaveNodoPartenza) {
 
-        GrafoColorato mlst = new GrafoColorato(grafo.getCopiaNodi());
+        Grafo mlst = new Grafo(grafo.getCopiaNodi());
         boolean ok = dfs(mlst.getNodi().get(chiaveNodoPartenza));
 
         if (ok) {
@@ -36,7 +36,7 @@ public class RandomDFS {
 
         return mlst;
     }
-    
+
     public void aggiornaComponentiDiRiferimento(int vecchioValore, int nuovoValore) {
         //Per ogni arco presente nella lista archi, prendo tutti i nodi e setto la componente a valore
         for (Arco arco : this.archi) {
@@ -63,7 +63,15 @@ public class RandomDFS {
                 visitato[nodo.getChiave()] = true;
 
                 LinkedList<Nodo> adiacenti = new LinkedList((Collection) nodo.getAdiacenti().clone());
-                LinkedList<Arco> incidenti = new LinkedList((Collection) nodo.getIncidenti().clone());
+                //SOSTITUIRE CON GET INDICI ARCHI INCIDENTI E PRENDERE GLI ARCHI CORRISPONDENTI DAL GRAFO
+                //LinkedList<Arco> incidenti = new LinkedList((Collection) nodo.getIncidenti().clone());
+                LinkedList<Integer> indiciIncidenti = new LinkedList((Collection) nodo.getIndiciArchiIncidenti().clone());
+                LinkedList<Arco> incidenti = new LinkedList();
+
+                for (Integer indice : indiciIncidenti) {
+                    incidenti.add(grafo.getArco(indice));
+                }
+
                 //Aggiungi in coda tutti i nodi adiacenti al nodo
                 for (Nodo adiacente : adiacenti) {
                     pila.push(adiacente);
