@@ -34,7 +34,9 @@ public class TestPilot {
             Pilot pilot = new Pilot(grafo);
             GrafoColorato mlst = pilot.esegui();
             Statistiche statistiche = pilot.getStatistiche();
-            xls.addInfoGrafo(grafo.nomeGrafo, "pilot", statistiche.tempoDiEsecuzione, mlst.getListaColori().size());
+            //xls.addInfoGrafo(grafo.nomeGrafo, "pilot", statistiche.tempoDiEsecuzione, mlst.getListaColori().size());
+            xls.addInfoGrafo(grafo.nomeGrafo, "pilot", statistiche.tempoDiEsecuzione, mlst.getListaColori().size(), statistiche.profonditaSoluzione);
+            //xls.aggiungiColonnaProfondita(grafo.nomeGrafo, statistiche.profonditaSoluzione);
 
             GestoreGrafo gestore = new GestoreGrafo(mlst);
             System.out.println();
@@ -42,6 +44,7 @@ public class TestPilot {
             System.out.println("Ciclo: " + gestore.ciclo());
             InfoGrafo info = new InfoGrafo(mlst);
             info.stampaColori();
+            System.out.println("Profondità soluzione: " + statistiche.profonditaSoluzione);
             System.out.println("Tempo di esecuzione: " + statistiche.tempoDiEsecuzione);
             System.out.println("\n");
         }
@@ -100,7 +103,9 @@ public class TestPilot {
         for (int i = 1; i <= 5; i++) {
             listaFile.add("500_4000_500_63_" + i + ".mlst");
         }
-        /*//Archi da 1000 4000 1000
+
+        /*
+        //Archi da 1000 4000 1000
         for (int i = 1; i <= 5; i++) {
             listaFile.add("1000_4000_1000_250_" + i + ".mlst");
         }

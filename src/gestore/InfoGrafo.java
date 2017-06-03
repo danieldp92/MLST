@@ -53,6 +53,7 @@ public class InfoGrafo {
         for (Integer colore : grafo.getListaColori()) {
             System.out.print(colore + " ");
         }
+        System.out.println();
     }
 
 }

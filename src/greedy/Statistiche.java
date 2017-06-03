@@ -16,6 +16,7 @@ public class Statistiche {
     public double meanTimeRimozioneArchi;
     public double meanTimeDeterminazioneColorePiuRicorrente;
     public double meanTimeRimozioneColorePiuRicorrente;
+    public int profonditaSoluzione;
 
     public Statistiche() {}
 

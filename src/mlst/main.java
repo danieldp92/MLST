@@ -21,7 +21,7 @@ public class main {
         //TestCPLEX.test();
         TestPilot.test();
 
-        /*GrafoColorato grafo = new GeneratoreGrafo().generaGrafo(new File("src/GrafiColorati3Colori/10000_40000_10000_2500_1.mlst"));
+        /*GrafoColorato grafo = new GeneratoreGrafo().generaGrafo(new File("src/GrafiColorati3Colori/1000_8000_1000_125_1.mlst"));
         Greedy greedy = new Greedy(grafo);
         GrafoColorato mlst = greedy.esegui();
         GestoreGrafo gestore = new GestoreGrafo(mlst);

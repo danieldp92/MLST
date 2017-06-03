@@ -3,14 +3,7 @@ package Pilot;
 import grafo.GrafoColorato;
 import greedy.Statistiche;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -37,13 +30,19 @@ public class Pilot {
 
         LinkedList coloriSelezionati = new LinkedList();
         int profondita = 0;
+
+        long inizio = System.currentTimeMillis();
+
+        int profonditaSoluzioneMigliore = 0;
+        int soluzioneMigliore = grafo.getColori().size();
+
         do {
             LinkedList<Integer> coloriProcessati = new LinkedList();    //Mappa il colore selezionato ed il numero di colori trovati
             LinkedList<Integer> numeroColoriSelezionati = new LinkedList();    //Mappa il colore selezionato ed il numero di colori trovati
             LinkedList<Integer> cloniColoriDiPartenza = new LinkedList(coloriSelezionati);
 
             /// PROVA EXECUTOR SERVICE ________________
-           /* ExecutorService executorService = Executors.newFixedThreadPool(2);
+            /* ExecutorService executorService = Executors.newFixedThreadPool(2);
 
             for (Integer colore : listaColori) {
                 if (!coloriSelezionati.contains(colore)) {
@@ -68,7 +67,14 @@ public class Pilot {
                 if (!coloriSelezionati.contains(colore)) {
                     cloniColoriDiPartenza.add(colore);
                     mlst = greedy.esegui(cloniColoriDiPartenza);
-                    System.out.println("P: " + profondita + ", colore: " + colore + ", Numero colori: " + mlst.getListaColori().size());
+                    //Aggiorno profondita della soluzione
+                    int numeroColoriMlst = mlst.getListaColori().size();
+                    if (numeroColoriMlst < soluzioneMigliore) {
+                        profonditaSoluzioneMigliore = profondita;
+                        soluzioneMigliore = numeroColoriMlst;
+                    }
+
+                    System.out.println("P: " + profondita + ", colore: " + colore + ", Numero colori: " + numeroColoriMlst);
                     cloniColoriDiPartenza.removeLast();
 
                     //Mappo il colore con il numero di colori generati
@@ -104,11 +110,15 @@ public class Pilot {
                 System.out.print(colore + " ");
             }
             System.out.println();
+
             profondita++;
-        } while (profondita < 5);
+        } while (profondita < 30);
 
         mlst = greedy.esegui(coloriSelezionati);
+
         this.statistiche = greedy.getStatistiche();
+        this.statistiche.profonditaSoluzione = profonditaSoluzioneMigliore;
+        this.statistiche.tempoDiEsecuzione = (System.currentTimeMillis() - inizio);
 
         return mlst;
     }
@@ -121,5 +131,4 @@ public class Pilot {
     coloriProcessati.add(colore);
     numeroColoriSelezionati.add(numeroColori);
     }*/
-
 }

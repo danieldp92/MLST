@@ -16,7 +16,7 @@ import java.util.Map;
 public class XlsGrafo {
 
     private HSSFWorkbook work;
-    
+
     private LinkedHashMap<String, Integer> indiciRigheGrafi;
     private int indiceColonnaTempoDiEsecuzioneCPLEX;
     private int indiceColonnaTotColoriCPLEX;
@@ -28,23 +28,24 @@ public class XlsGrafo {
     private int indiceColonnaTotColoriAG;
     private int indiceColonnaTempoDiEsecuzionePilot;
     private int indiceColonnaTotColoriPilot;
-    
+    private int indiceColonnaProfonditaSoluzionePilot;
+
     public XlsGrafo() {
         setIndiciRigheGrafi();
         setIndiciColonne();
     }
-    
+
     public void carica(String path) throws FileNotFoundException, IOException {
         FileInputStream fileIn = new FileInputStream(new File(path));
         this.work = new HSSFWorkbook(fileIn);
     }
-    
-    public void addInfoGrafo (String nomeGrafo, String tipoAlgoritmo, double tempoDiEsecuzione, int numColori) {
+
+    public void addInfoGrafo(String nomeGrafo, String tipoAlgoritmo, double tempoDiEsecuzione, int numColori, int profondita) {
         String algoritmo = tipoAlgoritmo.toLowerCase();
         int indiceRiga = this.indiciRigheGrafi.get(nomeGrafo);
         int indiceColonnaTempo = 0;
         int indiceColonnaColori = 0;
-        
+
         switch (algoritmo) {
             case "cplex":
                 indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneCPLEX;
@@ -69,15 +70,28 @@ public class XlsGrafo {
             default:
                 break;
         }
-        
+
         HSSFSheet worksheet = work.getSheetAt(0);
-        
+
         HSSFRow row = worksheet.getRow(indiceRiga);
-        
+
         HSSFCell cellaTempo = row.createCell(indiceColonnaTempo);
         cellaTempo.setCellValue(tempoDiEsecuzione);
         HSSFCell cellaTotColori = row.createCell(indiceColonnaColori);
         cellaTotColori.setCellValue(numColori);
+
+        if (profondita >= 0) {
+            HSSFCell cellaProfonditaPilot = row.createCell(this.indiceColonnaProfonditaSoluzionePilot);
+            cellaProfonditaPilot.setCellValue(profondita);
+        }
+    }
+
+    public void aggiungiColonnaProfondita(String nomeGrafo, int profondita) {
+        int indiceRiga = this.indiciRigheGrafi.get(nomeGrafo);
+        HSSFSheet worksheet = work.getSheetAt(0);
+        HSSFRow row = worksheet.getRow(indiceRiga);
+        HSSFCell cellaProfonditaPilot = row.createCell(this.indiceColonnaProfonditaSoluzionePilot);
+        cellaProfonditaPilot.setCellValue(profondita);
     }
 
     public void salva(String path) throws FileNotFoundException, IOException {
@@ -160,8 +174,8 @@ public class XlsGrafo {
             this.indiciRigheGrafi.put("10000_160000_10000_625_" + i + ".mlst", i + 112);
         }
     }
-    
-    private void setIndiciColonne () {
+
+    private void setIndiciColonne() {
         this.indiceColonnaTempoDiEsecuzioneCPLEX = 1;
         this.indiceColonnaTotColoriCPLEX = 2;
         this.indiceColonnaTempoDiEsecuzioneRandom = 3;
@@ -172,8 +186,9 @@ public class XlsGrafo {
         this.indiceColonnaTotColoriAG = 8;
         this.indiceColonnaTempoDiEsecuzionePilot = 9;
         this.indiceColonnaTotColoriPilot = 10;
+        this.indiceColonnaProfonditaSoluzionePilot = 11;
     }
-    
+
     private void creaListaGrafi() throws FileNotFoundException, IOException {
         HSSFSheet worksheet = work.getSheetAt(0);
 
