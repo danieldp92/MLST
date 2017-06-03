@@ -3,7 +3,6 @@ package gestore;
 import grafo.Arco;
 import grafo.Grafo;
 import grafo.Nodo;
-import java.util.ArrayList;
 
 /**
  * Questa classe permette di ricavare informazioni sulla struttura del Grafo
@@ -59,14 +58,14 @@ public class GestoreGrafo {
 
         //Se l'arco non genera cicli
         if (componenteDiRiferimentoNodo1 != componenteDiRiferimentoNodo2) {
+           
             this.grafo.addArco(indiceArco, pArco);
 
-            for (Nodo n : this.grafo.getNodi()) {
+            for (Nodo n : this.grafo.getNodi()) { 
                 if (n.getComponenteDiRiferimento() == componenteDiRiferimentoNodo2) {
                     n.setComponenteDiRiferimento(componenteDiRiferimentoNodo1);
                 }
-            }
-            
+            }                    
             return true;
         }
 

@@ -1,7 +1,7 @@
 package random;
 
 import grafo.Arco;
-import grafo.Grafo;
+import grafo.GrafoColorato;
 import grafo.Nodo;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,17 +15,17 @@ import java.util.Stack;
  */
 public class RandomDFS {
 
-    Grafo grafo;
+    GrafoColorato grafo;
     ArrayList<Arco> archi;
 
-    public RandomDFS(Grafo grafo) {
+    public RandomDFS(GrafoColorato grafo) {
         this.grafo = grafo;
         archi = new ArrayList();
     }
 
-    public Grafo esegui(int chiaveNodoPartenza) {
+    public GrafoColorato esegui(int chiaveNodoPartenza) {
 
-        Grafo mlst = new Grafo(grafo.getCopiaNodi());
+        GrafoColorato mlst = new GrafoColorato(grafo.getCopiaNodi());
         boolean ok = dfs(mlst.getNodi().get(chiaveNodoPartenza));
 
         if (ok) {

@@ -1,8 +1,7 @@
 package random;
 
 import grafo.Arco;
-import grafo.Grafo;
-//import grafo.GrafoColorato;
+import grafo.GrafoColorato;
 import grafo.Nodo;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -16,17 +15,17 @@ import java.util.Random;
  */
 public class RandomBFS {
 
-    Grafo grafo;
+    GrafoColorato grafo;
     ArrayList<Arco> archi;
 
-    public RandomBFS(Grafo grafo) {
+    public RandomBFS(GrafoColorato grafo) {
         this.grafo = grafo;
         archi = new ArrayList();
     }
 
-    public Grafo esegui(int chiaveNodoPartenza) {
+    public GrafoColorato esegui(int chiaveNodoPartenza) {
 
-        Grafo mlst = new Grafo(grafo.getCopiaNodi());
+        GrafoColorato mlst = new GrafoColorato(grafo.getCopiaNodi());
         boolean ok = bfs(mlst.getNodi().get(chiaveNodoPartenza));
 
         if (ok) {

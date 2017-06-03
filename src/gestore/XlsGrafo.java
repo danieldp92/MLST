@@ -26,7 +26,9 @@ public class XlsGrafo {
     private int indiceColonnaTotColoriGreedy;
     private int indiceColonnaTempoDiEsecuzioneAG;
     private int indiceColonnaTotColoriAG;
-
+    private int indiceColonnaTempoDiEsecuzionePilot;
+    private int indiceColonnaTotColoriPilot;
+    
     public XlsGrafo() {
         setIndiciRigheGrafi();
         setIndiciColonne();
@@ -59,6 +61,10 @@ public class XlsGrafo {
             case "ag":
                 indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneAG;
                 indiceColonnaColori = this.indiceColonnaTotColoriAG;
+                break;
+            case "pilot":
+                indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzionePilot;
+                indiceColonnaColori = this.indiceColonnaTotColoriPilot;
                 break;
             default:
                 break;
@@ -164,6 +170,8 @@ public class XlsGrafo {
         this.indiceColonnaTotColoriGreedy = 6;
         this.indiceColonnaTempoDiEsecuzioneAG = 7;
         this.indiceColonnaTotColoriAG = 8;
+        this.indiceColonnaTempoDiEsecuzionePilot = 9;
+        this.indiceColonnaTotColoriPilot = 10;
     }
     
     private void creaListaGrafi() throws FileNotFoundException, IOException {

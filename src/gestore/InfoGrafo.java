@@ -1,10 +1,8 @@
 package gestore;
 
 import grafo.Arco;
-import grafo.Colore;
-import grafo.Grafo;
+import grafo.GrafoColorato;
 import grafo.Nodo;
-import java.util.Iterator;
 
 /**
  * Offre metodi per la stampa di informazioni relative al grafo
@@ -13,9 +11,9 @@ import java.util.Iterator;
  */
 public class InfoGrafo {
 
-    Grafo grafo;
+    GrafoColorato grafo;
 
-    public InfoGrafo(Grafo grafo) {
+    public InfoGrafo(GrafoColorato grafo) {
         this.grafo = grafo;
     }
 
@@ -30,7 +28,6 @@ public class InfoGrafo {
     public void stampaArchi() {
         System.out.println("___________Archi___________");
 
-        
         for (Arco arco : grafo.getArchi().values()) {
             System.out.format("Arco: (%d, %d) - colori: ", arco.getDa().getChiave(), arco.getA().getChiave());
             for (int colore : arco.getColori()) {
@@ -49,4 +46,13 @@ public class InfoGrafo {
         }
         System.out.println();
     }
+
+    public void stampaColori() {
+        System.out.println("Numero colori: " + grafo.getListaColori().size());
+        System.out.println("___________Colori___________");
+        for (Integer colore : grafo.getListaColori()) {
+            System.out.print(colore + " ");
+        }
+    }
+
 }
