@@ -1,4 +1,4 @@
-package Pilot;
+package greedy;
 
 import gestore.GestoreGrafo;
 import grafo.Arco;
@@ -6,7 +6,6 @@ import grafo.Colore;
 import grafo.Grafo;
 import grafo.GrafoColorato;
 import grafo.Nodo;
-import greedy.Statistiche;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -15,41 +14,23 @@ import java.util.Queue;
  *
  * @author Stefano Dalla Palma
  */
-public class GreedyPilot implements Runnable {
+public class GreedyPilot {
 
     GrafoColorato grafo;
     Statistiche statistiche;
-    Integer colore;
-
-    LinkedList<Integer> coloriDiPartenza;
 
     public GreedyPilot(GrafoColorato grafo) {
         this.grafo = grafo;
         this.statistiche = new Statistiche();
     }
 
-    public GreedyPilot(GrafoColorato grafo, LinkedList<Integer> coloriDiPartenza, Integer colore) {
-        this.grafo = grafo;
-        this.statistiche = new Statistiche();
-        this.coloriDiPartenza = new LinkedList((LinkedList<Integer>)coloriDiPartenza.clone());
-    }
-
     public Statistiche getStatistiche() {
         return statistiche;
     }
 
-    @Override
-    public void run() {
-        GrafoColorato mlst = this.esegui(this.coloriDiPartenza);
-        //Pilot.addColore(this.colore, mlst.getListaColori().size());
-    }
-
-    public GrafoColorato esegui(LinkedList<Integer> coloriDiPartenza) {
-        LinkedList<Integer> cloniColoriDiPartenza = new LinkedList(coloriDiPartenza);
-
+    public GrafoColorato esegui(int coloreDiPartenza) {
         long inizio = System.currentTimeMillis();
-        //GrafoColorato mlst = new GrafoColorato(grafo.getCopiaNodi(), grafo.getListaColori().size());
-        GrafoColorato mlst = new GrafoColorato(grafo.getCopiaNodi(), grafo.getColori().size());
+        GrafoColorato mlst = new GrafoColorato(grafo.getNodi(), grafo.getListaColori().size());
         ArrayList<Arco> tmpArchi = grafo.getCopiaArchi();
         ArrayList<Colore> tmpColori = grafo.getCopiaColori();
 
@@ -92,6 +73,7 @@ public class GreedyPilot implements Runnable {
                 time = System.currentTimeMillis();
 
                 for (int i : indexOfEdgeWithMinColors) {
+
                     Arco originale = grafo.getArco(i);
                     gestoreMlst.addArcoSenzaInserireCicli(i, originale);
 
@@ -111,9 +93,9 @@ public class GreedyPilot implements Runnable {
             } else {
                 time = System.currentTimeMillis();
 
-                int mostCommonColor; //= mostCommonColor(edgeWithMinColors);
-                if (!cloniColoriDiPartenza.isEmpty()) {
-                    mostCommonColor = cloniColoriDiPartenza.removeFirst();
+                int mostCommonColor;
+                if (iter == 1) {
+                    mostCommonColor = coloreDiPartenza;
                 } else {
                     //Determino il colore più ricorrente in edgeWithMinColors
                     //Estrazione colori più ricorrenti solo dagli archi con numero colori minimo
@@ -143,6 +125,7 @@ public class GreedyPilot implements Runnable {
         this.statistiche.meanTimeDeterminazioneColorePiuRicorrente = (double) (timeDeterminazioneColorePiuRicorrente / timeDeterminazioneColorePiuRicorrenteCount) / 1000;
         this.statistiche.meanTimeRimozioneColorePiuRicorrente = (double) (timeRimozioneColorePiuRicorrente / timeRimozioneColorePiuRicorrenteCount) / 1000;
 
+        System.out.println("Ciclo: " + gestoreMlst.ciclo());
         return mlst;
     }
 
@@ -289,5 +272,4 @@ public class GreedyPilot implements Runnable {
 
         return mlstSenzaCicli;
     }
-
 }

@@ -58,8 +58,8 @@ public class TestPilot {
 
     public static ArrayList<String> listaFile() {
         ArrayList<String> listaFile = new ArrayList<>();
-
-        //Archi da 50 200 50
+        /*
+         //Archi da 50 200 50
         for (int i = 1; i <= 10; i++) {
             listaFile.add("50_200_50_13_" + i + ".mlst");
         }
@@ -103,8 +103,8 @@ public class TestPilot {
         for (int i = 1; i <= 5; i++) {
             listaFile.add("500_4000_500_63_" + i + ".mlst");
         }
-
-        /*
+         
+         */
         //Archi da 1000 4000 1000
         for (int i = 1; i <= 5; i++) {
             listaFile.add("1000_4000_1000_250_" + i + ".mlst");
@@ -115,7 +115,7 @@ public class TestPilot {
             listaFile.add("1000_8000_1000_125_" + i + ".mlst");
         }
 
-        //Archi da 10000 40000 10000
+       /* //Archi da 10000 40000 10000
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_40000_10000_2500_" + i + ".mlst");
         }
@@ -128,7 +128,7 @@ public class TestPilot {
         //Archi da 10000 160000 10000
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_160000_10000_625_" + i + ".mlst");
-        }*/
+        }  */
         return listaFile;
     }
 

@@ -34,7 +34,7 @@ public class TestCPLEX {
             int numColori = cplex.esegui();
             
             double tempoDiEsecuzione = (double)(System.currentTimeMillis() - inizio) / 1000;
-            xls.addInfoGrafo(grafo.nomeGrafo, "cplex", tempoDiEsecuzione, numColori);
+            xls.addInfoGrafo(grafo.nomeGrafo, "cplex", tempoDiEsecuzione, numColori, -1);
 
 
             System.out.println("Tempo di esecuzione: " + tempoDiEsecuzione);

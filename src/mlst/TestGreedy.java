@@ -35,7 +35,7 @@ public class TestGreedy {
 
             Statistiche statistiche = greedy.getStatistiche();
             
-            xls.addInfoGrafo(grafo.nomeGrafo, "greedy", statistiche.tempoDiEsecuzione, mlst.getListaColori().size());
+            xls.addInfoGrafo(grafo.nomeGrafo, "greedy", statistiche.tempoDiEsecuzione, mlst.getListaColori().size(), -1);
 
             System.out.println("Tempo di esecuzione: " + statistiche.tempoDiEsecuzione);
         }
