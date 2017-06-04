@@ -112,7 +112,7 @@ public class Pilot {
             System.out.println();
 
             profondita++;
-        } while (profondita < 10);
+        } while (profondita < 30);
 
         mlst = greedy.esegui(coloriSelezionati);
 
