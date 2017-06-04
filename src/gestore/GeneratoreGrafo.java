@@ -1,13 +1,16 @@
 package gestore;
 
-import graph.Arco;
-import graph.Grafo;
-import graph.Nodo;
+import grafo.Arco;
+import grafo.Colore;
+import grafo.Grafo;
+import grafo.GrafoColorato;
+import grafo.Nodo;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -26,10 +29,10 @@ public class GeneratoreGrafo {
      * @param pGrafo il File contente le istruzioni per la costruzione del Grafo
      * @return un Grafo
      */
-    public static Grafo generaGrafo(File pGrafo) {
+    public static GrafoColorato generaGrafo(File pGrafo) {
         ArrayList<Nodo> nodi = new ArrayList<>();
-        ArrayList<Arco> archi = new ArrayList<>();
-        Set<Integer> coloriGrafo = new HashSet<>();
+        LinkedHashMap<Integer, Arco> archi = new LinkedHashMap<>();
+        LinkedHashMap<Integer, Colore> colori = new LinkedHashMap<>();
 
         Nodo primoNodo;
         Nodo secondoNodo;
@@ -58,26 +61,36 @@ public class GeneratoreGrafo {
                 for (int j = 0; j < numeroNodi; j++) {
                     nodi.add(new Nodo(j));
                 }
+                
+                //Colori
+                int numColori = Integer.parseInt(line[2]) + 1;
+                for (int j = 0; j < numColori; j++)
+                    colori.put(j, new Colore(j));
 
             } else {
                 primoNodo = nodi.get(Integer.parseInt(line[0]));
                 secondoNodo = nodi.get(Integer.parseInt(line[1]));
-
-                for (int j = 2; j < line.length; j++) {
-                    int colore = Integer.parseInt(line[j]);
-                    coloriGrafo.add(colore);
-                    coloriArco.add(colore);
-                }
-                Arco arco = new Arco(primoNodo, secondoNodo, new ArrayList(coloriArco));
-                archi.add(arco);
-                coloriArco.clear();
-
-                primoNodo.addArcoIncidente(arco);
-                secondoNodo.addArcoIncidente(arco);
+                
+                primoNodo.addIndiceArcoIncidente(i-1);
+                primoNodo.addIndiceArcoUscente(i-1);
+                secondoNodo.addIndiceArcoIncidente(i-1);
+                secondoNodo.addIndiceArcoEntrante(i-1);
                 primoNodo.addNodoAdiacente(secondoNodo);
                 secondoNodo.addNodoAdiacente(primoNodo);
+                
+                Arco arco = new Arco(primoNodo, secondoNodo, new ArrayList(coloriArco));
+                
+                for (int j = 2; j < line.length; j++) {
+                    int colore = Integer.parseInt(line[j]);
+                    arco.addColore(colore);
+                    colori.get(colore).addIndiceArcoCollegato(i-1);
+                }
+                
+                
+                archi.put((i-1), arco);
+                coloriArco.clear();
             }
         }
-        return new Grafo(nodi, archi, coloriGrafo);
+        return new GrafoColorato(nodi, archi, colori);
     }
 }

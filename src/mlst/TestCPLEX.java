@@ -1,22 +1,21 @@
 package mlst;
 
+import cplex.CPLEXModel;
 import gestore.GeneratoreGrafo;
 import gestore.XlsGrafo;
 import grafo.GrafoColorato;
-import greedy.Greedy;
-import greedy.Statistiche;
+import ilog.concert.IloException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Test greedy Krumke
  *
- * @author Stefano Dalla Palma
+ * @author Daniel
  */
-public class TestGreedy {
-
-    public static void test() throws IOException {
+public class TestCPLEX {
+    
+    public static void test () throws IOException, IloException {
         XlsGrafo xls = new XlsGrafo();
         String pathTabellaRisultati = "src/Risultati/TabellaRisultati.xls";
         xls.carica(pathTabellaRisultati);
@@ -29,17 +28,19 @@ public class TestGreedy {
             GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
             grafo.nomeGrafo = s;
 
-            //Ottengo un MLT eseguendo l'algoritmo greedy sul grafo
-            Greedy greedy = new Greedy(grafo);
-            GrafoColorato mlst = greedy.esegui();
-
-            Statistiche statistiche = greedy.getStatistiche();
+            long inizio = System.currentTimeMillis();
             
-            xls.addInfoGrafo(grafo.nomeGrafo, "greedy", statistiche.tempoDiEsecuzione, mlst.getListaColori().size());
+            CPLEXModel cplex = new CPLEXModel(grafo);
+            int numColori = cplex.esegui();
+            
+            double tempoDiEsecuzione = (double)(System.currentTimeMillis() - inizio) / 1000;
+            xls.addInfoGrafo(grafo.nomeGrafo, "cplex", tempoDiEsecuzione, numColori);
 
-            System.out.println("Tempo di esecuzione: " + statistiche.tempoDiEsecuzione);
+
+            System.out.println("Tempo di esecuzione: " + tempoDiEsecuzione);
+
         }
-
+        
         xls.salva(pathTabellaRisultati);
     }
 
@@ -51,6 +52,7 @@ public class TestGreedy {
             listaFile.add("50_200_50_13_" + i + ".mlst");
         }
 
+        /*
         //Archi da 50 1000 50
         for (int i = 1; i <= 10; i++) {
             listaFile.add("50_1000_50_3_" + i + ".mlst");
@@ -115,8 +117,7 @@ public class TestGreedy {
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_160000_10000_625_" + i + ".mlst");
         }
-
+        */
         return listaFile;
     }
-
 }

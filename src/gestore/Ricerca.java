@@ -1,7 +1,7 @@
 package gestore;
 
-import graph.Grafo;
-import graph.Nodo;
+import grafo.Grafo;
+import grafo.Nodo;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -55,7 +55,8 @@ public class Ricerca {
             if (!visitato[nodo.getChiave()]) {
                 visitato[nodo.getChiave()] = true;
                 for (Nodo adiacente : nodo.getAdiacenti()) {
-                    coda.add(adiacente);
+                    if (!visitato[adiacente.getChiave()])
+                        coda.add(adiacente);
                 }
             }
         }
