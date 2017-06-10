@@ -19,6 +19,10 @@ public class Ricerca {
     public Ricerca(Grafo pGrafo) {
         this.grafo = pGrafo;
     }
+    
+    public void aggiornaGrafo (Grafo grafo) {
+        this.grafo = grafo;
+    }
 
     private boolean[] inizializzaRicerca() {
         boolean[] visitati = new boolean[grafo.dimensione()];

@@ -19,6 +19,11 @@ public class GestoreGrafo {
         this.grafo = grafo;
         this.ricerca = new Ricerca(this.grafo);
     }
+    
+    public void aggiornaGrafo (Grafo grafo) {
+        this.grafo = grafo;
+        this.ricerca.aggiornaGrafo(grafo);
+    }
 
     /**
      * Verifica se il grafo è connesso.

@@ -88,6 +88,10 @@ public class GrafoColorato extends Grafo {
     public LinkedHashMap<Integer, Colore> getColori() {
         return colori;
     }
+    
+    public Colore getColore (int idColore) {
+        return colori.get(idColore);
+    }
 
     public ArrayList<Colore> getCopiaColori() {
         ArrayList<Colore> copiaColori = new ArrayList<>();
