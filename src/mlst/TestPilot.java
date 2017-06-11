@@ -28,8 +28,9 @@ public class TestPilot {
         xls.carica(pathTabellaRisultati);
 
         ArrayList<String> listaGrafi = listaFile();
+        
+        //Per ogni grafico
         for (int i = 0; i < listaGrafi.size(); i++) {
-
             long startTime = System.currentTimeMillis();
 
             GrafoColorato g = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + listaGrafi.get(i)));
@@ -40,7 +41,8 @@ public class TestPilot {
             int sol;
             ArrayList<Integer> solArray = new ArrayList<>();
 
-            for (int z = 0; z < numCol; z++) {
+            //Primo livello
+            for (int z = 0; z < numCol; z++) {   
                 GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + listaGrafi.get(i)));
                 colorsToDelete.add(count);
                 Pilot pilot = new Pilot(grafo);
@@ -48,12 +50,14 @@ public class TestPilot {
                 solArray.add(sol);
                 colorsToDelete.clear();
                 count++;
+                if(System.currentTimeMillis()-startTime>600000) break;
             }
 
             /*for (int i = 0; i < solArray.size(); i++) {
              System.out.println("Colore " + i + ": " + solArray.get(i));
              }*/
-            ArrayList<Integer> mins = CercaMins(solArray);
+                        
+            ArrayList<Integer> mins = CercaMins(solArray); //cerca i colori con la soluzione migliore
 
             /*System.out.println("");
              for (int i = 0; i < mins.size(); i++) {
@@ -63,24 +67,24 @@ public class TestPilot {
             solArray.clear();
             count = 0;
 
-            LinkedList<LinkedList<Integer>> solList = new LinkedList<>();
+           // LinkedList<LinkedList<Integer>> solList = new LinkedList<>();
 
+            //Secondo livello
             for (int j = 0; j < mins.size(); j++) {
                 for (int z = 0; z < numCol; z++) {
                     if (mins.get(j) != count) {
                         GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + listaGrafi.get(i)));
                         colorsToDelete.add(mins.get(j));
                         colorsToDelete.add(count);
-
                         Pilot pilot = new Pilot(grafo);
                         sol = pilot.esegui(colorsToDelete);
                         solArray.add(sol);
 
-                        LinkedList<Integer> currentSol = new LinkedList<>();
+                        /*LinkedList<Integer> currentSol = new LinkedList<>();
                         currentSol.add(mins.get(j));
                         currentSol.add(count);
                         currentSol.add(sol);
-                        solList.add(currentSol);
+                        solList.add(currentSol);*/
 
                         // System.out.println("Colore " + mins.get(i) + "," + count + ": " + sol);
                         colorsToDelete.clear();
@@ -88,15 +92,17 @@ public class TestPilot {
                     } else {
                         count++;
                     }
+                    if(System.currentTimeMillis()-startTime>600000) break;
                 }
                 count = 0;
+                if(System.currentTimeMillis()-startTime>600000) break;
             }
 
             /*for(int i=0; i<solList.size(); i++){
              System.out.println("Colore " + solList.get(i).get(0) + "," + solList.get(i).get(1) + ": " + solList.get(i).get(2));
              }*/
             /*ArrayList<Integer> mins2 = CercaMins(solArray);
-             System.out.println("");
+            /* System.out.println("");
              for (int i = 0; i < mins2.size(); i++) {
              System.out.println(mins.get(i));
              }*/
