@@ -28,11 +28,15 @@ public class Popolazione {
 
     public Popolazione() {
         this.impostazioni = new Impostazioni();
+        long i = System.currentTimeMillis();
         this.grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + this.impostazioni.nomeGrafo));
-
+        System.out.println("Tempo generazione grafo: " + (System.currentTimeMillis() - i));
         this.cromosomi = new ArrayList<>();
 
+        i = System.currentTimeMillis();
         creaPopolazioneIniziale();
+        System.out.println("Tempo creazione popolazione: " + (System.currentTimeMillis() - i));
+        
     }
 
     public ArrayList<Cromosoma> getCromosomi() {
@@ -60,6 +64,7 @@ public class Popolazione {
         //Creazione popolazione random
         Random random = new Random(1);
         for (int i = 0; i < this.impostazioni.sizePopolazione; i++) {
+            System.out.println("Cromosoma " + (i+1));
             Cromosoma tmpCromosoma = new Cromosoma();
 
             for (int j = 0; j < this.impostazioni.sizeCromosoma; j++) {
@@ -74,7 +79,9 @@ public class Popolazione {
         }
 
         //Check di validità di ogni cromosoma
+        int i = 0;
         for (Cromosoma cromosoma : this.cromosomi) {
+            System.out.println("Validità Cromosoma " + (++i));
             validaCromosoma(cromosoma);
         }
     }
@@ -109,6 +116,7 @@ public class Popolazione {
 
         //Ciclo finché non ho un cromosoma valido
         Random random = new Random(1);
+        int i = 0;
         while (!gestoreMLST.connesso()) {
             //Muto un colore settato a 0 ad 1, al fine di trovare un cromosoma valido
             boolean mutato = false;

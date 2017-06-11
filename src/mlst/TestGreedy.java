@@ -26,9 +26,10 @@ public class TestGreedy {
         for (String s : listaGrafi) {
             //Carico il grafo
             System.out.println(s);
+            long i = System.currentTimeMillis();
             GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
             grafo.nomeGrafo = s;
-
+            System.out.println("Tempo generazione grafo: " + (System.currentTimeMillis() - i));
             //Ottengo un MLT eseguendo l'algoritmo greedy sul grafo
             Greedy greedy = new Greedy(grafo);
             GrafoColorato mlst = greedy.esegui();
@@ -38,6 +39,14 @@ public class TestGreedy {
             xls.addInfoGrafo(grafo.nomeGrafo, "greedy", statistiche.tempoDiEsecuzione, mlst.getListaColori().size());
 
             System.out.println("Tempo di esecuzione: " + statistiche.tempoDiEsecuzione);
+            System.out.println("Numero iterate: " + statistiche.iter);
+            System.out.println("Tempo Medio a iterata: " + statistiche.meanTimeIterate);
+            System.out.println("Tempo Medio recupero archi con colore minimo: " + statistiche.meanTimeRecuperoArchiConColoreMinimo);
+            System.out.println("Tempo Medio inserimento archi senza generare cicli: " + statistiche.meanTimeInserimentoArchiSenzaCiclo);
+            System.out.println("Tempo Medio rimozione archi dal grafo originale che generano cicli nell'mlst: " + statistiche.meanTimeRimozioneArchi);
+            System.out.println("Tempo Medio determinazione colore più ricorrente: " + statistiche.meanTimeDeterminazioneColorePiuRicorrente);
+            System.out.println("Tempo Medio rimozione colore più ricorrente: " + statistiche.meanTimeRimozioneColorePiuRicorrente);
+            
         }
 
         xls.salva(pathTabellaRisultati);

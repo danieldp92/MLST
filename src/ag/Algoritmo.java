@@ -35,14 +35,14 @@ public class Algoritmo {
         valutaPopolazione();
         int generazione = 0;
         
-        while (generazione++ < 1000) {
+        while (generazione++ < 100) {
+            System.out.println("Iterata " + generazione);
             //Selezione
             ArrayList<Cromosoma> listaGenitori = this.selection.MySelezionePerRiproduzione(this.popolazione);
             
             
             //Crossover
             ArrayList<Cromosoma> listaFigli = this.crossover.myCrossover2(listaGenitori);
-            System.out.println("Iterata " + generazione);
             
             /*Selezione dei restanti cromosomi (10)
             ArrayList<Cromosoma> restantiCromosomiDaInserire = new ArrayList<>();
@@ -64,7 +64,7 @@ public class Algoritmo {
             
             
             //Selezione per sopravvivenza
-            ArrayList<Cromosoma> sopravvissuti = selection.MySelezionePerRiproduzione(popolazione);
+            ArrayList<Cromosoma> sopravvissuti = selection.mySelezionePerSopravvivenza2(popolazione);
             popolazione.setCromosomi(sopravvissuti);
             valutaPopolazione();
         }

@@ -79,13 +79,13 @@ public class Selezione {
     }
     
     public ArrayList<Cromosoma> MySelezionePerRiproduzione(Popolazione popolazione) {
-        int sizeCromosoma = popolazione.cromosomi.get(0).size();
+        int sizeCromosoma = this.impostazioni.sizeCromosoma;
 
         ArrayList<Integer> indiceCromosomiSelezionati = new ArrayList<>();
         ArrayList<Cromosoma> listaCromosomiSelezionati = new ArrayList<>();
         ArrayList<Double> probabilitaDiSelezione;
 
-        //30 coppie
+        //50 coppie
         for (int i = 0; i < 50; i++) {
             probabilitaDiSelezione = getProbabilitaDiSelezione(popolazione);
             
@@ -138,7 +138,38 @@ public class Selezione {
         return listaCromosomiSelezionati;
     }
     
-    private ArrayList<Cromosoma> mySelezionePerSopravvivenza (Popolazione popolazione) {
+    public ArrayList<Cromosoma> mySelezionePerSopravvivenza2 (Popolazione popolazione) {
+        int sizeCromosoma = this.impostazioni.sizeCromosoma;
+
+        ArrayList<Cromosoma> listaCromosomiSelezionati = new ArrayList<>();
+        ArrayList<Double> probabilitaDiSelezione;
+
+        for (int i = 0; i < this.impostazioni.sizePopolazione; i++) {
+            probabilitaDiSelezione = getProbabilitaDiSelezione(popolazione);
+            
+            int index = 0;
+            double random = Math.random();
+
+            while (random > probabilitaDiSelezione.get(index)) {
+                index++;
+            }
+            
+            //Aumento il valore di fitness del cromosoma, per diminuire 
+            //la probabilità che venga scelto nuovamente
+            popolazione.getCromosoma(index).incrementaValoreFunzioneDiFitness(sizeCromosoma/20);
+            
+            //Inserisco la coppia nel vettore degli indici da selezionare
+            listaCromosomiSelezionati.add(popolazione.getCromosoma(index));
+        }
+        
+        for (Cromosoma cromosoma : listaCromosomiSelezionati)
+            cromosoma.ripristinaValoreFunzioneDiFitness();
+        
+        return listaCromosomiSelezionati;
+    }
+    
+    
+    public ArrayList<Cromosoma> mySelezionePerSopravvivenza (Popolazione popolazione) {
         ArrayList<Cromosoma> cromosomiSopravvissuti = new ArrayList<>();
         
         ArrayList<Integer> listaFFCromosomi = new ArrayList<>();

@@ -31,6 +31,11 @@ public class GestoreGrafo {
      * @return true se il grafo è connesso; false altrimenti.
      */
     public boolean connesso() {
+        /*if (this.grafo.getTotaleSottoComponenti() == 1)
+            return true;
+        
+        return false;*/
+        
         if (this.grafo.dimensione() == 0) {
             return false;
         }
@@ -45,6 +50,7 @@ public class GestoreGrafo {
 
         return this.ricerca.bfs(this.grafo.getNodo(0));      //Inizio la ricerca in ampiezza dal nodo avente chiave 0
         //return new Ricerca(grafo).dfs(this.grafo.getNodo(0));    //Inizio la ricerca in profondità dal nodo avente chiave 0
+        
     }
 
     /**
@@ -59,80 +65,49 @@ public class GestoreGrafo {
         int componenteDiRiferimentoNodo1 = 0;
         int componenteDiRiferimentoNodo2 = 0;
 
-        componenteDiRiferimentoNodo1 = this.grafo.getNodo(pArco.getDa().getChiave()).getComponenteDiRiferimento();
-        componenteDiRiferimentoNodo2 = this.grafo.getNodo(pArco.getA().getChiave()).getComponenteDiRiferimento();
+        Nodo nodo1 = this.grafo.getNodo(pArco.getDa().getChiave());
+        Nodo nodo2 = this.grafo.getNodo(pArco.getA().getChiave());
+        componenteDiRiferimentoNodo1 = nodo1.getComponenteDiRiferimento();
+        componenteDiRiferimentoNodo2 = nodo2.getComponenteDiRiferimento();
 
         //Se l'arco non genera cicli
         if (componenteDiRiferimentoNodo1 != componenteDiRiferimentoNodo2) {
             this.grafo.addArco(indiceArco, pArco);
+            
+            ArrayList<Integer> listaNodiComponente1 = this.grafo.getListaNodiConnessiAComponente().get(componenteDiRiferimentoNodo1);
+            ArrayList<Integer> listaNodiComponente2 = this.grafo.getListaNodiConnessiAComponente().get(componenteDiRiferimentoNodo2);
 
-            for (Nodo n : this.grafo.getNodi()) {
+            if (listaNodiComponente1.size() < listaNodiComponente2.size()) {
+                for (int indiceNodo : listaNodiComponente1) {
+                    this.grafo.getNodo(indiceNodo).setComponenteDiRiferimento(componenteDiRiferimentoNodo2);
+                }
+                
+                listaNodiComponente2.addAll(listaNodiComponente1);
+                
+                this.grafo.getListaNodiConnessiAComponente().remove(componenteDiRiferimentoNodo1);
+                this.grafo.getListaNodiConnessiAComponente().put(componenteDiRiferimentoNodo2, listaNodiComponente2);
+            } else {
+                for (int indiceNodo : listaNodiComponente2) {
+                    this.grafo.getNodo(indiceNodo).setComponenteDiRiferimento(componenteDiRiferimentoNodo1);
+                }
+                
+                listaNodiComponente1.addAll(listaNodiComponente2);
+                
+                this.grafo.getListaNodiConnessiAComponente().remove(componenteDiRiferimentoNodo2);
+                this.grafo.getListaNodiConnessiAComponente().put(componenteDiRiferimentoNodo1, listaNodiComponente1);
+            }
+            
+            
+            
+            /*for (Nodo n : this.grafo.getNodi()) {
                 if (n.getComponenteDiRiferimento() == componenteDiRiferimentoNodo2) {
                     n.setComponenteDiRiferimento(componenteDiRiferimentoNodo1);
                 }
-            }
+            }*/
             
             return true;
         }
 
         return false;
-    }
-    
-    
-    /**
-     * Controllo della ciclicità, controllando che ogni sottocomponente del grafo non abbia una ciclicità
-     * @return 
-     */
-    /*AGGIORNAMENTO HASHMAP
-    public boolean ciclo(Grafo pGrafo) {
-        ArrayList<Grafo> listaSottografi = getComponentiConnesse();
-        for (Grafo g : listaSottografi)
-            if (g.getArchi().size() >= g.dimensione())
-                return true;
-        
-        return false;
-    }
-    
-    
-    private ArrayList<Grafo> getComponentiConnesse() {
-        ArrayList<Grafo> listaSottografi = new ArrayList<>();
-
-        int indicePrimoNodoDelSottografo = -1;
-
-        boolean[] nodiVisitati = new boolean[this.grafo.dimensione()];
-        for (int i = 0; i < this.grafo.dimensione(); i++) {
-            nodiVisitati[i] = false;
-        }
-
-        while ((indicePrimoNodoDelSottografo = getIndicePrimoFalse(nodiVisitati)) != -1) {
-            boolean[] nodiSottografoVisitati = this.ricerca.bfsArray(this.grafo.getNodo(indicePrimoNodoDelSottografo));
-
-            ArrayList<Nodo> listaNodiSottografo = new ArrayList<>();
-            ArrayList<Arco> listaArchiSottografo = null;
-
-            for (int i = 0; i < nodiSottografoVisitati.length; i++) {
-                if (nodiSottografoVisitati[i]) {
-                    //Aggiorna la lista dei nodi visitati
-                    nodiVisitati[i] = true;
-                    //Aggiungo il nodo alla lista dei nodi del sottografo
-                    listaNodiSottografo.add(this.grafo.getNodo(i));
-                }
-            }
-            listaArchiSottografo = this.grafo.getArchi(listaNodiSottografo);
-            
-            listaSottografi.add(new Grafo(listaNodiSottografo, listaArchiSottografo));
-        }
-
-        return listaSottografi;
-    }*/
-
-    private int getIndicePrimoFalse(boolean[] pLista) {
-        for (int i = 0; i < pLista.length; i++) {
-            if (!pLista[i]) {
-                return i;
-            }
-        }
-
-        return -1;
     }
 }

@@ -19,6 +19,7 @@ public class Nodo {
     public Nodo(int pChiave) {
         this.chiave = pChiave;
         this.componenteDiRiferimento = pChiave;
+        
         this.adiacenti = new ArrayList<>();
         this.indiciArchiIncidenti = new ArrayList<>();
         this.indiciArchiEntranti = new ArrayList<>();

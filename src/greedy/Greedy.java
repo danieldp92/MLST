@@ -29,11 +29,11 @@ public class Greedy {
     }
 
     public GrafoColorato esegui() {
-        long inizio = System.currentTimeMillis();
+        
         GrafoColorato mlst = new GrafoColorato(grafo.getNodi(), grafo.getListaColori().size());
         ArrayList<Arco> tmpArchi = grafo.getCopiaArchi();
         ArrayList<Colore> tmpColori = grafo.getCopiaColori();
-        
+        long inizio = System.currentTimeMillis();
         GestoreGrafo gestoreMlst = new GestoreGrafo(mlst);
 
         ArrayList<Arco> edgeWithMinColors;
@@ -56,7 +56,6 @@ public class Greedy {
         while (!gestoreMlst.connesso()) {
             ++iter;
             time = System.currentTimeMillis();
-
             //Prelevo gli indici degli archi con colore minimo, poichè le operazioni effettuate su un arraylist 
             //con gli indici (get, set) hanno complessità O(1), diversamente dalle operazioni effettuate con gli oggetti
             indexOfEdgeWithMinColors = getIndexOfEdgesWithMinNumberOfColors(tmpArchi);
@@ -85,6 +84,9 @@ public class Greedy {
                 timeInserimentoArchiSenzaCicloCount++;
 
                 time = System.currentTimeMillis();
+                
+                //Rimuovi archi dal grafo originale che generano cicli nell'mlst
+                //In questo modo, di riducono gli archi da analizzare
                 rimuoviArchiCheGeneranoCicli(tmpArchi, tmpColori, mlst);
 
                 timeRimozioneArchi += System.currentTimeMillis() - time;
@@ -121,7 +123,6 @@ public class Greedy {
         this.statistiche.meanTimeDeterminazioneColorePiuRicorrente = (double)(timeDeterminazioneColorePiuRicorrente / timeDeterminazioneColorePiuRicorrenteCount) / 1000;
         this.statistiche.meanTimeRimozioneColorePiuRicorrente = (double)(timeRimozioneColorePiuRicorrente / timeRimozioneColorePiuRicorrenteCount) / 1000;
         
-        System.out.println("Ciclo: " + gestoreMlst.ciclo());
         return mlst;
     }
 
@@ -221,49 +222,4 @@ public class Greedy {
         }
     }
     
-    private GrafoColorato generaGrafoSenzaCicli (GrafoColorato mlst) {
-        ArrayList<Integer> listaNodiDiPartenza = new ArrayList<>();
-        for (int i = 0; i < mlst.dimensione(); i++)
-            listaNodiDiPartenza.add(-1);
-        
-        ArrayList<Arco> listaArchiCandidati = new ArrayList<>();
-        boolean[] visitato = new boolean[mlst.dimensione()];
-        
-        Queue<Nodo> coda = new LinkedList();
-        coda.add(mlst.getNodo(0));
-
-        while (!coda.isEmpty()) {
-            Nodo nodo = coda.poll();
-
-            if (!visitato[nodo.getChiave()]) {
-                visitato[nodo.getChiave()] = true;
-                
-                if (nodo.getChiave() != 0) {
-                    Arco tmp = mlst.getArco(nodo.getChiave(), listaNodiDiPartenza.get(nodo.getChiave()));
-                    listaArchiCandidati.add(tmp);
-                }
-                
-                
-                for (Nodo adiacente : nodo.getAdiacenti()) {
-                    if (!visitato[adiacente.getChiave()]) {
-                        coda.add(adiacente);
-                        listaNodiDiPartenza.set(adiacente.getChiave(), nodo.getChiave());
-                    }
-                }
-            }
-        }
-        
-        
-        ArrayList<Nodo> nodiMlst = new ArrayList<>();
-        for (int i = 0; i < mlst.dimensione(); i++)
-            nodiMlst.add(new Nodo(i));
-            
-        GrafoColorato mlstSenzaCicli = new GrafoColorato(nodiMlst, mlst.getColori().size());
-        
-        int index = 0;
-        for (Arco arco : listaArchiCandidati)
-            mlstSenzaCicli.addArco(index++, arco);
-        
-        return mlstSenzaCicli;
-    }
 }

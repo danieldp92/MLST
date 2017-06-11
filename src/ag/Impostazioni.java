@@ -18,11 +18,11 @@ public class Impostazioni {
     double mutationRate;
     
     public Impostazioni () {
-        this.nomeGrafo = "50_200_50_13_1.mlst";
+        this.nomeGrafo = "1000_8000_1000_125_1.mlst";
         this.maxValutazioni = 10000;
         this.sizePopolazione = 100;
-        this.sizeCromosoma = 50;
+        this.sizeCromosoma = 1000;
         this.crossoverRate = 0.8;
-        this.mutationRate = 0.1;
+        this.mutationRate = 0.02;
     }
 }

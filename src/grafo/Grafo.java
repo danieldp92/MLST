@@ -8,6 +8,7 @@ import java.util.Map;
 public class Grafo {
 
     public String nomeGrafo;
+    private LinkedHashMap<Integer, ArrayList<Integer>> listaNodiConnessiAComponente;
     ArrayList<Nodo> nodi;
     LinkedHashMap<Integer, Arco> archi;
     
@@ -19,6 +20,7 @@ public class Grafo {
     public Grafo(ArrayList<Nodo> pNodi) {
         this.nodi = pNodi;
         this.archi = new LinkedHashMap<>();
+        this.listaNodiConnessiAComponente = new LinkedHashMap<>();
         
         //Clear nodi
         for (Nodo nodo : this.nodi) {
@@ -26,6 +28,11 @@ public class Grafo {
             nodo.getIndiciArchiEntranti().clear();
             nodo.getIndiciArchiUscenti().clear();
             nodo.getAdiacenti().clear();
+            
+            
+            ArrayList<Integer> listaNodi = new ArrayList<>();
+            listaNodi.add(nodo.getChiave());
+            listaNodiConnessiAComponente.put(nodo.getChiave(), listaNodi);
         }
     }
 
@@ -33,9 +40,18 @@ public class Grafo {
         this.nodi = pNodi;
         this.archi = pArchi;
     }
-
     
+    
+
     //GET
+    public LinkedHashMap<Integer, ArrayList<Integer>> getListaNodiConnessiAComponente() {
+        return listaNodiConnessiAComponente;
+    }
+    
+    public int getTotaleSottoComponenti() {
+        return listaNodiConnessiAComponente.size();
+    }
+    
     public ArrayList<Nodo> getNodi() {
         return nodi;
     }
@@ -271,8 +287,6 @@ public class Grafo {
             this.nodi.remove(nodoDaRimuovere);
         }
     }
-
-    
     
     /**
      * Restituisce la dimensione del grafo intesa come numero di nodi.
@@ -295,118 +309,3 @@ public class Grafo {
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-public class Grafo {
-
-    
-    public Grafo(ArrayList<Nodo> pNodi, int pNumColori) {
-        this.nodi = pNodi;
-        this.archi = new LinkedHashMap<>();
-
-        this.colori = new ArrayList<>();
-        for (int i = 0; i < pNumColori; i++) {
-            this.colori.add(new Colore(i));
-        }
-    }
-
-    public Grafo(ArrayList<Nodo> pNodi, LinkedHashMap<Integer, Arco> pArchi, ArrayList<Colore> pColori) {
-        this.nodi = pNodi;
-        this.archi = pArchi;
-        this.colori = pColori;
-    }
-
-
-    
-
-
-    public ArrayList<Colore> getColori() {
-        return colori;
-    }
-    
-    public ArrayList<Colore> getCopiaColori () {
-        ArrayList<Colore> copiaColori = new ArrayList<>();
-        Colore tmpColore = null;
-        
-        for (Colore colore : this.colori) {
-            tmpColore = new Colore(colore.getId(), new ArrayList<>(colore.getIndiciArchiCollegati()));
-            copiaColori.add(tmpColore);
-        }
-        
-        return copiaColori;
-    }
-
-    public ArrayList<Integer> getListaColoriUsati() {
-        ArrayList<Integer> listaColori = new ArrayList<>();
-
-        for (Colore c : this.colori) {
-            if (c.isUsed()) {
-                listaColori.add(c.getId());
-            }
-        }
-
-        return listaColori;
-    }
-
-    public ArrayList<Integer> getListaColoriOrdinataPerRicorrenza() {
-        if (this.listaColoriOrdinataPerRicorrenzaMaggiore == null) {
-            setListaColoriOrdinataPerRicorrenza();
-        }
-
-        return listaColoriOrdinataPerRicorrenzaMaggiore;
-    }
-
-    
-    
-    
-    //Add
-
-    //Rimuovi
-    
-    public void rimuoviColore(int pColore) {
-        //Determino gli indici degli archi in cui è presente pColore
-        for (int i : this.colori.get(pColore).getIndiciArchiCollegati())
-            this.archi.get(i).rimuoviColore(pColore);
-
-        //Elimino ogni riferimento di pColore da ogni arco associato
-        this.getColori().get(pColore).getIndiciArchiCollegati().clear();
-    }
-
-    
-    private void setListaColoriOrdinataPerRicorrenza() {
-        ArrayList<Colore> tmpColori = new ArrayList<>(this.colori);
-        this.listaColoriOrdinataPerRicorrenzaMaggiore = new ArrayList<>();
-
-        int indexColoreMaxRicorrente = -1;
-        int coloreMaxRicorrente = -1;
-        int maxRicorrenza = -1;
-
-        while (tmpColori.size() > 0) {
-            indexColoreMaxRicorrente = 0;
-            for (int i = 0; i < tmpColori.size(); i++) {
-                if (tmpColori.get(i).getOccorrenze() > maxRicorrenza) {
-                    maxRicorrenza = tmpColori.get(i).getOccorrenze();
-                    coloreMaxRicorrente = tmpColori.get(i).getId();
-                    indexColoreMaxRicorrente = i;
-                }
-            }
-
-            tmpColori.remove(indexColoreMaxRicorrente);
-            maxRicorrenza = -1;
-            this.listaColoriOrdinataPerRicorrenzaMaggiore.add(coloreMaxRicorrente);
-        }
-    }
-}*/
