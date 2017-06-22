@@ -12,7 +12,6 @@ import ilog.concert.IloException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import pilot.Pilot;
 
 /**
@@ -28,11 +27,10 @@ public class TestPilot {
         xls.carica(pathTabellaRisultati);
 
         ArrayList<String> listaGrafi = listaFile();
-        
+              
         //Per ogni grafico
         for (int i = 0; i < listaGrafi.size(); i++) {
-            long startTime = System.currentTimeMillis();
-
+            
             GrafoColorato g = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + listaGrafi.get(i)));
             int numCol = g.getColori().size();
 
@@ -40,7 +38,8 @@ public class TestPilot {
             ArrayList<Integer> colorsToDelete = new ArrayList<>();
             int sol;
             ArrayList<Integer> solArray = new ArrayList<>();
-
+            long startTime = System.currentTimeMillis();
+                        
             //Primo livello
             for (int z = 0; z < numCol; z++) {   
                 GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + listaGrafi.get(i)));
@@ -58,7 +57,7 @@ public class TestPilot {
              }*/
                         
             ArrayList<Integer> mins = CercaMins(solArray); //cerca i colori con la soluzione migliore
-
+            
             /*System.out.println("");
              for (int i = 0; i < mins.size(); i++) {
              System.out.println(mins.get(i));
@@ -117,7 +116,7 @@ public class TestPilot {
             float endTime = System.currentTimeMillis() - startTime;
             float timeInSec = endTime / 1000;
 
-            System.out.println("Grafo:" + listaGrafi.get(i) + " Sol:" + minSol + " Tempo s:" + endTime);
+            System.out.println("Grafo:" + listaGrafi.get(i) + " Sol:" + minSol + " Tempo ms:" + endTime);
             System.out.println("");
 
             xls.addInfoGrafo(listaGrafi.get(i), "pilot", timeInSec, minSol);

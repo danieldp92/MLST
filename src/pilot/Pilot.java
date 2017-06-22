@@ -14,6 +14,7 @@ import grafo.Nodo;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.Random;
 
 /**
  *
@@ -113,20 +114,17 @@ public class Pilot {
 
     private ArrayList<Arco> getEdgesWithMinNumberOfColors(ArrayList<Arco> pEdges, ArrayList<Integer> pIndexOfEdge) {
         ArrayList<Arco> pArchiConColoriMinimi = new ArrayList<>();
-
         for (int i : pIndexOfEdge) {
             pArchiConColoriMinimi.add(pEdges.get(i));
         }
-
         return pArchiConColoriMinimi;
     }
 
     private int mostCommonColor(ArrayList<Arco> pEdges) {
         int mostCommonColor = -1;
         int ricorrenzaMaggiore = -1;
-
         int[] ricorrenzeColori = new int[this.grafo.getColori().size()];
-
+        LinkedList<Integer> piuFrequenti = new LinkedList<>();
         //Scorro tutti gli archi e memorizzo le ricorrenze
         //Compessità: O(m * 3)      m -> num. archi, 3 -> num colori per arco
         for (Arco a : pEdges) {
@@ -134,16 +132,23 @@ public class Pilot {
                 ++ricorrenzeColori[indiceColore];
             }
         }
-
         //Trovo il colore più ricorrente
         //Complessità: O(c)         c -> num. colori
         for (int i = 0; i < ricorrenzeColori.length; i++) {
             if (ricorrenzeColori[i] > ricorrenzaMaggiore) {
                 ricorrenzaMaggiore = ricorrenzeColori[i];
-                mostCommonColor = i;
+                //mostCommonColor = i;
+                piuFrequenti.clear();
+                piuFrequenti.add(i);
+            }else if(ricorrenzeColori[i] == ricorrenzaMaggiore){
+                piuFrequenti.add(i);
             }
         }
-
+        //scegli random
+        int lunghezza = piuFrequenti.size();
+        Random r = new Random();
+        mostCommonColor = piuFrequenti.get(r.nextInt(lunghezza));
+        
         return mostCommonColor;
     }
 
@@ -152,7 +157,6 @@ public class Pilot {
         for (int i : colori.get(pColore).getIndiciArchiCollegati()) {
             archi.get(i).rimuoviColore(pColore);
         }
-
         //Elimino ogni riferimento di pColore da ogni arco associato
         colori.get(pColore).getIndiciArchiCollegati().clear();
     }
