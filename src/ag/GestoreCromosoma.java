@@ -10,6 +10,7 @@ import gestore.GestoreGrafo;
 import grafo.Colore;
 import grafo.GrafoColorato;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Random;
 
 /**
@@ -32,6 +33,8 @@ public class GestoreCromosoma {
 
     public void aggiornaCromosoma(Cromosoma cromosoma) {
         this.cromosoma = cromosoma;
+        this.grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + this.impostazioni.nomeGrafo));
+
     }
 
     public GrafoColorato getMLSTdaCromosoma() {
@@ -59,6 +62,7 @@ public class GestoreCromosoma {
                 mlst.addArco(i, this.grafo.getArco(i));
             }
         }
+        
         
         return mlst;
     }

@@ -8,7 +8,7 @@ import java.util.Map;
 public class Grafo {
 
     public String nomeGrafo;
-    private LinkedHashMap<Integer, ArrayList<Integer>> listaNodiConnessiAComponente;
+    protected LinkedHashMap<Integer, ArrayList<Integer>> listaNodiConnessiAComponente;
     ArrayList<Nodo> nodi;
     LinkedHashMap<Integer, Arco> archi;
     
@@ -39,6 +39,49 @@ public class Grafo {
     public Grafo(ArrayList<Nodo> pNodi, LinkedHashMap<Integer, Arco> pArchi) {
         this.nodi = pNodi;
         this.archi = pArchi;
+        
+        /*
+        //Creazione sottocomponenti
+        this.listaNodiConnessiAComponente = new LinkedHashMap<>();
+        //Settaggio iniziale
+        for (Nodo nodo : this.nodi) {
+            ArrayList<Integer> listaNodi = new ArrayList<>();
+            listaNodi.add(nodo.getChiave());
+            listaNodiConnessiAComponente.put(nodo.getChiave(), listaNodi);
+        }
+        
+        int componenteDiRiferimentoNodo1 = 0;
+        int componenteDiRiferimentoNodo2 = 0;
+        
+        //Calcolo sottocomponenti
+        int i = 0;
+        for (Map.Entry<Integer, Arco> entry : this.archi.entrySet()) {
+            Integer key = entry.getKey();
+            Arco arco = entry.getValue();
+            System.out.println(++i);
+            if (i == 15)
+                System.out.println("OK");
+            Nodo nodoDa = arco.getDa();
+            Nodo nodoA = arco.getA();
+            
+            componenteDiRiferimentoNodo1 = nodoDa.getComponenteDiRiferimento();
+            componenteDiRiferimentoNodo2 = nodoA.getComponenteDiRiferimento();
+            
+            if (componenteDiRiferimentoNodo1 != componenteDiRiferimentoNodo2) {
+                if (this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo1).size() > 
+                        this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo2).size()) {
+                    this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo1).addAll(this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo2));
+                    this.listaNodiConnessiAComponente.remove(componenteDiRiferimentoNodo2);
+                    
+                    nodoA.setComponenteDiRiferimento(componenteDiRiferimentoNodo1);
+                } else {
+                    this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo2).addAll(this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo1));
+                    this.listaNodiConnessiAComponente.remove(componenteDiRiferimentoNodo1);
+                    
+                    nodoDa.setComponenteDiRiferimento(componenteDiRiferimentoNodo2);
+                }
+            }
+        }*/
     }
     
     
@@ -199,6 +242,42 @@ public class Grafo {
         a.addNodoAdiacente(da);
         a.addIndiceArcoIncidente(indiceArco);
         a.addIndiceArcoEntrante(indiceArco);
+        
+        
+        //Sottocomponenti
+        int componenteDiRiferimentoNodo1 = 0;
+        int componenteDiRiferimentoNodo2 = 0;
+
+        Nodo nodo1 = getNodo(pArco.getDa().getChiave());
+        Nodo nodo2 = getNodo(pArco.getA().getChiave());
+        componenteDiRiferimentoNodo1 = nodo1.getComponenteDiRiferimento();
+        componenteDiRiferimentoNodo2 = nodo2.getComponenteDiRiferimento();
+
+        //Se l'arco non genera cicli
+        if (componenteDiRiferimentoNodo1 != componenteDiRiferimentoNodo2) {
+            ArrayList<Integer> listaNodiComponente1 = this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo1);
+            ArrayList<Integer> listaNodiComponente2 = this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo2);
+
+            if (listaNodiComponente1.size() < listaNodiComponente2.size()) {
+                for (int indiceNodo : listaNodiComponente1) {
+                    getNodo(indiceNodo).setComponenteDiRiferimento(componenteDiRiferimentoNodo2);
+                }
+                
+                listaNodiComponente2.addAll(listaNodiComponente1);
+                
+                this.listaNodiConnessiAComponente.remove(componenteDiRiferimentoNodo1);
+                this.listaNodiConnessiAComponente.put(componenteDiRiferimentoNodo2, listaNodiComponente2);
+            } else {
+                for (int indiceNodo : listaNodiComponente2) {
+                    getNodo(indiceNodo).setComponenteDiRiferimento(componenteDiRiferimentoNodo1);
+                }
+                
+                listaNodiComponente1.addAll(listaNodiComponente2);
+                
+                this.listaNodiConnessiAComponente.remove(componenteDiRiferimentoNodo2);
+                this.listaNodiConnessiAComponente.put(componenteDiRiferimentoNodo1, listaNodiComponente1);
+            }
+        }
     }
 
     public void addNodi(ArrayList<Nodo> pNodi) {

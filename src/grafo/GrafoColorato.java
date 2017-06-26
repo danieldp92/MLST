@@ -168,6 +168,43 @@ public class GrafoColorato extends Grafo {
         for (int colore : pArco.getColori()) {
             this.colori.get(colore).addIndiceArcoCollegato(indiceArco);
         }
+        
+        
+        //Sottocomponenti
+        int componenteDiRiferimentoNodo1 = 0;
+        int componenteDiRiferimentoNodo2 = 0;
+
+        Nodo nodo1 = getNodo(pArco.getDa().getChiave());
+        Nodo nodo2 = getNodo(pArco.getA().getChiave());
+        componenteDiRiferimentoNodo1 = nodo1.getComponenteDiRiferimento();
+        componenteDiRiferimentoNodo2 = nodo2.getComponenteDiRiferimento();
+
+        //Se l'arco non genera cicli
+        if (componenteDiRiferimentoNodo1 != componenteDiRiferimentoNodo2) {
+            ArrayList<Integer> listaNodiComponente1 = this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo1);
+            ArrayList<Integer> listaNodiComponente2 = this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo2);
+            
+            
+            if (listaNodiComponente1.size() < listaNodiComponente2.size()) {
+                for (int indiceNodo : listaNodiComponente1) {
+                    getNodo(indiceNodo).setComponenteDiRiferimento(componenteDiRiferimentoNodo2);
+                }
+                
+                listaNodiComponente2.addAll(listaNodiComponente1);
+                
+                this.listaNodiConnessiAComponente.remove(componenteDiRiferimentoNodo1);
+                this.listaNodiConnessiAComponente.put(componenteDiRiferimentoNodo2, listaNodiComponente2);
+            } else {
+                for (int indiceNodo : listaNodiComponente2) {
+                    getNodo(indiceNodo).setComponenteDiRiferimento(componenteDiRiferimentoNodo1);
+                }
+                
+                listaNodiComponente1.addAll(listaNodiComponente2);
+                
+                this.listaNodiConnessiAComponente.remove(componenteDiRiferimentoNodo2);
+                this.listaNodiConnessiAComponente.put(componenteDiRiferimentoNodo1, listaNodiComponente1);
+            }
+        }
 
     }
 

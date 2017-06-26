@@ -128,17 +128,18 @@ public class Selezione {
         for (Cromosoma cromosoma : listaCromosomiSelezionati)
             cromosoma.ripristinaValoreFunzioneDiFitness();
         
+        /*
         //Elimino i cromosomi scelti dalla popolazione
         for (Integer i : indiceCromosomiSelezionati)
             popolazione.getCromosomi().set(i, null);
         for (int i = 0; i < popolazione.getCromosomi().size(); i++)
             if (popolazione.getCromosoma(i) == null)
                 popolazione.getCromosomi().remove(i--);
-        
+        */
         return listaCromosomiSelezionati;
     }
     
-    public ArrayList<Cromosoma> mySelezionePerSopravvivenza2 (Popolazione popolazione) {
+    public ArrayList<Cromosoma> mySelezionePerSopravvivenza (Popolazione popolazione) {
         int sizeCromosoma = this.impostazioni.sizeCromosoma;
 
         ArrayList<Cromosoma> listaCromosomiSelezionati = new ArrayList<>();
@@ -168,7 +169,7 @@ public class Selezione {
         return listaCromosomiSelezionati;
     }
     
-    
+    /*
     public ArrayList<Cromosoma> mySelezionePerSopravvivenza (Popolazione popolazione) {
         ArrayList<Cromosoma> cromosomiSopravvissuti = new ArrayList<>();
         
@@ -182,8 +183,36 @@ public class Selezione {
             cromosomiSopravvissuti.add(popolazione.getCromosoma(listaIndiciOrdinata.get(i)));
         
         return cromosomiSopravvissuti;
+    }*/
+    
+    private ArrayList<Double> getProbabilitaDiSelezione (Popolazione popolazione) {
+        ArrayList<Double> probabilitaDiSelezione = new ArrayList<>();
+
+        //Somma ff
+        int sommaFF = 0;
+        for (int i = 0; i < popolazione.size(); i++) {
+            sommaFF += popolazione.getCromosoma(i).getValoreFunzioneDiFitness();
+        }
+        
+        ArrayList<Double> tmpProb = new ArrayList<>();
+        for (Cromosoma cromosoma : popolazione.getCromosomi()) {
+            tmpProb.add((double)sommaFF / cromosoma.getValoreFunzioneDiFitness());
+        }
+        
+        double sommaTmpFF = 0;
+        for (double i : tmpProb)
+            sommaTmpFF += i;
+        
+        double probabilita = 0;
+        for (double i : tmpProb) {
+            probabilita += i/sommaTmpFF;
+            probabilitaDiSelezione.add(probabilita);
+        }
+        
+        return probabilitaDiSelezione;
     }
     
+    /*
     private ArrayList<Double> getProbabilitaDiSelezione (Popolazione popolazione) {
         int sizeCromosoma = popolazione.cromosomi.get(0).size();
 
@@ -204,7 +233,7 @@ public class Selezione {
         }
         
         return probabilitaDiSelezione;
-    }
+    }*/
     
     private ArrayList<Integer> getIndiciDelleFFOrdinati (ArrayList<Integer> lista) {
         ArrayList<Integer> listaIndici = new ArrayList<>();

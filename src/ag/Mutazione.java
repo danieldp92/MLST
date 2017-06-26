@@ -20,7 +20,34 @@ public class Mutazione {
         this.impostazioni = new Impostazioni();
     }
 
-    public void myMutazione(ArrayList<Cromosoma> cromosomi) {
+    public void myMutazione(Popolazione popolazione) {
+        GestoreCromosoma gestoreCromosoma = new GestoreCromosoma(null);
+        GestoreGrafo gestoreMLST = new GestoreGrafo(null);
+
+        for (int i = 0; i < popolazione.getCromosomi().size(); i++) {
+            //Avvia il processo di mutazione
+            if (Math.random() < this.impostazioni.mutationRate) {
+                System.out.println("MUTAZIONE DEL CROMOSOMA " + (i + 1));
+
+                //Generazione lista indici random
+                ArrayList<Integer> listaRandomIndiciDaMutare = listaIndiciRandomDaMutare();
+
+                //Muto
+                for (int j = 0; j < listaRandomIndiciDaMutare.size(); j++) {
+                    if (popolazione.getCromosoma(i).get(listaRandomIndiciDaMutare.get(j)) == 1) {
+                        popolazione.getCromosoma(i).set(listaRandomIndiciDaMutare.get(j), 0);
+                    } else {
+                        popolazione.getCromosoma(i).set(listaRandomIndiciDaMutare.get(j), 1);
+                    }
+                }
+
+                gestoreCromosoma.aggiornaCromosoma(popolazione.getCromosoma(i));
+                gestoreMLST.aggiornaGrafo(gestoreCromosoma.getMLSTdaCromosoma());
+            }
+        }
+    }
+    
+    /*public void myMutazione(ArrayList<Cromosoma> cromosomi) {
         ArrayList<Cromosoma> cromosomiMutati = new ArrayList<>();
 
         GestoreCromosoma gestoreCromosoma = new GestoreCromosoma(null);
@@ -61,11 +88,12 @@ public class Mutazione {
                     }
                     
                     gestoreCromosoma.aggiornaCromosoma(cromosomi.get(i));
+                    System.out.println("OK");
                     gestoreMLST.aggiornaGrafo(gestoreCromosoma.getMLSTdaCromosoma());
                 }
             }
         }
-    }
+    }*/
 
     private ArrayList<Integer> listaIndiciRandomDaMutare() {
         ArrayList<Integer> listaIndiciRandomDaMutare = new ArrayList<>();

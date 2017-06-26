@@ -17,7 +17,11 @@ import java.util.Queue;
  */
 public class Crossover {
     
-    public Crossover () {}
+    private Impostazioni impostazioni;
+    
+    public Crossover () {
+        this.impostazioni = new Impostazioni();
+    }
     
     public ArrayList<Cromosoma> myCrossover (ArrayList<Cromosoma> listaCoppie) {
         ArrayList<Cromosoma> figli = new ArrayList<>();
@@ -96,6 +100,88 @@ public class Crossover {
                 figlio.set(indiceDaMutare, 1);
                 gestoreCromosoma.aggiornaCromosoma(figlio);
                 gestoreMLST.aggiornaGrafo(gestoreCromosoma.getMLSTdaCromosoma());
+            }
+            
+            figli.add(figlio);
+        }
+        
+        return figli;
+    }
+    
+    public ArrayList<Cromosoma> myCrossoverOttimizzato (ArrayList<Cromosoma> listaCoppie) {
+        ArrayList<Cromosoma> figli = new ArrayList<>();
+        
+        for (int i = 0; i < listaCoppie.size(); i+=2) {
+            Cromosoma genitore1 = listaCoppie.get(i);
+            Cromosoma genitore2 = listaCoppie.get(i+1);
+            Cromosoma figlio = new Cromosoma();
+            
+            //Genero un figlio con 1 massimi, in modo da cercare di ridurre le sottocomponenti
+            if (genitore1.getValoreFunzioneDiFitness() > this.impostazioni.sizeCromosoma &&
+                    genitore2.getValoreFunzioneDiFitness() > this.impostazioni.sizeCromosoma) {
+                for (int j = 0; j < this.impostazioni.sizeCromosoma; j++) {
+                    if (genitore1.get(j) == 0 && genitore2.get(j) == 0)
+                        figlio.add(0);
+                    else
+                        figlio.add(1);
+                }
+                
+                figli.add(figlio);
+            }
+            //Entrambi i genitori sono validi: genero un figlio, in cui minimizzo gli 1
+            else if (genitore1.getValoreFunzioneDiFitness() <= this.impostazioni.sizeCromosoma &&
+                    genitore2.getValoreFunzioneDiFitness() <= this.impostazioni.sizeCromosoma) {
+                for (int j = 0; j < this.impostazioni.sizeCromosoma; j++) {
+                    if (genitore1.get(j) == 1 && genitore2.get(j) == 1)
+                        figlio.add(1);
+                    else
+                        figlio.add(0);
+                }
+                
+                figli.add(figlio);
+            }
+            //Un genitore valido e uno no: genero 2 figli, uno in cui minimizzo gli 1 per minimizzare i colori e uno 
+            //in cui massimizz gli 1
+            else {
+                //Massimizzo gli 1
+                for (int j = 0; j < this.impostazioni.sizeCromosoma; j++) {
+                    if (genitore1.get(j) == 0 && genitore2.get(j) == 0)
+                        figlio.add(0);
+                    else
+                        figlio.add(1);
+                }
+                
+                figli.add(figlio);
+    
+                figlio = new Cromosoma();
+                //Minimizzo gli 1
+                for (int j = 0; j < this.impostazioni.sizeCromosoma; j++) {
+                    if (genitore1.get(j) == 1 && genitore2.get(j) == 1)
+                        figlio.add(1);
+                    else
+                        figlio.add(0);
+                }
+                
+                figli.add(figlio);
+            }
+        }
+        
+        return figli;
+    }
+    
+    public ArrayList<Cromosoma> myCrossoverOttimizzato2 (ArrayList<Cromosoma> listaCoppie) {
+        ArrayList<Cromosoma> figli = new ArrayList<>();
+        
+        for (int i = 0; i < listaCoppie.size(); i+=2) {
+            Cromosoma genitore1 = listaCoppie.get(i);
+            Cromosoma genitore2 = listaCoppie.get(i+1);
+            Cromosoma figlio = new Cromosoma();
+            
+            for (int j = 0; j < genitore1.size(); j++) {
+                if (j < genitore1.size()/2)
+                    figlio.add(genitore1.get(j));
+                else
+                    figlio.add(genitore2.get(j));
             }
             
             figli.add(figlio);

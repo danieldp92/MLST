@@ -78,12 +78,13 @@ public class Popolazione {
             this.cromosomi.add(tmpCromosoma);
         }
 
+        /*
         //Check di validità di ogni cromosoma
         int i = 0;
         for (Cromosoma cromosoma : this.cromosomi) {
             System.out.println("Validità Cromosoma " + (++i));
             validaCromosoma(cromosoma);
-        }
+        }*/
     }
 
     public void validaCromosoma(Cromosoma cromosoma) {

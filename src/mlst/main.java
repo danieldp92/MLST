@@ -1,8 +1,7 @@
 package mlst;
 
-import ag.Algoritmo;
-import ag.Cromosoma;
-import ag.Popolazione;
+import AlgoritmoGenetico.Algoritmo;
+import AlgoritmoGenetico.Popolazione;
 import gestore.GestoreGrafo;
 import gestore.XlsGrafo;
 import grafo.GrafoColorato;
@@ -24,9 +23,5 @@ public class main {
         Algoritmo algoritmo = new Algoritmo();
         Popolazione popolazione = algoritmo.execute();
         
-        int i = 0;
-        for (Cromosoma c : popolazione.getCromosomi()) {
-            System.out.println("FF " + ++i + ": " + c.getValoreFunzioneDiFitness());
-        }
     }
 }
