@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package mlst;
 
 import gestore.GeneratoreGrafo;
@@ -27,91 +22,59 @@ public class TestPilot {
         xls.carica(pathTabellaRisultati);
 
         ArrayList<String> listaGrafi = listaFile();
-              
+
         //Per ogni grafico
         for (int i = 0; i < listaGrafi.size(); i++) {
-            
+
             GrafoColorato g = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + listaGrafi.get(i)));
             int numCol = g.getColori().size();
 
-            int count = 0;
             ArrayList<Integer> colorsToDelete = new ArrayList<>();
             int sol;
             ArrayList<Integer> solArray = new ArrayList<>();
             long startTime = System.currentTimeMillis();
-                        
+
             //Primo livello
-            for (int z = 0; z < numCol; z++) {   
+            for (int z = 0; z < numCol; z++) {
                 GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + listaGrafi.get(i)));
-                colorsToDelete.add(count);
+                colorsToDelete.add(z);
                 Pilot pilot = new Pilot(grafo);
                 sol = pilot.esegui(colorsToDelete);
                 solArray.add(sol);
                 colorsToDelete.clear();
-                count++;
-                if(System.currentTimeMillis()-startTime>600000) break;
+                if (System.currentTimeMillis() - startTime > 600000) {
+                    break;
+                }
             }
 
-            /*for (int i = 0; i < solArray.size(); i++) {
-             System.out.println("Colore " + i + ": " + solArray.get(i));
-             }*/
-                        
             ArrayList<Integer> mins = CercaMins(solArray); //cerca i colori con la soluzione migliore
-            
-            /*System.out.println("");
-             for (int i = 0; i < mins.size(); i++) {
-             System.out.println(mins.get(i));
-             }
-             System.out.println("");*/
             solArray.clear();
-            count = 0;
-
-           // LinkedList<LinkedList<Integer>> solList = new LinkedList<>();
 
             //Secondo livello
             for (int j = 0; j < mins.size(); j++) {
                 for (int z = 0; z < numCol; z++) {
-                    if (mins.get(j) != count) {
-                        GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + listaGrafi.get(i)));
-                        colorsToDelete.add(mins.get(j));
-                        colorsToDelete.add(count);
-                        Pilot pilot = new Pilot(grafo);
-                        sol = pilot.esegui(colorsToDelete);
-                        solArray.add(sol);
+                    if (!CheckPrecedenti(z, j, mins)) {
+                        if (mins.get(j) != z) {
+                            GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + listaGrafi.get(i)));
+                            colorsToDelete.add(mins.get(j));
+                            colorsToDelete.add(z);
+                            Pilot pilot = new Pilot(grafo);
+                            sol = pilot.esegui(colorsToDelete);
+                            solArray.add(sol);
 
-                        /*LinkedList<Integer> currentSol = new LinkedList<>();
-                        currentSol.add(mins.get(j));
-                        currentSol.add(count);
-                        currentSol.add(sol);
-                        solList.add(currentSol);*/
-
-                        // System.out.println("Colore " + mins.get(i) + "," + count + ": " + sol);
-                        colorsToDelete.clear();
-                        count++;
-                    } else {
-                        count++;
+                            colorsToDelete.clear();
+                        }
                     }
-                    if(System.currentTimeMillis()-startTime>600000) break;
+                    if (System.currentTimeMillis() - startTime > 600000) {
+                        break;
+                    }
                 }
-                count = 0;
-                if(System.currentTimeMillis()-startTime>600000) break;
+                if (System.currentTimeMillis() - startTime > 600000) {
+                    break;
+                }
             }
 
-            /*for(int i=0; i<solList.size(); i++){
-             System.out.println("Colore " + solList.get(i).get(0) + "," + solList.get(i).get(1) + ": " + solList.get(i).get(2));
-             }*/
-            /*ArrayList<Integer> mins2 = CercaMins(solArray);
-            /* System.out.println("");
-             for (int i = 0; i < mins2.size(); i++) {
-             System.out.println(mins.get(i));
-             }*/
-            //System.out.println("");
             int minSol = CercaMin(solArray);
-            /*for (int k = 0; k < solList.size(); k++) {
-             if (solList.get(k).get(2) == minSol) {
-             System.out.println("Colore " + solList.get(k).get(0) + "," + solList.get(k).get(1) + ": " + solList.get(k).get(2));
-             }
-             }*/
 
             float endTime = System.currentTimeMillis() - startTime;
             float timeInSec = endTime / 1000;
@@ -130,6 +93,7 @@ public class TestPilot {
     private static ArrayList<String> listaFile() {
         ArrayList<String> listaFile = new ArrayList<>();
 
+      //  listaFile.add("50_200_50_13_1.mlst");
         //Archi da 50 200 50
         for (int i = 1; i <= 10; i++) {
             listaFile.add("50_200_50_13_" + i + ".mlst");
@@ -199,7 +163,7 @@ public class TestPilot {
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_160000_10000_625_" + i + ".mlst");
         }
-
+        
         return listaFile;
     }
 
@@ -222,6 +186,16 @@ public class TestPilot {
             }
         }
         return min;
+    }
+
+    private static boolean CheckPrecedenti(int current, int index, ArrayList<Integer> precedenti) {
+        boolean ret = false;
+        for (int i = 0; i < index; i++) {
+            if (precedenti.get(i) == current) {
+                ret = true;
+            }
+        }
+        return ret;
     }
 
 }
