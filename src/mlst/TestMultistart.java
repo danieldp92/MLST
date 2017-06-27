@@ -1,8 +1,11 @@
-package Pilot;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package mlst;
 
 import gestore.GeneratoreGrafo;
-import gestore.GestoreGrafo;
-import gestore.InfoGrafo;
 import gestore.XlsGrafo;
 import grafo.GrafoColorato;
 import greedy.Greedy;
@@ -13,10 +16,9 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Stefano Dalla Palma
+ * @author Rhobar
  */
-public class TestPilot {
-
+public class TestMultistart {
     public static void test() throws IOException {
         XlsGrafo xls = new XlsGrafo();
         String pathTabellaRisultati = "src/Risultati/TabellaRisultati.xls";
@@ -29,31 +31,43 @@ public class TestPilot {
             System.out.println(s);
             GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
             grafo.nomeGrafo = s;
+            Statistiche statistiche = null;
 
-            //Ottengo un MLT eseguendo l'algoritmo pilot sul grafo
-            Pilot pilot = new Pilot(grafo);
-            GrafoColorato mlst = pilot.esegui();
-            Statistiche statistiche = pilot.getStatistiche();
-            //xls.addInfoGrafo(grafo.nomeGrafo, "pilot", statistiche.tempoDiEsecuzione, mlst.getListaColori().size());
-            xls.addInfoGrafo(grafo.nomeGrafo, "pilot", statistiche.tempoDiEsecuzione, mlst.getListaColori().size(), statistiche.profonditaSoluzione);
-            //xls.aggiungiColonnaProfondita(grafo.nomeGrafo, statistiche.profonditaSoluzione);
+            long inizio = System.currentTimeMillis();
+            Greedy greedy = new Greedy(grafo);
+            GrafoColorato mlst = null;
+            int totaleColoriMigliori = grafo.getListaColori().size() + 1;
+            int iterataSoluzione = -1;
+            
+            //Ottengo un MLST eseguendo l'algoritmo greedy sul grafo, iterativamente, al fine di trovare la soluzione migliore
+            int iterata = 0;
+            int maxIterateDalMigliore = 80;
+            int numeroIterateEffettuateDalMigliore = 0;
+            
+            while (iterata < 300 && numeroIterateEffettuateDalMigliore < maxIterateDalMigliore) {
+                System.out.println("Iterata " + ++iterata);
+                
+                mlst = greedy.esegui(true);
+                
+                if (mlst.getListaColori().size() < totaleColoriMigliori) {
+                    totaleColoriMigliori = mlst.getListaColori().size();
+                    numeroIterateEffettuateDalMigliore = 0;
+                    iterataSoluzione = iterata;
+                }
+                
+                numeroIterateEffettuateDalMigliore++;
+            }
+            
 
-            GestoreGrafo gestore = new GestoreGrafo(mlst);
-            System.out.println();
-            System.out.println("Connesso: " + gestore.connesso());
-            System.out.println("Ciclo: " + gestore.ciclo());
-            InfoGrafo info = new InfoGrafo(mlst);
-            info.stampaColori();
-            System.out.println("Profondità soluzione: " + statistiche.profonditaSoluzione);
+            statistiche = greedy.getStatistiche();
+            xls.addInfoGrafo(grafo.nomeGrafo, "multistart", (System.currentTimeMillis() - inizio), totaleColoriMigliori, iterataSoluzione);
+            xls.salva(pathTabellaRisultati);
+            System.out.println("Numero colori: " + totaleColoriMigliori);
             System.out.println("Tempo di esecuzione: " + statistiche.tempoDiEsecuzione);
-            System.out.println("\n");
+
         }
-
+        
         xls.salva(pathTabellaRisultati);
-        /*GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/500_2000_500_125_1.mlst"));
-        Pilot pilot = new Pilot(grafo);
-        GrafoColorato mlst = pilot.esegui();*/
-
     }
 
     public static ArrayList<String> listaFile() {
@@ -63,13 +77,12 @@ public class TestPilot {
         for (int i = 1; i <= 10; i++) {
             listaFile.add("50_200_50_13_" + i + ".mlst");
         }
-
         //Archi da 50 1000 50
         for (int i = 1; i <= 10; i++) {
             listaFile.add("50_1000_50_3_" + i + ".mlst");
         }
 
-        //Archi da 100 400 100
+        //Archi da 100 400 100 
         for (int i = 1; i <= 10; i++) {
             listaFile.add("100_400_100_25_" + i + ".mlst");
         }
@@ -104,7 +117,6 @@ public class TestPilot {
             listaFile.add("500_4000_500_63_" + i + ".mlst");
         }
 
-        /*
         //Archi da 1000 4000 1000
         for (int i = 1; i <= 5; i++) {
             listaFile.add("1000_4000_1000_250_" + i + ".mlst");
@@ -128,8 +140,8 @@ public class TestPilot {
         //Archi da 10000 160000 10000
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_160000_10000_625_" + i + ".mlst");
-        }*/
+        }
+
         return listaFile;
     }
-
 }

@@ -60,7 +60,7 @@ public class GestoreGrafo {
         if (componenteDiRiferimentoNodo1 != componenteDiRiferimentoNodo2) {
            
             this.grafo.addArco(indiceArco, pArco);
-
+                        
             for (Nodo n : this.grafo.getNodi()) { 
                 if (n.getComponenteDiRiferimento() == componenteDiRiferimentoNodo2) {
                     n.setComponenteDiRiferimento(componenteDiRiferimentoNodo1);

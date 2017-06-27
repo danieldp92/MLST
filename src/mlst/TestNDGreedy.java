@@ -1,8 +1,12 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package mlst;
 
 import gestore.GeneratoreGrafo;
 import gestore.XlsGrafo;
-import grafo.Colore;
 import grafo.GrafoColorato;
 import greedy.Greedy;
 import greedy.Statistiche;
@@ -11,12 +15,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
- * Test greedy Krumke
  *
- * @author Stefano Dalla Palma
+ * @author Rhobar
  */
-public class TestGreedy {
-
+public class TestNDGreedy {
     public static void test() throws IOException {
         XlsGrafo xls = new XlsGrafo();
         String pathTabellaRisultati = "src/Risultati/TabellaRisultati.xls";
@@ -35,10 +37,10 @@ public class TestGreedy {
             
             //Ottengo un MLST eseguendo l'algoritmo greedy sul grafo
             Greedy greedy = new Greedy(grafo);
-            GrafoColorato mlst = greedy.esegui(false);
+            GrafoColorato mlst = greedy.esegui(true);
 
             statistiche = greedy.getStatistiche();
-            xls.addInfoGrafo(grafo.nomeGrafo, "greedy", (System.currentTimeMillis() - inizio), mlst.getListaColori().size());
+            xls.addInfoGrafo(grafo.nomeGrafo, "nd-greedy", (System.currentTimeMillis() - inizio), mlst.getListaColori().size());
             xls.salva(pathTabellaRisultati);
             System.out.println("Numero colori: " + mlst.getListaColori().size());
             System.out.println("Tempo di esecuzione: " + statistiche.tempoDiEsecuzione);
@@ -122,5 +124,4 @@ public class TestGreedy {
 
         return listaFile;
     }
-
 }

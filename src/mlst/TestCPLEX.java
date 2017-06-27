@@ -14,14 +14,14 @@ import java.util.ArrayList;
  * @author Daniel
  */
 public class TestCPLEX {
-    
-    public static void test () throws IOException, IloException {
+
+    public static void test() throws IOException, IloException {
         XlsGrafo xls = new XlsGrafo();
         String pathTabellaRisultati = "src/Risultati/TabellaRisultati.xls";
         xls.carica(pathTabellaRisultati);
-        
+
         ArrayList<String> listaGrafi = listaFile();
-        
+
         for (String s : listaGrafi) {
             //Carico il grafo
             System.out.println(s);
@@ -29,30 +29,29 @@ public class TestCPLEX {
             grafo.nomeGrafo = s;
 
             long inizio = System.currentTimeMillis();
-            
+
             CPLEXModel cplex = new CPLEXModel(grafo);
             int numColori = cplex.esegui();
-            
-            double tempoDiEsecuzione = (double)(System.currentTimeMillis() - inizio) / 1000;
-            xls.addInfoGrafo(grafo.nomeGrafo, "cplex", tempoDiEsecuzione, numColori, -1);
 
+            double tempoDiEsecuzione = (double) (System.currentTimeMillis() - inizio) / 1000;
+            xls.addInfoGrafo(grafo.nomeGrafo, "cplex", tempoDiEsecuzione, numColori, -1);
 
             System.out.println("Tempo di esecuzione: " + tempoDiEsecuzione);
 
         }
-        
+
         xls.salva(pathTabellaRisultati);
     }
 
     public static ArrayList<String> listaFile() {
         ArrayList<String> listaFile = new ArrayList<>();
-
+        listaFile.add("13_19_13.mlst");
         //Archi da 50 200 50
-        for (int i = 1; i <= 10; i++) {
+        /* for (int i = 1; i <= 10; i++) {
             listaFile.add("50_200_50_13_" + i + ".mlst");
-        }
+        }*/
 
-        /*
+ /*
         //Archi da 50 1000 50
         for (int i = 1; i <= 10; i++) {
             listaFile.add("50_1000_50_3_" + i + ".mlst");
@@ -117,7 +116,7 @@ public class TestCPLEX {
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_160000_10000_625_" + i + ".mlst");
         }
-        */
+         */
         return listaFile;
     }
 }

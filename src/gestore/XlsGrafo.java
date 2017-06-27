@@ -20,10 +20,13 @@ public class XlsGrafo {
     private LinkedHashMap<String, Integer> indiciRigheGrafi;
     private int indiceColonnaTempoDiEsecuzioneCPLEX;
     private int indiceColonnaTotColoriCPLEX;
-    private int indiceColonnaTempoDiEsecuzioneRandom;
-    private int indiceColonnaTotColoriRandom;
     private int indiceColonnaTempoDiEsecuzioneGreedy;
     private int indiceColonnaTotColoriGreedy;
+    private int indiceColonnaTempoDiEsecuzioneNDGreedy;
+    private int indiceColonnaTotColoriNDGreedy;
+    private int indiceColonnaTempoDiEsecuzioneMultistart;
+    private int indiceColonnaTotColoriMultistart;
+    private int indiceColonnaIterataSoluzioneMultistart;
     private int indiceColonnaTempoDiEsecuzioneAG;
     private int indiceColonnaTotColoriAG;
     private int indiceColonnaTempoDiEsecuzionePilot;
@@ -40,7 +43,7 @@ public class XlsGrafo {
         this.work = new HSSFWorkbook(fileIn);
     }
 
-    public void addInfoGrafo(String nomeGrafo, String tipoAlgoritmo, double tempoDiEsecuzione, int numColori, int profondita) {
+    public void addInfoGrafo(String nomeGrafo, String tipoAlgoritmo, double tempoDiEsecuzione, int numColori) {
         String algoritmo = tipoAlgoritmo.toLowerCase();
         int indiceRiga = this.indiciRigheGrafi.get(nomeGrafo);
         int indiceColonnaTempo = 0;
@@ -51,21 +54,70 @@ public class XlsGrafo {
                 indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneCPLEX;
                 indiceColonnaColori = this.indiceColonnaTotColoriCPLEX;
                 break;
-            case "random":
-                indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneRandom;
-                indiceColonnaColori = this.indiceColonnaTotColoriRandom;
-                break;
             case "greedy":
                 indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneGreedy;
                 indiceColonnaColori = this.indiceColonnaTotColoriGreedy;
+                break;
+            case "nd-greedy":
+                indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneNDGreedy;
+                indiceColonnaColori = this.indiceColonnaTotColoriNDGreedy;
+                break;
+            case "multistart":
+                indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneMultistart;
+                indiceColonnaColori = this.indiceColonnaTotColoriMultistart;
+                break;
+            case "pilot":
+                indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzionePilot;
+                indiceColonnaColori = this.indiceColonnaTotColoriPilot;
                 break;
             case "ag":
                 indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneAG;
                 indiceColonnaColori = this.indiceColonnaTotColoriAG;
                 break;
+            default:
+                break;
+        }
+
+        HSSFSheet worksheet = work.getSheetAt(0);
+
+        HSSFRow row = worksheet.getRow(indiceRiga);
+
+        HSSFCell cellaTempo = row.createCell(indiceColonnaTempo);
+        cellaTempo.setCellValue(tempoDiEsecuzione);
+        HSSFCell cellaTotColori = row.createCell(indiceColonnaColori);
+        cellaTotColori.setCellValue(numColori);
+    }
+    
+    public void addInfoGrafo(String nomeGrafo, String tipoAlgoritmo, double tempoDiEsecuzione, int numColori, int valore) {
+        String algoritmo = tipoAlgoritmo.toLowerCase();
+        int indiceRiga = this.indiciRigheGrafi.get(nomeGrafo);
+        int indiceColonnaTempo = 0;
+        int indiceColonnaColori = 0;
+
+        switch (algoritmo) {
+            case "cplex":
+                indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneCPLEX;
+                indiceColonnaColori = this.indiceColonnaTotColoriCPLEX;
+                break;
+            case "greedy":
+                indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneGreedy;
+                indiceColonnaColori = this.indiceColonnaTotColoriGreedy;
+                break;
+            case "nd-greedy":
+                indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneNDGreedy;
+                indiceColonnaColori = this.indiceColonnaTotColoriNDGreedy;
+                break;
+            case "multistart":
+                indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneMultistart;
+                indiceColonnaColori = this.indiceColonnaTotColoriMultistart;
+                break;
             case "pilot":
                 indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzionePilot;
                 indiceColonnaColori = this.indiceColonnaTotColoriPilot;
+                break;
+            case "ag":
+                indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneAG;
+                indiceColonnaColori = this.indiceColonnaTotColoriAG;
                 break;
             default:
                 break;
@@ -80,20 +132,18 @@ public class XlsGrafo {
         HSSFCell cellaTotColori = row.createCell(indiceColonnaColori);
         cellaTotColori.setCellValue(numColori);
 
-        if (profondita >= 0) {
-            HSSFCell cellaProfonditaPilot = row.createCell(this.indiceColonnaProfonditaSoluzionePilot);
-            cellaProfonditaPilot.setCellValue(profondita);
+        //Se algoritmo = multistart -> valore = iterata soluzione
+        //Altrimenti se algoritmo = pilot -> valore = livello di profondità
+        if(algoritmo.equals("multistart")) {
+            HSSFCell cellaIterataSoluzione = row.createCell(this.indiceColonnaIterataSoluzioneMultistart);
+            cellaIterataSoluzione.setCellValue(valore);
+        } else if (algoritmo.equals("pilot")) {
+            HSSFCell cellaProfondita = row.createCell(this.indiceColonnaProfonditaSoluzionePilot);
+            cellaProfondita.setCellValue(valore);
         }
     }
 
-    public void aggiungiColonnaProfondita(String nomeGrafo, int profondita) {
-        int indiceRiga = this.indiciRigheGrafi.get(nomeGrafo);
-        HSSFSheet worksheet = work.getSheetAt(0);
-        HSSFRow row = worksheet.getRow(indiceRiga);
-        HSSFCell cellaProfonditaPilot = row.createCell(this.indiceColonnaProfonditaSoluzionePilot);
-        cellaProfonditaPilot.setCellValue(profondita);
-    }
-
+    
     public void salva(String path) throws FileNotFoundException, IOException {
         FileOutputStream fileOut = new FileOutputStream(new File(path));
         this.work.write(fileOut);
@@ -178,15 +228,18 @@ public class XlsGrafo {
     private void setIndiciColonne() {
         this.indiceColonnaTempoDiEsecuzioneCPLEX = 1;
         this.indiceColonnaTotColoriCPLEX = 2;
-        this.indiceColonnaTempoDiEsecuzioneRandom = 3;
-        this.indiceColonnaTotColoriRandom = 4;
-        this.indiceColonnaTempoDiEsecuzioneGreedy = 5;
-        this.indiceColonnaTotColoriGreedy = 6;
-        this.indiceColonnaTempoDiEsecuzioneAG = 7;
-        this.indiceColonnaTotColoriAG = 8;
-        this.indiceColonnaTempoDiEsecuzionePilot = 9;
-        this.indiceColonnaTotColoriPilot = 10;
-        this.indiceColonnaProfonditaSoluzionePilot = 11;
+        this.indiceColonnaTempoDiEsecuzioneGreedy = 3;
+        this.indiceColonnaTotColoriGreedy = 4;
+        this.indiceColonnaTempoDiEsecuzioneNDGreedy = 5;
+        this.indiceColonnaTotColoriNDGreedy = 6;
+        this.indiceColonnaTempoDiEsecuzioneMultistart = 7;
+        this.indiceColonnaTotColoriMultistart = 8;
+        this.indiceColonnaIterataSoluzioneMultistart = 9;
+        this.indiceColonnaTempoDiEsecuzionePilot = 10;
+        this.indiceColonnaTotColoriPilot = 11;
+        this.indiceColonnaProfonditaSoluzionePilot = 12;
+        this.indiceColonnaTempoDiEsecuzioneAG = 13;
+        this.indiceColonnaTotColoriAG = 14;
     }
 
     private void creaListaGrafi() throws FileNotFoundException, IOException {
@@ -198,4 +251,5 @@ public class XlsGrafo {
             cellA.setCellValue(entry.getKey());
         }
     }
+
 }

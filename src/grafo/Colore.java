@@ -73,10 +73,9 @@ public class Colore {
         }
         return true;
     }
-    
-    
-    
-    
-    
-    
+
+    @Override
+    public String toString() {
+        return "Colore{" + "id=" + id + ", indiciArchiCollegati=" + indiciArchiCollegati + '}';
+    }    
 }

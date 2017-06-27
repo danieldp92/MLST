@@ -2,8 +2,10 @@ package grafo;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 public class Grafo {
 
@@ -297,6 +299,25 @@ public class Grafo {
             nodo.getIndiciArchiIncidenti().clear();
             nodo.getAdiacenti().clear();
         }
+    }
+
+    public LinkedHashMap<Integer, Arco> getCopiaHashArchi() {
+        LinkedHashMap<Integer, Arco> copie = new LinkedHashMap();
+
+        for (Iterator<Entry<Integer, Arco>> iterator = archi.entrySet().iterator(); iterator.hasNext();) {
+            Entry next = iterator.next();
+            copie.put((Integer) next.getKey(), (Arco) next.getValue());
+        }
+        return copie;
+    }
+
+    @Override
+    public String toString() {
+        return "Grafo{" + "nomeGrafo=" + nomeGrafo + ", nodi=" + nodi + ", archi=" + archi + '}';
+    }
+    
+    public String prettyPrint() {
+        return "Grafo={" + archi.toString()+"}";
     }
 }
 
