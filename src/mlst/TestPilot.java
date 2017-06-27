@@ -3,11 +3,11 @@ package mlst;
 import gestore.GeneratoreGrafo;
 import gestore.XlsGrafo;
 import grafo.GrafoColorato;
+import pilot.Pilot;
 import ilog.concert.IloException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import pilot.Pilot;
 
 /**
  *
@@ -34,6 +34,7 @@ public class TestPilot {
             ArrayList<Integer> solArray = new ArrayList<>();
             long startTime = System.currentTimeMillis();
 
+            
             //Primo livello
             for (int z = 0; z < numCol; z++) {
                 GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + listaGrafi.get(i)));
@@ -46,7 +47,7 @@ public class TestPilot {
                     break;
                 }
             }
-
+            
             ArrayList<Integer> mins = CercaMins(solArray); //cerca i colori con la soluzione migliore
             solArray.clear();
 
@@ -162,7 +163,7 @@ public class TestPilot {
         //Archi da 10000 160000 10000
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_160000_10000_625_" + i + ".mlst");
-        }
+        } 
         
         return listaFile;
     }
