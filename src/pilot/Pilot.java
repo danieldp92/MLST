@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package pilot;
 
 import gestore.GestoreGrafo;
@@ -12,6 +7,7 @@ import grafo.Grafo;
 import grafo.GrafoColorato;
 import grafo.Nodo;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
@@ -30,7 +26,7 @@ public class Pilot {
 
     public int esegui(ArrayList<Integer> col) {
         int sol;
-
+        
         GrafoColorato mlst = new GrafoColorato(grafo.getNodi(), grafo.getListaColori().size());
         ArrayList<Arco> tmpArchi = grafo.getCopiaArchi();
         ArrayList<Colore> tmpColori = grafo.getCopiaColori();
@@ -39,14 +35,13 @@ public class Pilot {
 
         ArrayList<Arco> edgeWithMinColors;
         ArrayList<Integer> indexOfEdgeWithMinColors;
-
+        
         for (int i=0; i<col.size(); i++) {
             rimuoviColore(tmpArchi, tmpColori, col.get(i));
         }
 
         //Ciclo, fin quando mlst non e' connesso
         while (!gestoreMlst.connesso()) {
-
             //Prelevo gli indici degli archi con colore minimo, poichè le operazioni effettuate su un arraylist 
             //con gli indici (get, set) hanno complessità O(1), diversamente dalle operazioni effettuate con gli oggetti
             indexOfEdgeWithMinColors = getIndexOfEdgesWithMinNumberOfColors(tmpArchi);
@@ -60,6 +55,7 @@ public class Pilot {
                 for (int i : indexOfEdgeWithMinColors) {
                     Arco originale = grafo.getArco(i);
                     gestoreMlst.addArcoSenzaInserireCicli(i, originale);
+
                     //In questo modo, lavoriamo con complessità O(1)
                     tmpArchi.set(i, null);
                 }
@@ -71,14 +67,11 @@ public class Pilot {
                 //Estrazione colori più ricorrenti solo dagli archi con numero colori minimo
                 int mostCommonColor = mostCommonColor(edgeWithMinColors);
 
-                //Estrazione colori più ricorrenti da tutti gli archi
-                //int mostCommonColor = tmpGrafo.getListaColoriOrdinataPerRicorrenza().remove(0);   
                 //Elimino il colore dagli archi (temporanei)
                 rimuoviColore(tmpArchi, tmpColori, mostCommonColor);
             }
         }
 
-        //System.out.println(mlst.getListaColori().size());
         sol = mlst.getListaColori().size();
         return sol;
     }
@@ -114,17 +107,20 @@ public class Pilot {
 
     private ArrayList<Arco> getEdgesWithMinNumberOfColors(ArrayList<Arco> pEdges, ArrayList<Integer> pIndexOfEdge) {
         ArrayList<Arco> pArchiConColoriMinimi = new ArrayList<>();
+
         for (int i : pIndexOfEdge) {
             pArchiConColoriMinimi.add(pEdges.get(i));
         }
+
         return pArchiConColoriMinimi;
     }
 
     private int mostCommonColor(ArrayList<Arco> pEdges) {
         int mostCommonColor = -1;
         int ricorrenzaMaggiore = -1;
+
         int[] ricorrenzeColori = new int[this.grafo.getColori().size()];
-        LinkedList<Integer> piuFrequenti = new LinkedList<>();
+
         //Scorro tutti gli archi e memorizzo le ricorrenze
         //Compessità: O(m * 3)      m -> num. archi, 3 -> num colori per arco
         for (Arco a : pEdges) {
@@ -132,24 +128,33 @@ public class Pilot {
                 ++ricorrenzeColori[indiceColore];
             }
         }
+
         //Trovo il colore più ricorrente
         //Complessità: O(c)         c -> num. colori
-        for (int i = 0; i < ricorrenzeColori.length; i++) {
+        /*for (int i = 0; i < ricorrenzeColori.length; i++) {
             if (ricorrenzeColori[i] > ricorrenzaMaggiore) {
                 ricorrenzaMaggiore = ricorrenzeColori[i];
-                //mostCommonColor = i;
-                piuFrequenti.clear();
-                piuFrequenti.add(i);
-            }else if(ricorrenzeColori[i] == ricorrenzaMaggiore){
-                piuFrequenti.add(i);
+                mostCommonColor = i;
+            }
+        }*/
+        ArrayList<Integer> coloriPiuComuni = new ArrayList();
+        for (int i = 0; i < ricorrenzeColori.length; i++) {
+            if (ricorrenzeColori[i] > ricorrenzaMaggiore) {
+                coloriPiuComuni.clear();
+                coloriPiuComuni.add(i);
+                ricorrenzaMaggiore = ricorrenzeColori[i];
+                mostCommonColor = i;
+            } else if (ricorrenzeColori[i] == ricorrenzaMaggiore) {
+                coloriPiuComuni.add(i);
             }
         }
-        //scegli random
-        int lunghezza = piuFrequenti.size();
-        Random r = new Random();
-        mostCommonColor = piuFrequenti.get(r.nextInt(lunghezza));
-        
-        return mostCommonColor;
+
+        //RANDOM SHUFFLE
+        long seed = System.nanoTime();
+        Collections.shuffle(coloriPiuComuni, new Random(seed));
+
+        //return mostCommonColor;
+        return coloriPiuComuni.get(0);
     }
 
     public void rimuoviColore(ArrayList<Arco> archi, ArrayList<Colore> colori, int pColore) {
@@ -157,6 +162,7 @@ public class Pilot {
         for (int i : colori.get(pColore).getIndiciArchiCollegati()) {
             archi.get(i).rimuoviColore(pColore);
         }
+
         //Elimino ogni riferimento di pColore da ogni arco associato
         colori.get(pColore).getIndiciArchiCollegati().clear();
     }
@@ -229,5 +235,4 @@ public class Pilot {
 
         return mlstSenzaCicli;
     }
-
 }
