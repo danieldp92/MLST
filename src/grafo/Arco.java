@@ -79,11 +79,4 @@ public class Arco {
        
         return true;
     }
-
-    @Override
-    public String toString() {
-        return "(" + da + ", " + a + ")}";
-    }
-    
-    
 }

@@ -16,8 +16,10 @@ public class main {
         
         //TestNDGreedy.test();
         
-        TestMultistart.test();
+        //TestMultistart.test();
         
         //TestPilot.test();
+        
+        TestGenetico.test();
     }
 }

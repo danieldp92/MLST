@@ -86,6 +86,7 @@ public class GeneratoreGrafo {
                     colori.get(colore).addIndiceArcoCollegato(i-1);
                 }
                 
+                //Controllo componenti
                 
                 archi.put((i-1), arco);
                 coloriArco.clear();
