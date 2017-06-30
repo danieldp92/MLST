@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package AlgoritmoGenetico;
+package VecchioAlgoritmoGenetico;
 
 
 /**
@@ -25,7 +25,7 @@ public class Impostazioni {
         this.sizePopolazione = 100;
         this.sizeCromosoma = 500;
         this.crossoverRate = 0.8;
-        this.mutationRate = 0.02;
+        this.mutationRate = 0.025;
         this.strongMutationRate = 0.7;
     }
 }

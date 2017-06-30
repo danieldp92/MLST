@@ -44,9 +44,7 @@ public class TestMultistart {
             int maxIterateDalMigliore = 80;
             int numeroIterateEffettuateDalMigliore = 0;
             
-            while (iterata < 300 && numeroIterateEffettuateDalMigliore < maxIterateDalMigliore) {
-                System.out.println("Iterata " + ++iterata);
-                
+            while (iterata++ < 300 && numeroIterateEffettuateDalMigliore < maxIterateDalMigliore) {
                 mlst = greedy.esegui(true);
                 
                 if (mlst.getListaColori().size() < totaleColoriMigliori) {

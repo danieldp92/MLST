@@ -74,37 +74,6 @@ public class GestoreGrafo {
         if (componenteDiRiferimentoNodo1 != componenteDiRiferimentoNodo2) {
             this.grafo.addArco(indiceArco, pArco);
             
-            ArrayList<Integer> listaNodiComponente1 = this.grafo.getListaNodiConnessiAComponente().get(componenteDiRiferimentoNodo1);
-            ArrayList<Integer> listaNodiComponente2 = this.grafo.getListaNodiConnessiAComponente().get(componenteDiRiferimentoNodo2);
-
-            if (listaNodiComponente1.size() < listaNodiComponente2.size()) {
-                for (int indiceNodo : listaNodiComponente1) {
-                    this.grafo.getNodo(indiceNodo).setComponenteDiRiferimento(componenteDiRiferimentoNodo2);
-                }
-                
-                listaNodiComponente2.addAll(listaNodiComponente1);
-                
-                this.grafo.getListaNodiConnessiAComponente().remove(componenteDiRiferimentoNodo1);
-                this.grafo.getListaNodiConnessiAComponente().put(componenteDiRiferimentoNodo2, listaNodiComponente2);
-            } else {
-                for (int indiceNodo : listaNodiComponente2) {
-                    this.grafo.getNodo(indiceNodo).setComponenteDiRiferimento(componenteDiRiferimentoNodo1);
-                }
-                
-                listaNodiComponente1.addAll(listaNodiComponente2);
-                
-                this.grafo.getListaNodiConnessiAComponente().remove(componenteDiRiferimentoNodo2);
-                this.grafo.getListaNodiConnessiAComponente().put(componenteDiRiferimentoNodo1, listaNodiComponente1);
-            }
-            
-            
-            
-            /*for (Nodo n : this.grafo.getNodi()) {
-                if (n.getComponenteDiRiferimento() == componenteDiRiferimentoNodo2) {
-                    n.setComponenteDiRiferimento(componenteDiRiferimentoNodo1);
-                }
-            }*/
-            
             return true;
         }
 

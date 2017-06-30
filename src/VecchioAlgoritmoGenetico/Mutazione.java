@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package AlgoritmoGenetico;
+package VecchioAlgoritmoGenetico;
 
 import gestore.GestoreGrafo;
 import grafo.GrafoColorato;
@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -173,28 +174,35 @@ public class Mutazione {
                 cromosoma.addAll(figli.get(i).getColoriNonPresentiNeiGenitori());
 
                 GestoreCromosoma gestoreCromosoma = new GestoreCromosoma(cromosoma);
+                //GrafoColorato mlst = gestoreCromosoma.getGrafoDaCromosoma();
+                //GestoreGrafo gestoreMlst = new GestoreGrafo(mlst);
+                cromosoma = gestoreCromosoma.getNuovoCromosomaDaPartenzaNonAmmissibile(coloriCromosoma);
+                
+                gestoreCromosoma = new GestoreCromosoma(cromosoma);
                 GrafoColorato mlst = gestoreCromosoma.getGrafoDaCromosoma();
                 GestoreGrafo gestoreMlst = new GestoreGrafo(mlst);
-
-                while (!gestoreMlst.connesso() && !coloriCromosoma.isEmpty()) {
+                
+                /*while (!gestoreMlst.connesso() && !coloriCromosoma.isEmpty()) {
                     int coloreDaInserire = coloriCromosoma.remove(0);
                     cromosoma.add(coloreDaInserire);
 
                     gestoreCromosoma.aggiornaCromosoma(cromosoma);
                     mlst = gestoreCromosoma.getGrafoDaCromosoma();
                     gestoreMlst.aggiornaGrafo(mlst);
-                }
-
+                }*/
+                
                 if (!gestoreMlst.connesso()) {
                     ordinaColoriPerRicorrenza(coloriNonPresenti);
-                    while (!gestoreMlst.connesso()) {
+                    
+                    cromosoma = gestoreCromosoma.getNuovoCromosomaDaPartenzaNonAmmissibile(coloriNonPresenti);
+                    /*while (!gestoreMlst.connesso()) {
                         int coloreDaInserire = coloriNonPresenti.remove(0);
                         cromosoma.add(coloreDaInserire);
 
                         gestoreCromosoma.aggiornaCromosoma(cromosoma);
                         mlst = gestoreCromosoma.getGrafoDaCromosoma();
                         gestoreMlst.aggiornaGrafo(mlst);
-                    }
+                    }*/
                 }
                 
                 figli.set(i, cromosoma);
@@ -254,10 +262,13 @@ public class Mutazione {
             listaColori.add(i);
         
         GestoreCromosoma gestoreCromosoma = new GestoreCromosoma(cromosoma);
-        GrafoColorato mlst = gestoreCromosoma.getGrafoDaCromosoma();
-        GestoreGrafo gestoreMlst = new GestoreGrafo(mlst);
         
-        while (!gestoreMlst.connesso()) {
+        //RANDOM SHUFFLE
+        long seed = System.nanoTime();
+        Collections.shuffle(listaColori, new Random(seed));
+        
+        cromosoma = gestoreCromosoma.getNuovoCromosomaDaPartenzaNonAmmissibile(listaColori);
+        /*while (!gestoreMlst.connesso()) {
             int indiceColoreDaAggiungere = (int)(Math.random() * listaColori.size());
             int coloreDaAggiungere = listaColori.remove(indiceColoreDaAggiungere);
             
@@ -266,7 +277,7 @@ public class Mutazione {
             gestoreCromosoma.aggiornaCromosoma(cromosoma);
             mlst = gestoreCromosoma.getGrafoDaCromosoma();
             gestoreMlst.aggiornaGrafo(mlst);
-        }
+        }*/
         
         return cromosoma;
     }

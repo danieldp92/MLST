@@ -11,7 +11,7 @@ public class Grafo {
     protected LinkedHashMap<Integer, ArrayList<Integer>> listaNodiConnessiAComponente;
     ArrayList<Nodo> nodi;
     LinkedHashMap<Integer, Arco> archi;
-    
+
     public Grafo() {
         this.nodi = new ArrayList<>();
         this.archi = new LinkedHashMap<>();
@@ -21,15 +21,16 @@ public class Grafo {
         this.nodi = pNodi;
         this.archi = new LinkedHashMap<>();
         this.listaNodiConnessiAComponente = new LinkedHashMap<>();
-        
+
         //Clear nodi
         for (Nodo nodo : this.nodi) {
             nodo.getIndiciArchiIncidenti().clear();
             nodo.getIndiciArchiEntranti().clear();
             nodo.getIndiciArchiUscenti().clear();
             nodo.getAdiacenti().clear();
-            
-            
+            nodo.setComponenteDiRiferimento(nodo.getChiave());
+
+            //Settaggio iniziale sottocomponenti
             ArrayList<Integer> listaNodi = new ArrayList<>();
             listaNodi.add(nodo.getChiave());
             listaNodiConnessiAComponente.put(nodo.getChiave(), listaNodi);
@@ -39,8 +40,7 @@ public class Grafo {
     public Grafo(ArrayList<Nodo> pNodi, LinkedHashMap<Integer, Arco> pArchi) {
         this.nodi = pNodi;
         this.archi = pArchi;
-        
-        /*
+
         //Creazione sottocomponenti
         this.listaNodiConnessiAComponente = new LinkedHashMap<>();
         //Settaggio iniziale
@@ -49,52 +49,28 @@ public class Grafo {
             listaNodi.add(nodo.getChiave());
             listaNodiConnessiAComponente.put(nodo.getChiave(), listaNodi);
         }
-        
-        int componenteDiRiferimentoNodo1 = 0;
-        int componenteDiRiferimentoNodo2 = 0;
-        
+
         //Calcolo sottocomponenti
-        int i = 0;
         for (Map.Entry<Integer, Arco> entry : this.archi.entrySet()) {
             Integer key = entry.getKey();
             Arco arco = entry.getValue();
-            System.out.println(++i);
-            if (i == 15)
-                System.out.println("OK");
+
             Nodo nodoDa = arco.getDa();
             Nodo nodoA = arco.getA();
-            
-            componenteDiRiferimentoNodo1 = nodoDa.getComponenteDiRiferimento();
-            componenteDiRiferimentoNodo2 = nodoA.getComponenteDiRiferimento();
-            
-            if (componenteDiRiferimentoNodo1 != componenteDiRiferimentoNodo2) {
-                if (this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo1).size() > 
-                        this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo2).size()) {
-                    this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo1).addAll(this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo2));
-                    this.listaNodiConnessiAComponente.remove(componenteDiRiferimentoNodo2);
-                    
-                    nodoA.setComponenteDiRiferimento(componenteDiRiferimentoNodo1);
-                } else {
-                    this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo2).addAll(this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo1));
-                    this.listaNodiConnessiAComponente.remove(componenteDiRiferimentoNodo1);
-                    
-                    nodoDa.setComponenteDiRiferimento(componenteDiRiferimentoNodo2);
-                }
-            }
-        }*/
+
+            aggiornaSottocomponenti(nodoDa, nodoA);
+        }
     }
-    
-    
 
     //GET
     public LinkedHashMap<Integer, ArrayList<Integer>> getListaNodiConnessiAComponente() {
         return listaNodiConnessiAComponente;
     }
-    
+
     public int getTotaleSottoComponenti() {
         return listaNodiConnessiAComponente.size();
     }
-    
+
     public ArrayList<Nodo> getNodi() {
         return nodi;
     }
@@ -113,12 +89,12 @@ public class Grafo {
             nodo.getIndiciArchiIncidenti().forEach((incidente) -> {
                 nodoCopia.addIndiceArcoIncidente(incidente);
             });
-            
+
             // Aggiungo tutti gli archi entranti nel nodo
             nodo.getIndiciArchiEntranti().forEach((entrante) -> {
                 nodoCopia.addIndiceArcoEntrante(entrante);
             });
-            
+
             // Aggiungo tutti gli archi uscenti nel nodo
             nodo.getIndiciArchiUscenti().forEach((uscente) -> {
                 nodoCopia.addIndiceArcoUscente(uscente);
@@ -141,7 +117,9 @@ public class Grafo {
 
         try {
             nodo = this.nodi.get(chiave);
-        } catch (IndexOutOfBoundsException ex) { nodo = null; }
+        } catch (IndexOutOfBoundsException ex) {
+            nodo = null;
+        }
 
         return nodo;
     }
@@ -177,12 +155,12 @@ public class Grafo {
 
     public ArrayList<Arco> getCopiaArchi() {
         ArrayList<Arco> copiaArchi = new ArrayList();
-        
+
         for (Map.Entry<Integer, Arco> entry : archi.entrySet()) {
             Arco arco = entry.getValue();
             copiaArchi.add(new Arco(arco.getDa(), arco.getA()));
         }
-        
+
         return copiaArchi;
     }
 
@@ -190,17 +168,17 @@ public class Grafo {
         for (Map.Entry<Integer, Arco> entry : archi.entrySet()) {
             Integer key = entry.getKey();
             Arco arco = entry.getValue();
-            
+
             if ((arco.getDa().equals(da) && arco.getA().equals(a))
                     || (arco.getA().equals(da) && arco.getDa().equals(a))) {
                 return arco;
             }
-            
+
         }
 
         return null;
     }
-    
+
     public Arco getArco(int chiaveDa, int chiaveA) {
         return getArco(getNodo(chiaveDa), getNodo(chiaveA));
     }
@@ -209,7 +187,6 @@ public class Grafo {
         return this.archi.get(indice);
     }
 
-    
     //ADD
     /**
      * Questa funzione aggiunge nuovi archi al grafo, creando nuovi indici
@@ -231,10 +208,12 @@ public class Grafo {
     }
 
     public void addArco(int indiceArco, Arco pArco) {
-        this.archi.put(indiceArco, pArco);
-        
         Nodo da = getNodo(pArco.getDa().getChiave());
         Nodo a = getNodo(pArco.getA().getChiave());
+        
+        Arco arco = new Arco(da, a, pArco.getColori());
+        
+        this.archi.put(indiceArco, arco);
         
         da.addNodoAdiacente(a);
         da.addIndiceArcoIncidente(indiceArco);
@@ -243,41 +222,7 @@ public class Grafo {
         a.addIndiceArcoIncidente(indiceArco);
         a.addIndiceArcoEntrante(indiceArco);
         
-        
-        //Sottocomponenti
-        int componenteDiRiferimentoNodo1 = 0;
-        int componenteDiRiferimentoNodo2 = 0;
-
-        Nodo nodo1 = getNodo(pArco.getDa().getChiave());
-        Nodo nodo2 = getNodo(pArco.getA().getChiave());
-        componenteDiRiferimentoNodo1 = nodo1.getComponenteDiRiferimento();
-        componenteDiRiferimentoNodo2 = nodo2.getComponenteDiRiferimento();
-
-        //Se l'arco non genera cicli
-        if (componenteDiRiferimentoNodo1 != componenteDiRiferimentoNodo2) {
-            ArrayList<Integer> listaNodiComponente1 = this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo1);
-            ArrayList<Integer> listaNodiComponente2 = this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo2);
-
-            if (listaNodiComponente1.size() < listaNodiComponente2.size()) {
-                for (int indiceNodo : listaNodiComponente1) {
-                    getNodo(indiceNodo).setComponenteDiRiferimento(componenteDiRiferimentoNodo2);
-                }
-                
-                listaNodiComponente2.addAll(listaNodiComponente1);
-                
-                this.listaNodiConnessiAComponente.remove(componenteDiRiferimentoNodo1);
-                this.listaNodiConnessiAComponente.put(componenteDiRiferimentoNodo2, listaNodiComponente2);
-            } else {
-                for (int indiceNodo : listaNodiComponente2) {
-                    getNodo(indiceNodo).setComponenteDiRiferimento(componenteDiRiferimentoNodo1);
-                }
-                
-                listaNodiComponente1.addAll(listaNodiComponente2);
-                
-                this.listaNodiConnessiAComponente.remove(componenteDiRiferimentoNodo2);
-                this.listaNodiConnessiAComponente.put(componenteDiRiferimentoNodo1, listaNodiComponente1);
-            }
-        }
+        aggiornaSottocomponenti(da, a);
     }
 
     public void addNodi(ArrayList<Nodo> pNodi) {
@@ -290,7 +235,6 @@ public class Grafo {
         }
     }
 
-    
     //RIMUOVI
     public void rimuoviArchi(ArrayList<Arco> pArchi) {
         //this.archi.removeAll(pArchi);
@@ -298,7 +242,7 @@ public class Grafo {
             rimuoviArco(arcoDaRimuovere);
         }
     }
-    
+
     public void rimuoviArco(int indiceArco) {
         this.archi.remove(indiceArco);
     }
@@ -333,9 +277,9 @@ public class Grafo {
                 nodo2.rimuoviIndiceArcoIncidente(i);
                 nodo1.rimuoviNodoAdiacente(nodo2);
                 nodo2.rimuoviNodoAdiacente(nodo1);
-                
+
                 this.archi.remove(i);
-                
+
                 return;
             }
         }
@@ -349,16 +293,16 @@ public class Grafo {
 
             for (int indiceArco : indiciArchiDaRimuovere) {
                 arco = this.archi.get(indiceArco);
-                
+
                 //Rimozione info arco dal nodo non eliminato
                 if (arco.getDa().equals(nodo)) {
                     arco.getA().rimuoviIndiceArcoIncidente(indiceArco);
                     arco.getA().rimuoviNodoAdiacente(nodo);
                 } else {
-                    arco.getDa().rimuoviIndiceArcoIncidente(indiceArco);  
+                    arco.getDa().rimuoviIndiceArcoIncidente(indiceArco);
                     arco.getDa().rimuoviNodoAdiacente(nodo);
                 }
-                
+
                 //Rimozione arco
                 this.archi.remove(indiceArco);
             }
@@ -366,7 +310,39 @@ public class Grafo {
             this.nodi.remove(nodoDaRimuovere);
         }
     }
-    
+
+    /**
+     * Questo metodo va ad unire due nodi in un'unica sottocomponente
+     *
+     * @param nodoDa
+     * @param nodoA
+     */
+    private void aggiornaSottocomponenti(Nodo nodoDa, Nodo nodoA) {
+        int componenteDiRiferimentoNodo1 = nodoDa.getComponenteDiRiferimento();
+        int componenteDiRiferimentoNodo2 = nodoA.getComponenteDiRiferimento();
+
+        if (componenteDiRiferimentoNodo1 != componenteDiRiferimentoNodo2) {
+            if (this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo1).size()
+                    > this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo2).size()) {
+                this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo1).addAll(this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo2));
+
+                for (int chiaveNodo : this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo2)) {
+                    getNodo(chiaveNodo).setComponenteDiRiferimento(componenteDiRiferimentoNodo1);
+                }
+
+                this.listaNodiConnessiAComponente.remove(componenteDiRiferimentoNodo2);
+            } else {
+                this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo2).addAll(this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo1));
+
+                for (int chiaveNodo : this.listaNodiConnessiAComponente.get(componenteDiRiferimentoNodo1)) {
+                    getNodo(chiaveNodo).setComponenteDiRiferimento(componenteDiRiferimentoNodo2);
+                }
+
+                this.listaNodiConnessiAComponente.remove(componenteDiRiferimentoNodo1);
+            }
+        }
+    }
+
     /**
      * Restituisce la dimensione del grafo intesa come numero di nodi.
      *

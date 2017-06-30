@@ -1,4 +1,4 @@
-package AlgoritmoGenetico;
+package VecchioAlgoritmoGenetico;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -25,13 +25,7 @@ public class Selezione {
             genitori.add(popolazioneOrdinataPerFitness.get(i));
             int indiceCromosomaRandom = (int) (Math.random() * i);
 
-            if (Math.random() > 0.05)
-                indiceCromosomaRandom = (int) (Math.random() * i);
-            else
-                if (i != popolazioneOrdinataPerFitness.size()-1)
-                    indiceCromosomaRandom = (i+1) + ((int)(Math.random() * (popolazioneOrdinataPerFitness.size() - (i + 1))));
-                else
-                    indiceCromosomaRandom = (int) (Math.random() * i);
+            indiceCromosomaRandom = (int) (Math.random() * i);
             
             genitori.add(popolazioneOrdinataPerFitness.get(indiceCromosomaRandom));
         }

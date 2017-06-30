@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package AlgoritmoGenetico;
+package VecchioAlgoritmoGenetico;
 
 import gestore.GestoreGrafo;
 import grafo.GrafoColorato;
@@ -18,7 +18,7 @@ import java.util.Set;
 
 /**
  *
- * @author Daniel
+ * @author Dasteor
  */
 public class Crossover {
 
@@ -84,10 +84,9 @@ public class Crossover {
 
             //Creo un cromosoma valido
             GestoreCromosoma gestoreFiglio = new GestoreCromosoma(figlio);
-            GrafoColorato mlst = gestoreFiglio.getGrafoDaCromosoma();
-            GestoreGrafo gestoreMlst = new GestoreGrafo(mlst);
-
-            if (!gestoreMlst.connesso()) {
+            figlio = gestoreFiglio.getNuovoCromosomaDaPartenzaNonAmmissibile(unione);
+            
+            /*if (!gestoreMlst.connesso()) {
                 int inizio = 0;
                 int fine = unione.size();
                 
@@ -112,6 +111,8 @@ public class Crossover {
                         } else {
                             inizio = indiceDiFine;
                         }
+                        
+                        tmpFiglio.clear();
                     }
                 
                     subUnione = unione.subList(0, fine);
@@ -129,7 +130,7 @@ public class Crossover {
                         
                 }
                 
-            }
+            }*/
             
             /*while (!gestoreMlst.connesso()) {
                 int coloreDaUnione = unione.remove(0);
