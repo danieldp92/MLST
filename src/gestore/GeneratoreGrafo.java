@@ -2,7 +2,6 @@ package gestore;
 
 import grafo.Arco;
 import grafo.Colore;
-import grafo.Grafo;
 import grafo.GrafoColorato;
 import grafo.Nodo;
 import java.io.BufferedReader;
@@ -11,8 +10,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 

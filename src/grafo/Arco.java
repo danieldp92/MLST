@@ -7,6 +7,7 @@ public class Arco {
 
     Nodo da, a;
     ArrayList<Integer> colori;
+    int peso;
 
     public Arco(Nodo da, Nodo a) {
         this.da = da;
@@ -45,11 +46,19 @@ public class Arco {
     }
 
     public void setColori(ArrayList<Integer> colori) {
-        this.colori = colori;
+        this.colori = new ArrayList<>(colori);
     }
 
     public void rimuoviColore(int pColore) {
         this.colori.remove(Integer.valueOf(pColore));
+    }
+
+    public int getPeso() {
+        return peso;
+    }
+
+    public void setPeso(int peso) {
+        this.peso = peso;
     }
 
     @Override

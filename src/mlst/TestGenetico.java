@@ -5,8 +5,8 @@
  */
 package mlst;
 
-import VecchioAlgoritmoGenetico.Algoritmo;
-import VecchioAlgoritmoGenetico.Popolazione;
+import AlgoritmoGenetico.Algoritmo;
+import AlgoritmoGenetico.Popolazione;
 import java.io.IOException;
 import java.util.ArrayList;
 

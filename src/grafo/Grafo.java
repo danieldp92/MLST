@@ -8,9 +8,9 @@ import java.util.Map;
 public class Grafo {
 
     public String nomeGrafo;
+    protected ArrayList<Nodo> nodi;
+    protected LinkedHashMap<Integer, Arco> archi;
     protected LinkedHashMap<Integer, ArrayList<Integer>> listaNodiConnessiAComponente;
-    ArrayList<Nodo> nodi;
-    LinkedHashMap<Integer, Arco> archi;
 
     public Grafo() {
         this.nodi = new ArrayList<>();
@@ -311,6 +311,55 @@ public class Grafo {
         }
     }
 
+    //ALTRO
+    /**
+     * Restituisce la dimensione del grafo intesa come numero di nodi.
+     *
+     * @return la dimensione del grafo
+     */
+    public int dimensione() {
+        return nodi.size();
+    }
+
+    /**
+     * Questa funzione va ad eliminare tutti gli archi e tutti i suoi
+     * riferimenti
+     */
+    public void clear() {
+        this.archi.clear();
+        for (Nodo nodo : this.nodi) {
+            nodo.getIndiciArchiIncidenti().clear();
+            nodo.getAdiacenti().clear();
+        }
+    }
+    
+    public Grafo clone() {
+        Grafo grafoClone = null;
+        
+        ArrayList<Nodo> nodiClone = getCopiaNodi();
+        
+        LinkedHashMap<Integer, Arco> archiClone = new LinkedHashMap<>();
+        for (Map.Entry<Integer, Arco> entry : this.archi.entrySet()) {
+            Integer indiceArco = entry.getKey();
+            Arco arco = entry.getValue();
+            
+            archiClone.put(indiceArco, new Arco(arco.getDa(), arco.getA()));
+        }
+        
+        LinkedHashMap<Integer, ArrayList<Integer>> listaNodiConnessiAComponenteClone = new LinkedHashMap<>();
+        for (Map.Entry<Integer, ArrayList<Integer>> entry : listaNodiConnessiAComponente.entrySet()) {
+            Integer sottocomponente = entry.getKey();
+            ArrayList<Integer> listaNodi = entry.getValue();
+            
+            listaNodiConnessiAComponenteClone.put(sottocomponente, new ArrayList<>(listaNodi));
+        }
+        
+        grafoClone = new Grafo(nodiClone, archiClone);
+        grafoClone.listaNodiConnessiAComponente = listaNodiConnessiAComponenteClone;
+        
+        return grafoClone;
+    }
+    
     /**
      * Questo metodo va ad unire due nodi in un'unica sottocomponente
      *
@@ -343,24 +392,4 @@ public class Grafo {
         }
     }
 
-    /**
-     * Restituisce la dimensione del grafo intesa come numero di nodi.
-     *
-     * @return la dimensione del grafo
-     */
-    public int dimensione() {
-        return nodi.size();
-    }
-
-    /**
-     * Questa funzione va ad eliminare tutti gli archi e tutti i suoi
-     * riferimenti
-     */
-    public void clear() {
-        this.archi.clear();
-        for (Nodo nodo : this.nodi) {
-            nodo.getIndiciArchiIncidenti().clear();
-            nodo.getAdiacenti().clear();
-        }
-    }
 }

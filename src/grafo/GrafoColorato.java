@@ -61,6 +61,8 @@ public class GrafoColorato extends Grafo {
     public GrafoColorato(ArrayList<Nodo> nodi, LinkedHashMap<Integer, Arco> archi, LinkedHashMap<Integer, Colore> colori) {
         super(nodi, archi);
         this.colori = colori;
+        
+        setPesiArchi();
     }
 
     
@@ -227,7 +229,38 @@ public class GrafoColorato extends Grafo {
         for (Map.Entry<Integer, Colore> entry : colori.entrySet())
             entry.getValue().getIndiciArchiCollegati().clear();
     }
-
+    
+    @Override
+    public GrafoColorato clone() {
+        GrafoColorato grafoColoratoClone = null;
+        Grafo grafoClone = super.clone();
+        
+        ArrayList<Nodo> nodiClone = grafoClone.getNodi();
+        LinkedHashMap<Integer, Arco> archiClone = grafoClone.getArchi();
+        
+        for (Map.Entry<Integer, Arco> entry : archi.entrySet()) {
+            Integer indiceArco = entry.getKey();
+            Arco arco = entry.getValue();
+            
+            archiClone.get(indiceArco).setColori(new ArrayList<>(arco.getColori()));
+        }
+        
+        
+        LinkedHashMap<Integer, Colore> coloriClone = new LinkedHashMap<>();
+        for (Map.Entry<Integer, Colore> entry : this.colori.entrySet()) {
+            Integer idColore = entry.getKey();
+            Colore colore = entry.getValue();
+            
+            coloriClone.put(idColore, new Colore(idColore, new ArrayList<>(colore.getIndiciArchiCollegati())));
+        }
+        
+        grafoColoratoClone = new GrafoColorato(nodiClone, archiClone, coloriClone);
+        grafoColoratoClone.listaNodiConnessiAComponente = grafoClone.listaNodiConnessiAComponente;
+        grafoColoratoClone.setPesiArchi();
+        
+        return grafoColoratoClone;
+    }
+    
     private void setListaColoriOrdinataPerRicorrenza() {
         LinkedHashMap<Integer, Integer> listaRicorrenzeColori = new LinkedHashMap<>();
         for (Map.Entry<Integer, Colore> entry : this.colori.entrySet())
@@ -260,6 +293,21 @@ public class GrafoColorato extends Grafo {
         
 
         
+    }
+    
+    private void setPesiArchi () {
+        for (Map.Entry<Integer, Arco> entry : this.archi.entrySet()) {
+            Integer indiceArco = entry.getKey();
+            Arco arco = entry.getValue();
+            
+            int pesoArco = 1;
+            for (int colore : arco.getColori()) {
+                pesoArco *= this.getColore(colore).getOccorrenze();
+            }
+            
+            this.archi.get(indiceArco).setPeso(pesoArco);
+            
+        }
     }
     
 }
