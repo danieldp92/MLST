@@ -53,6 +53,10 @@ public class CPLEXModel {
         //Vincolo sulla selezione dei colori
         for (int i = 0; i < E; i++) {
             for (int j = 0; j < grafo.getArchi().get(i).getColori().size(); j++) {
+                System.out.println("J: "+j);
+                System.out.println("SIZE: "+grafo.getArchi().get(i).getColori().size());
+                System.out.println("COLORE: "+c_k[grafo.getArco(i).getColori().get(j)]);
+                System.out.println("xe: "+x_e[i]);
                 modello.addGe(c_k[grafo.getArco(i).getColori().get(j)], x_e[i]);
             }
         }

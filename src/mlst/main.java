@@ -10,7 +10,7 @@ import java.io.IOException;
 public class main {
 
     public static void main(String[] args) throws IOException, IloException {
-        //TestCPLEX.test();
+        TestCPLEX.test();
         
         //TestGreedy.test();
         
@@ -18,7 +18,7 @@ public class main {
         
         //TestMultistart.test();
         
-        TestPilot.test();
+        //TestPilot.test();
         
        // TestGenetico.test();
     }
