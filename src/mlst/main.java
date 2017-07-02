@@ -18,8 +18,8 @@ public class main {
         
         //TestMultistart.test();
         
-        //TestPilot.test();
+        TestPilot.test();
         
-        TestGenetico.test();
+       // TestGenetico.test();
     }
 }

@@ -223,6 +223,12 @@ public class XlsGrafo {
         for (int i = 1; i <= 5; i++) {
             this.indiciRigheGrafi.put("10000_160000_10000_625_" + i + ".mlst", i + 112);
         }
+        
+        //Archi da 25 100 25 Creati da Stefano
+        for (int i = 1; i <= 10; i++) {
+            this.indiciRigheGrafi.put("grafo_25_100_25_" + i + ".mlst", i + 118);
+        }
+       
     }
 
     private void setIndiciColonne() {

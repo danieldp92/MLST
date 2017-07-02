@@ -19,17 +19,20 @@ import java.util.ArrayList;
  * @author Rhobar
  */
 public class TestMultistart {
+
     public static void test() throws IOException {
         XlsGrafo xls = new XlsGrafo();
         String pathTabellaRisultati = "src/Risultati/TabellaRisultati.xls";
         xls.carica(pathTabellaRisultati);
 
-        ArrayList<String> listaGrafi = listaFile();
+        // ArrayList<String> listaGrafi = listaFile();
+        ArrayList<String> listaGrafi = listaFile1Colore();
 
         for (String s : listaGrafi) {
             //Carico il grafo
             System.out.println(s);
-            GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
+            // GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
+            GrafoColorato grafo = GeneratoreGrafo.generaGrafoConUnColore(new File("src/GrafiColorati1Colore/gruppo1/" + s));
             grafo.nomeGrafo = s;
             Statistiche statistiche = null;
 
@@ -38,39 +41,42 @@ public class TestMultistart {
             GrafoColorato mlst = null;
             int totaleColoriMigliori = grafo.getListaColori().size() + 1;
             int iterataSoluzione = -1;
-            
+
             //Ottengo un MLST eseguendo l'algoritmo greedy sul grafo, iterativamente, al fine di trovare la soluzione migliore
             int iterata = 0;
             int maxIterateDalMigliore = 80;
             int numeroIterateEffettuateDalMigliore = 0;
-            
+
             while (iterata++ < 300 && numeroIterateEffettuateDalMigliore < maxIterateDalMigliore) {
                 mlst = greedy.esegui(true);
-                
+
                 if (mlst.getListaColori().size() < totaleColoriMigliori) {
                     totaleColoriMigliori = mlst.getListaColori().size();
                     numeroIterateEffettuateDalMigliore = 0;
                     iterataSoluzione = iterata;
                 }
-                
+
                 numeroIterateEffettuateDalMigliore++;
             }
-            
 
             statistiche = greedy.getStatistiche();
-            xls.addInfoGrafo(grafo.nomeGrafo, "multistart", (System.currentTimeMillis() - inizio), totaleColoriMigliori, iterataSoluzione);
-            xls.salva(pathTabellaRisultati);
+            //xls.addInfoGrafo(grafo.nomeGrafo, "multistart", (System.currentTimeMillis() - inizio), totaleColoriMigliori, iterataSoluzione);
+            //xls.salva(pathTabellaRisultati);
             System.out.println("Numero colori: " + totaleColoriMigliori);
-            System.out.println("Tempo di esecuzione: " + statistiche.tempoDiEsecuzione);
-
+            //System.out.println("Tempo di esecuzione: " + statistiche.tempoDiEsecuzione);
         }
-        
+
         xls.salva(pathTabellaRisultati);
     }
 
     public static ArrayList<String> listaFile() {
         ArrayList<String> listaFile = new ArrayList<>();
 
+        //Archi da 25 100 25 Creati da Stefano
+        for (int i = 1; i <= 10; i++) {
+            listaFile.add("grafo_25_100_25_" + i + ".mlst");
+        }
+        /*
         //Archi da 50 200 50
         for (int i = 1; i <= 10; i++) {
             listaFile.add("50_200_50_13_" + i + ".mlst");
@@ -138,6 +144,22 @@ public class TestMultistart {
         //Archi da 10000 160000 10000
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_160000_10000_625_" + i + ".mlst");
+        }
+         */
+        return listaFile;
+    }
+
+    public static ArrayList<String> listaFile1Colore() {
+        ArrayList<String> listaFile = new ArrayList<>();
+        File cartella = new File("src\\GrafiColorati1Colore\\gruppo1");
+        File[] files = cartella.listFiles();
+
+        for (int i = 0; i < files.length; i++) {
+            if (files[i].isFile()) {
+                if (files[i].getName().startsWith("50")) {
+                    listaFile.add(files[i].getName());
+                }
+            }
         }
 
         return listaFile;

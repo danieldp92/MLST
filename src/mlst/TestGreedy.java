@@ -22,36 +22,43 @@ public class TestGreedy {
         String pathTabellaRisultati = "src/Risultati/TabellaRisultati.xls";
         xls.carica(pathTabellaRisultati);
 
-        ArrayList<String> listaGrafi = listaFile();
+        // ArrayList<String> listaGrafi = listaFile();
+        ArrayList<String> listaGrafi = listaFile1Colore();
 
         for (String s : listaGrafi) {
             //Carico il grafo
             System.out.println(s);
-            GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
+            //GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
+            GrafoColorato grafo = GeneratoreGrafo.generaGrafoConUnColore(new File("src/GrafiColorati1Colore/gruppo1/" + s));
             grafo.nomeGrafo = s;
             Statistiche statistiche = null;
 
             long inizio = System.currentTimeMillis();
-            
+
             //Ottengo un MLST eseguendo l'algoritmo greedy sul grafo
             Greedy greedy = new Greedy(grafo);
             GrafoColorato mlst = greedy.esegui(false);
 
             statistiche = greedy.getStatistiche();
-            xls.addInfoGrafo(grafo.nomeGrafo, "greedy", (System.currentTimeMillis() - inizio), mlst.getListaColori().size());
-            xls.salva(pathTabellaRisultati);
+           // xls.addInfoGrafo(grafo.nomeGrafo, "greedy", (System.currentTimeMillis() - inizio), mlst.getListaColori().size());
+           // xls.salva(pathTabellaRisultati);
             System.out.println("Numero colori: " + mlst.getListaColori().size());
-            System.out.println("Tempo di esecuzione: " + statistiche.tempoDiEsecuzione);
+          //  System.out.println("Tempo di esecuzione: " + statistiche.tempoDiEsecuzione);
 
         }
-        
-        xls.salva(pathTabellaRisultati);
+
+        //xls.salva(pathTabellaRisultati);
     }
 
     public static ArrayList<String> listaFile() {
         ArrayList<String> listaFile = new ArrayList<>();
 
-        //Archi da 50 200 50
+        //Archi da 50 200 50 Creati da Stefano
+        for (int i = 1; i <= 10; i++) {
+            listaFile.add("grafo_25_100_25_" + i + ".mlst");
+        }
+
+        /*//Archi da 50 200 50
         for (int i = 1; i <= 10; i++) {
             listaFile.add("50_200_50_13_" + i + ".mlst");
         }
@@ -119,8 +126,23 @@ public class TestGreedy {
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_160000_10000_625_" + i + ".mlst");
         }
-
+         */
         return listaFile;
     }
 
+    public static ArrayList<String> listaFile1Colore() {
+        ArrayList<String> listaFile = new ArrayList<>();
+        File cartella = new File("src\\GrafiColorati1Colore\\gruppo1");
+        File[] files = cartella.listFiles();
+
+        for (int i = 0; i < files.length; i++) {
+            if (files[i].isFile()) {
+                if (files[i].getName().startsWith("20")) {
+                    listaFile.add(files[i].getName());
+                }
+            }
+        }
+
+        return listaFile;
+    }
 }

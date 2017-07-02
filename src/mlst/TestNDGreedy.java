@@ -19,6 +19,7 @@ import java.util.ArrayList;
  * @author Rhobar
  */
 public class TestNDGreedy {
+
     public static void test() throws IOException {
         XlsGrafo xls = new XlsGrafo();
         String pathTabellaRisultati = "src/Risultati/TabellaRisultati.xls";
@@ -34,7 +35,7 @@ public class TestNDGreedy {
             Statistiche statistiche = null;
 
             long inizio = System.currentTimeMillis();
-            
+
             //Ottengo un MLST eseguendo l'algoritmo greedy sul grafo
             Greedy greedy = new Greedy(grafo);
             GrafoColorato mlst = greedy.esegui(true);
@@ -46,13 +47,17 @@ public class TestNDGreedy {
             System.out.println("Tempo di esecuzione: " + statistiche.tempoDiEsecuzione);
 
         }
-        
+
         xls.salva(pathTabellaRisultati);
     }
 
     public static ArrayList<String> listaFile() {
         ArrayList<String> listaFile = new ArrayList<>();
-
+        //Archi da 25 100 25 Creati da Stefano
+        for (int i = 1; i <= 10; i++) {
+            listaFile.add("grafo_25_100_25_" + i + ".mlst");
+        }
+        /*
         //Archi da 50 200 50
         for (int i = 1; i <= 10; i++) {
             listaFile.add("50_200_50_13_" + i + ".mlst");
@@ -121,7 +126,7 @@ public class TestNDGreedy {
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_160000_10000_625_" + i + ".mlst");
         }
-
+         */
         return listaFile;
     }
 }

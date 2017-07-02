@@ -20,12 +20,14 @@ public class TestCPLEX {
         String pathTabellaRisultati = "src/Risultati/TabellaRisultati.xls";
         xls.carica(pathTabellaRisultati);
 
-        ArrayList<String> listaGrafi = listaFile();
+        //ArrayList<String> listaGrafi = listaFile();
+        ArrayList<String> listaGrafi = listaFile1Colore();
 
         for (String s : listaGrafi) {
             //Carico il grafo
             System.out.println(s);
-            GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
+            //GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
+            GrafoColorato grafo = GeneratoreGrafo.generaGrafoConUnColore(new File("src/GrafiColorati1Colore/gruppo1/" + s));
             grafo.nomeGrafo = s;
 
             long inizio = System.currentTimeMillis();
@@ -34,24 +36,29 @@ public class TestCPLEX {
             int numColori = cplex.esegui();
 
             double tempoDiEsecuzione = (double) (System.currentTimeMillis() - inizio) / 1000;
-            xls.addInfoGrafo(grafo.nomeGrafo, "cplex", tempoDiEsecuzione, numColori, -1);
+            xls.addInfoGrafo(grafo.nomeGrafo, "cplex", tempoDiEsecuzione, numColori);
 
             System.out.println("Tempo di esecuzione: " + tempoDiEsecuzione);
 
-        }
+            System.out.println("NUMERO DI COLORI: " + numColori);
 
-        xls.salva(pathTabellaRisultati);
+        }
+        //xls.salva(pathTabellaRisultati);
     }
 
     public static ArrayList<String> listaFile() {
         ArrayList<String> listaFile = new ArrayList<>();
-        listaFile.add("13_19_13.mlst");
+
+//Archi da 50 200 50 Creati da Stefano
+        for (int i = 1; i <= 10; i++) {
+            listaFile.add("grafo_25_100_25_" + i + ".mlst");
+        }
         //Archi da 50 200 50
         /* for (int i = 1; i <= 10; i++) {
             listaFile.add("50_200_50_13_" + i + ".mlst");
-        }*/
+        }
 
- /*
+ 
         //Archi da 50 1000 50
         for (int i = 1; i <= 10; i++) {
             listaFile.add("50_1000_50_3_" + i + ".mlst");
@@ -117,6 +124,22 @@ public class TestCPLEX {
             listaFile.add("10000_160000_10000_625_" + i + ".mlst");
         }
          */
+        return listaFile;
+    }
+
+    public static ArrayList<String> listaFile1Colore() {
+        ArrayList<String> listaFile = new ArrayList<>();
+        File cartella = new File("src\\GrafiColorati1Colore\\gruppo1");
+        File[] files = cartella.listFiles();
+
+        for (int i = 0; i < files.length; i++) {
+            if (files[i].isFile()) {
+                if (files[i].getName().startsWith("20")) {
+                    listaFile.add(files[i].getName());
+                }
+            }
+        }
+
         return listaFile;
     }
 }

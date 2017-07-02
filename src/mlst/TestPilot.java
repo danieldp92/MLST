@@ -19,18 +19,22 @@ import pilot.Pilot;
  * @author Dasteor
  */
 public class TestPilot {
+
     public static void test() throws IOException, IloException {
 
         XlsGrafo xls = new XlsGrafo();
         String pathTabellaRisultati = "src/Risultati/TabellaRisultati.xls";
         xls.carica(pathTabellaRisultati);
 
-        ArrayList<String> listaGrafi = listaFile();
+       // ArrayList<String> listaGrafi = listaFile();
+        ArrayList<String> listaGrafi = listaFile1Colore();
 
         //Per ogni grafico
         for (int i = 0; i < listaGrafi.size(); i++) {
 
-            GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + listaGrafi.get(i)));
+            //GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + listaGrafi.get(i)));
+            GrafoColorato grafo = GeneratoreGrafo.generaGrafoConUnColore(new File("src/GrafiColorati1Colore/gruppo1/" + listaGrafi.get(i)));
+
             int numCol = grafo.getColori().size();
 
             ArrayList<Integer> colorsToDelete = new ArrayList<>();
@@ -38,7 +42,6 @@ public class TestPilot {
             ArrayList<Integer> solArray = new ArrayList<>();
             long startTime = System.currentTimeMillis();
 
-            
             //Primo livello
             for (int z = 0; z < numCol; z++) {
                 colorsToDelete.add(z);
@@ -50,7 +53,7 @@ public class TestPilot {
                     break;
                 }
             }
-            
+
             ArrayList<Integer> mins = CercaMins(solArray); //cerca i colori con la soluzione migliore
             solArray.clear();
 
@@ -85,18 +88,18 @@ public class TestPilot {
             System.out.println("Grafo:" + listaGrafi.get(i) + " Sol:" + minSol + " Tempo ms:" + endTime);
             System.out.println("");
 
-            xls.addInfoGrafo(listaGrafi.get(i), "pilot", timeInSec, minSol);
-            xls.salva(pathTabellaRisultati);
+           // xls.addInfoGrafo(listaGrafi.get(i), "pilot", timeInSec, minSol);
+           // xls.salva(pathTabellaRisultati);
         }
 
-        xls.salva(pathTabellaRisultati);
+       // xls.salva(pathTabellaRisultati);
 
     }
 
     private static ArrayList<String> listaFile() {
         ArrayList<String> listaFile = new ArrayList<>();
 
-      //  listaFile.add("50_200_50_13_1.mlst");
+        //  listaFile.add("50_200_50_13_1.mlst");
         //Archi da 50 200 50
         for (int i = 1; i <= 10; i++) {
             listaFile.add("50_200_50_13_" + i + ".mlst");
@@ -165,8 +168,8 @@ public class TestPilot {
         //Archi da 10000 160000 10000
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_160000_10000_625_" + i + ".mlst");
-        } 
-        
+        }
+
         return listaFile;
     }
 
@@ -199,5 +202,21 @@ public class TestPilot {
             }
         }
         return ret;
+    }
+
+    public static ArrayList<String> listaFile1Colore() {
+        ArrayList<String> listaFile = new ArrayList<>();
+        File cartella = new File("src\\GrafiColorati1Colore\\gruppo1");
+        File[] files = cartella.listFiles();
+
+        for (int i = 0; i < files.length; i++) {
+            if (files[i].isFile()) {
+                if (files[i].getName().startsWith("20")) {
+                    listaFile.add(files[i].getName());
+                }
+            }
+        }
+
+        return listaFile;
     }
 }

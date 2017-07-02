@@ -58,35 +58,97 @@ public class GeneratoreGrafo {
                 for (int j = 0; j < numeroNodi; j++) {
                     nodi.add(new Nodo(j));
                 }
-                
+
                 //Colori
                 int numColori = Integer.parseInt(line[2]) + 1;
-                for (int j = 0; j < numColori; j++)
+                for (int j = 0; j < numColori; j++) {
                     colori.put(j, new Colore(j));
+                }
 
             } else {
                 primoNodo = nodi.get(Integer.parseInt(line[0]));
                 secondoNodo = nodi.get(Integer.parseInt(line[1]));
-                
-                primoNodo.addIndiceArcoIncidente(i-1);
-                primoNodo.addIndiceArcoUscente(i-1);
-                secondoNodo.addIndiceArcoIncidente(i-1);
-                secondoNodo.addIndiceArcoEntrante(i-1);
+
+                primoNodo.addIndiceArcoIncidente(i - 1);
+                primoNodo.addIndiceArcoUscente(i - 1);
+                secondoNodo.addIndiceArcoIncidente(i - 1);
+                secondoNodo.addIndiceArcoEntrante(i - 1);
                 primoNodo.addNodoAdiacente(secondoNodo);
                 secondoNodo.addNodoAdiacente(primoNodo);
-                
+
                 Arco arco = new Arco(primoNodo, secondoNodo, new ArrayList(coloriArco));
-                
+
                 for (int j = 2; j < line.length; j++) {
                     int colore = Integer.parseInt(line[j]);
                     arco.addColore(colore);
-                    colori.get(colore).addIndiceArcoCollegato(i-1);
+                    colori.get(colore).addIndiceArcoCollegato(i - 1);
                 }
-                
+
                 //Controllo componenti
-                
-                archi.put((i-1), arco);
+                archi.put((i - 1), arco);
                 coloriArco.clear();
+            }
+        }
+        return new GrafoColorato(nodi, archi, colori);
+    }
+
+    public static GrafoColorato generaGrafoConUnColore(File pGrafo) {
+        ArrayList<Nodo> nodi = new ArrayList<>();
+        LinkedHashMap<Integer, Arco> archi = new LinkedHashMap<>();
+        LinkedHashMap<Integer, Colore> colori = new LinkedHashMap<>();
+
+        Nodo primoNodo;
+        Nodo secondoNodo;
+        ArrayList<Integer> coloriArco = new ArrayList<>();
+        int numeroNodi = 0;
+
+        ArrayList<String> builder = new ArrayList();
+
+        //Leggo da file
+        try (BufferedReader br = new BufferedReader(new FileReader(pGrafo))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                builder.add(line);
+            }
+
+        } catch (IOException ex) {
+            Logger.getLogger(GeneratoreGrafo.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        for (int i = 0; i < builder.size(); i++) {
+            String[] line = builder.get(i).split(" ");
+            if (i == 0) {
+                //Lista nodi
+                numeroNodi = Integer.parseInt(line[2]);
+                for (int j = 0; j < numeroNodi; j++) {
+                    nodi.add(new Nodo(j));
+                }
+
+                //Colori
+                int numColori = Integer.parseInt(line[4]);
+                for (int j = 0; j < numColori; j++) {
+                    colori.put(j, new Colore(j));
+                }
+
+            } else {
+                primoNodo = nodi.get(Integer.parseInt(line[1])-1);
+                secondoNodo = nodi.get(Integer.parseInt(line[2])-1);
+
+                primoNodo.addIndiceArcoIncidente(i - 1);
+                primoNodo.addIndiceArcoUscente(i - 1);
+                secondoNodo.addIndiceArcoIncidente(i - 1);
+                secondoNodo.addIndiceArcoEntrante(i - 1);
+                primoNodo.addNodoAdiacente(secondoNodo);
+                secondoNodo.addNodoAdiacente(primoNodo);
+
+                Arco arco = new Arco(primoNodo, secondoNodo, new ArrayList());
+
+                int colore = Integer.parseInt(line[3])-1;
+                arco.addColore(colore);
+                colori.get(colore).addIndiceArcoCollegato(i - 1);
+
+                //Controllo componenti
+                archi.put((i - 1), arco);
             }
         }
         return new GrafoColorato(nodi, archi, colori);
