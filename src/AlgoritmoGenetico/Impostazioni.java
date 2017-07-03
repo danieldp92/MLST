@@ -23,10 +23,10 @@ public class Impostazioni {
     public Impostazioni () {
         this.nomeGrafo = "500_2000_500_125_1.mlst";
         this.maxValutazioni = 500;
-        this.sizePopolazione = 100;
+        this.sizePopolazione = 10;
         this.sizeCromosoma = 500;
         this.crossoverRate = 0.8;
-        this.mutationRate = 0.03;
+        this.mutationRate = 0.2;
         this.strongMutationRate = 0.7;
     }
 }

@@ -53,25 +53,27 @@ public class Algoritmo {
     public Popolazione execute() {
         long time;
         
-        while (this.generazione++ < 200){
+        while (this.generazione++ < 1000 && iter < 100){
             System.out.println("ITERATA " + generazione);
-            //Valutazione della popolazione
-            valutaPopolazione();
+            System.out.println("ITER" + iter);
 
+            //Valutazione iniziale della popolazione
+            valutaPopolazione();
+            
             time = System.currentTimeMillis();
             //Selezione per riproduzione
             ArrayList<Cromosoma> genitori = this.selection.selezionePerRiproduzione(this.popolazione);
-            System.out.println("TEMPO SELEZIONE RIPRODUZIONE: " +  + (System.currentTimeMillis()-time));
+            System.out.println("TEMPO SELEZIONE RIPRODUZIONE: " + (double)(System.currentTimeMillis()-time) / 1000);
             
             time = System.currentTimeMillis();
             //Crossover
             ArrayList<Cromosoma> figli = this.crossover.multiThreadCrossover(genitori);
-            System.out.println("TEMPO CROSSOVER: " +  + (System.currentTimeMillis()-time));
+            System.out.println("TEMPO CROSSOVER: " + (double)(System.currentTimeMillis()-time) / 1000);
 
             //Mutazione
             time = System.currentTimeMillis();
             this.mutazione.multiThreadMutazione(figli);
-            System.out.println("TEMPO MUTAZIONE: " +  + (System.currentTimeMillis()-time));
+            System.out.println("TEMPO MUTAZIONE: " + (double)(System.currentTimeMillis()-time) / 1000);
             this.popolazione.getCromosomi().addAll(figli);
 
             //Nuova valutazione
@@ -81,13 +83,13 @@ public class Algoritmo {
             time = System.currentTimeMillis();
             ArrayList<Cromosoma> sopravvissuti = this.selection.selezionePerSopravvivenza(this.popolazione);
             this.popolazione.setCromosomi(sopravvissuti);
-            System.out.println("TEMPO SELEZIONE SOPRAVVIVENZA: " +  + (System.currentTimeMillis()-time));
+            System.out.println("TEMPO SELEZIONE SOPRAVVIVENZA: " + (double)(System.currentTimeMillis()-time) / 1000);
             
             aggiornaInfoMediaFF();
         }
 
         valutaPopolazione();
-
+        
         int posMaxFF = -1;
         int FfMax = 10000000;
 
@@ -136,20 +138,21 @@ public class Algoritmo {
     }
 
     private void aggiornaInfoMediaFF() {
+        actualMediaFF = 0;
         for (int i = 0; i < this.popolazione.size(); i++) {
             actualMediaFF += this.popolazione.getCromosoma(i).getValoreFunzioneDiFitness();
         }
         actualMediaFF = actualMediaFF / this.popolazione.size();
 
-        //System.out.println("PREVMEDIA: " + prevMediaFF);
+        System.out.println("PREVMEDIA: " + prevMediaFF);
         System.out.println("ACTUALMEDIA: " + actualMediaFF);
         
-        /*if (Math.abs(prevMediaFF - actualMediaFF) < 0.1) {
+        if (Math.abs(prevMediaFF - actualMediaFF) < 0.01) {
             iter++;
         } else {
             iter = 0;
             prevMediaFF = actualMediaFF;
-        }*/
+        }
 
         
     }

@@ -36,7 +36,7 @@ public class Crossover {
         this.grafo = grafo.clone();
         this.greedy = new Greedy(this.grafo);
         
-        this.multiThread = new MultiThreadGreedy(100, 100, greedy);
+        this.multiThread = new MultiThreadGreedy(10, 10, greedy);
     }
     
     public ArrayList<Cromosoma> crossover(ArrayList<Cromosoma> genitori) {
@@ -97,7 +97,7 @@ public class Crossover {
         unioneGenitori = new ArrayList<>(genitori.get(0));
         ordinaColoriPerRicorrenza(unioneGenitori);
         figlio.setColoriGenitori(new ArrayList<>(unioneGenitori));
-        mezzaUnione = unioneGenitori.subList(0, (unioneGenitori.size())/4);
+        mezzaUnione = unioneGenitori.subList(0, (unioneGenitori.size())/2);
         
         //Aggiunta lista colori iniziale per greedy
         listaFigliPreGreedy.add(mezzaUnione);
