@@ -17,7 +17,9 @@ import java.util.ArrayList;
 public class TestGenetico {
     public static void test() throws IOException {
         Algoritmo algoritmo = new Algoritmo();
+        long start = System.currentTimeMillis();
         Popolazione popolazione = algoritmo.execute();
+        System.out.println("Tempo di esecuzione: " + (double)(System.currentTimeMillis() - start) / 1000);
     }
     
     public static ArrayList<String> listaFile() {

@@ -26,7 +26,7 @@ public class Impostazioni {
         this.sizePopolazione = 100;
         this.sizeCromosoma = 500;
         this.crossoverRate = 0.8;
-        this.mutationRate = 0.05;
+        this.mutationRate = 0.03;
         this.strongMutationRate = 0.7;
     }
 }

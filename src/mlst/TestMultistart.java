@@ -43,7 +43,7 @@ public class TestMultistart {
 
             //Ottengo un MLST eseguendo l'algoritmo greedy sul grafo, iterativamente, al fine di trovare la soluzione migliore
             MultiThreadGreedy multiThread = new MultiThreadGreedy(NUM_ITERATE, THREAD_IN_PARALLELO, greedy);
-            listaMlst = multiThread.avviaMultiThreadGreedy();
+            listaMlst = multiThread.avviaMultiThreadGreedy(null);
             
             ArrayList<Integer> soluzioni = new ArrayList<>();
             for (GrafoColorato mlst : listaMlst)

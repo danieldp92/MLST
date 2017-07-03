@@ -53,9 +53,8 @@ public class Algoritmo {
     public Popolazione execute() {
         long time;
         
-        while (this.generazione++ < 500){
-            System.out.println("Iterata " + generazione);
-            
+        while (this.generazione++ < 200){
+            System.out.println("ITERATA " + generazione);
             //Valutazione della popolazione
             valutaPopolazione();
 
@@ -66,15 +65,12 @@ public class Algoritmo {
             
             time = System.currentTimeMillis();
             //Crossover
-            ArrayList<Cromosoma> figli = this.crossover.crossover(genitori);
+            ArrayList<Cromosoma> figli = this.crossover.multiThreadCrossover(genitori);
             System.out.println("TEMPO CROSSOVER: " +  + (System.currentTimeMillis()-time));
 
             //Mutazione
-            //Tasso di mutazione variabile
-            double mutationRate = this.impostazioni.mutationRate + (0.02 * iter);
-            
             time = System.currentTimeMillis();
-            this.mutazione.mutazione(figli, mutationRate);
+            this.mutazione.multiThreadMutazione(figli);
             System.out.println("TEMPO MUTAZIONE: " +  + (System.currentTimeMillis()-time));
             this.popolazione.getCromosomi().addAll(figli);
 
@@ -88,8 +84,6 @@ public class Algoritmo {
             System.out.println("TEMPO SELEZIONE SOPRAVVIVENZA: " +  + (System.currentTimeMillis()-time));
             
             aggiornaInfoMediaFF();
-            
-            System.out.println("Iter: " + iter);
         }
 
         valutaPopolazione();
@@ -147,15 +141,15 @@ public class Algoritmo {
         }
         actualMediaFF = actualMediaFF / this.popolazione.size();
 
-        System.out.println("PREVMEDIA: " + prevMediaFF);
+        //System.out.println("PREVMEDIA: " + prevMediaFF);
         System.out.println("ACTUALMEDIA: " + actualMediaFF);
         
-        if (Math.abs(prevMediaFF - actualMediaFF) < 0.1) {
+        /*if (Math.abs(prevMediaFF - actualMediaFF) < 0.1) {
             iter++;
         } else {
             iter = 0;
             prevMediaFF = actualMediaFF;
-        }
+        }*/
 
         
     }
