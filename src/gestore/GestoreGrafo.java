@@ -31,12 +31,12 @@ public class GestoreGrafo {
      * @return true se il grafo è connesso; false altrimenti.
      */
     public boolean connesso() {
-        /*if (this.grafo.getTotaleSottoComponenti() == 1)
+        if (this.grafo.getTotaleSottoComponenti() == 1)
             return true;
         
-        return false;*/
+        return false;
         
-        if (this.grafo.dimensione() == 0) {
+        /*if (this.grafo.dimensione() == 0) {
             return false;
         }
 
@@ -50,7 +50,7 @@ public class GestoreGrafo {
 
         return this.ricerca.bfs(this.grafo.getNodo(0));      //Inizio la ricerca in ampiezza dal nodo avente chiave 0
         //return new Ricerca(grafo).dfs(this.grafo.getNodo(0));    //Inizio la ricerca in profondità dal nodo avente chiave 0
-        
+        */
     }
 
     /**

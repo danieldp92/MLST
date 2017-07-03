@@ -5,7 +5,6 @@
  */
 package AlgoritmoGenetico;
 
-import gestore.GestoreGrafo;
 import grafo.GrafoColorato;
 import greedy.Greedy;
 import java.util.ArrayList;
@@ -13,6 +12,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -35,29 +35,37 @@ public class Crossover {
     public ArrayList<Cromosoma> crossover(ArrayList<Cromosoma> genitori) {
         ArrayList<Cromosoma> figli = new ArrayList<>();
         
+        Set<Integer> tmpUnioneGenitori;
+        ArrayList<Integer> unioneGenitori;
+        List<Integer> mezzaUnione;
+        
+        //Primo genitore -> genera figlio da solo
         Cromosoma figlio = new Cromosoma();
-        figlio.addAll(genitori.get(0));
+        
+        unioneGenitori = new ArrayList<>(genitori.get(0));
+        ordinaColoriPerRicorrenza(unioneGenitori);
+        figlio.setColoriGenitori(unioneGenitori);
+        mezzaUnione = unioneGenitori.subList(0, (3*unioneGenitori.size())/4);
+        figlio.addAll(this.greedy.esegui(mezzaUnione).getListaColori());
         figli.add(figlio);
         
-        figlio = null;
         
         for (int i = 1; i < genitori.size(); i+=2) {
             Cromosoma genitore1 = genitori.get(i);
             Cromosoma genitore2 = genitori.get(i+1);
             figlio = new Cromosoma();
             
-            Set<Integer> tmpUnioneGenitori = new HashSet<>();
+            tmpUnioneGenitori = new HashSet<>();
             tmpUnioneGenitori.addAll(genitore1);
             tmpUnioneGenitori.addAll(genitore2);
             
-            ArrayList<Integer> unioneGenitori = new ArrayList<>(tmpUnioneGenitori);
+            unioneGenitori = new ArrayList<>(tmpUnioneGenitori);
             ordinaColoriPerRicorrenza(unioneGenitori);
+            figlio.setColoriGenitori(unioneGenitori);
             
-            ArrayList<Integer> mezzaUnione = new ArrayList<>();
-            for (int j = 0; j < unioneGenitori.size()/2; j++)
-                mezzaUnione.add(unioneGenitori.get(j));
+            mezzaUnione = unioneGenitori.subList(0, unioneGenitori.size()/2);
             
-            figlio.addAll(this.greedy.esegui(mezzaUnione));
+            figlio.addAll(this.greedy.esegui(mezzaUnione).getListaColori());
             
             figli.add(figlio);
         }
@@ -77,25 +85,5 @@ public class Crossover {
             }
 
         });
-    }
-    
-    private GrafoColorato creaGrafoUsandoUnPrincipioDiGreedy (ArrayList<Integer> listaColori) {
-        GrafoColorato grafo = this.grafo.clone();
-        GrafoColorato mlst = new GrafoColorato(grafo.getCopiaNodi(), grafo.getColori().size());
-        
-        GestoreGrafo gestoreMlst = new GestoreGrafo(mlst);
-        
-        boolean nuovoColore = true;
-        
-        while (!gestoreMlst.connesso()) {
-            int colorePiùFrequente = 0;
-            //Avvio prelevamento colore dalla lista
-            if (nuovoColore) {
-                colorePiùFrequente = listaColori.remove(0);
-                nuovoColore = false;
-            }
-        }
-        
-        return mlst;
     }
 }

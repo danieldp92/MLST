@@ -7,11 +7,13 @@ package AlgoritmoGenetico;
 
 import gestore.GestoreGrafo;
 import grafo.GrafoColorato;
+import greedy.Greedy;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
@@ -23,14 +25,30 @@ public class Mutazione {
 
     private Impostazioni impostazioni;
     private GrafoColorato grafo;
+    private Greedy greedy;
 
     public Mutazione(GrafoColorato grafo) {
         this.impostazioni = new Impostazioni();
         this.grafo = grafo;
+        
+        this.greedy = new Greedy(this.grafo);
     }
 
-    public void mutazione(ArrayList<Cromosoma> figli) {
-
+    public void mutazione(ArrayList<Cromosoma> figli, double mutationRate) {
+        for (int i = 0; i < figli.size(); i++) {
+            if (Math.random() < mutationRate) {
+                System.out.println("MUTAZIONE CROMOSOMA " + (i+1));
+                
+                Cromosoma figlioMutato = new Cromosoma();
+                List<Integer> listaColoriGenitori = figli.get(i).getColoriGenitori();
+                Collections.shuffle(listaColoriGenitori, new Random(System.nanoTime()));
+                
+                List<Integer> mezzaLista = listaColoriGenitori.subList(0, listaColoriGenitori.size()/2);
+                figlioMutato.addAll(this.greedy.esegui(mezzaLista).getListaColori());
+                
+                figli.set(i, figlioMutato);
+            }
+        }
     }
 
     public void STRONGMUTATION(Popolazione popolazione) {

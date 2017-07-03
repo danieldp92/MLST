@@ -8,6 +8,7 @@ import grafo.GrafoColorato;
 import grafo.Nodo;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 /**
@@ -17,120 +18,22 @@ import java.util.Queue;
 public class Greedy {
 
     GrafoColorato grafo;
-    Statistiche statistiche;
 
     public Greedy(GrafoColorato grafo) {
         this.grafo = grafo;
-        this.statistiche = new Statistiche();
-    }
-
-    public Statistiche getStatistiche() {
-        return statistiche;
     }
 
     public GrafoColorato esegui(boolean random) {
-        this.statistiche = new Statistiche();
-
-        long inizio = System.currentTimeMillis();
-        GrafoColorato mlst = new GrafoColorato(grafo.getNodi(), grafo.getListaColori().size());
-        ArrayList<Arco> tmpArchi = grafo.getCopiaArchi();
-        ArrayList<Colore> tmpColori = grafo.getCopiaColori();
-
-        GestoreGrafo gestoreMlst = new GestoreGrafo(mlst);
-
-        ArrayList<Arco> edgeWithMinColors;
-        ArrayList<Integer> indexOfEdgeWithMinColors;
-
-        int iter = 0;
-        long time;
-        long timeRecuperoArchiConColoreMinimo = 0;
-        long timeRecuperoArchiConColoreMinimoCount = 0;
-        long timeDeterminazioneColorePiuRicorrente = 0;
-        long timeDeterminazioneColorePiuRicorrenteCount = 0;
-        long timeRimozioneColorePiuRicorrente = 0;
-        long timeRimozioneColorePiuRicorrenteCount = 0;
-        long timeInserimentoArchiSenzaCiclo = 0;
-        long timeInserimentoArchiSenzaCicloCount = 0;
-        long timeRimozioneArchi = 0;
-        long timeRimozioneArchiCount = 0;
-
-        //Ciclo, fin quando mlst non e' connesso
-        while (!gestoreMlst.connesso()) {
-            ++iter;
-            time = System.currentTimeMillis();
-
-            //Prelevo gli indici degli archi con colore minimo, poichè le operazioni effettuate su un arraylist 
-            //con gli indici (get, set) hanno complessità O(1), diversamente dalle operazioni effettuate con gli oggetti
-            indexOfEdgeWithMinColors = getIndexOfEdgesWithMinNumberOfColors(tmpArchi);
-
-            //Prendo gli archi con il minor numero di colori
-            edgeWithMinColors = getEdgesWithMinNumberOfColors(tmpArchi, indexOfEdgeWithMinColors);
-
-            timeRecuperoArchiConColoreMinimo += System.currentTimeMillis() - time;
-            timeRecuperoArchiConColoreMinimoCount++;
-
-            //Se gli archi minimi non hanno colori, inseriscili nel mlst
-            if (edgeWithMinColors.get(0).getColori().isEmpty()) {
-
-                time = System.currentTimeMillis();
-
-                for (int i : indexOfEdgeWithMinColors) {
-
-                    Arco originale = grafo.getArco(i);
-                    gestoreMlst.addArcoSenzaInserireCicli(i, originale);
-
-                    //In questo modo, lavoriamo con complessità O(1)
-                    tmpArchi.set(i, null);
-                }
-
-                timeInserimentoArchiSenzaCiclo += System.currentTimeMillis() - time;
-                timeInserimentoArchiSenzaCicloCount++;
-
-                time = System.currentTimeMillis();
-                rimuoviArchiCheGeneranoCicli(tmpArchi, tmpColori, mlst);
-
-                timeRimozioneArchi += System.currentTimeMillis() - time;
-                timeRimozioneArchiCount++;
-
-            } else {
-                time = System.currentTimeMillis();
-
-                //Determino il colore più ricorrente in edgeWithMinColors
-                //Estrazione colori più ricorrenti solo dagli archi con numero colori minimo
-                int colorePiùFrequente = colorePiùFrequente(edgeWithMinColors, random);
-
-                //Estrazione colori più ricorrenti da tutti gli archi
-                //int colorePiùFrequente = tmpGrafo.getListaColoriOrdinataPerRicorrenza().remove(0);   
-                timeDeterminazioneColorePiuRicorrente += System.currentTimeMillis() - time;
-                timeDeterminazioneColorePiuRicorrenteCount++;
-
-                time = System.currentTimeMillis();
-
-                //Elimino il colore dagli archi (temporanei)
-                rimuoviColore(tmpArchi, tmpColori, colorePiùFrequente);
-
-                timeRimozioneColorePiuRicorrente += System.currentTimeMillis() - time;
-                timeRimozioneColorePiuRicorrenteCount++;
-            }
-        }
-
-        this.statistiche.tempoDiEsecuzione = (double) (System.currentTimeMillis() - inizio) / 1000;
-        this.statistiche.iter = iter;
-        this.statistiche.meanTimeIterate = (double) ((System.currentTimeMillis() - inizio) / iter) / 1000;
-        this.statistiche.meanTimeRecuperoArchiConColoreMinimo = (double) (timeRecuperoArchiConColoreMinimo / timeRecuperoArchiConColoreMinimoCount) / 1000;
-        this.statistiche.meanTimeInserimentoArchiSenzaCiclo = (double) (timeInserimentoArchiSenzaCiclo / timeInserimentoArchiSenzaCicloCount) / 1000;
-        this.statistiche.meanTimeRimozioneArchi = (double) (timeRimozioneArchi / timeRimozioneArchiCount) / 1000;
-        this.statistiche.meanTimeDeterminazioneColorePiuRicorrente = (double) (timeDeterminazioneColorePiuRicorrente / timeDeterminazioneColorePiuRicorrenteCount) / 1000;
-        this.statistiche.meanTimeRimozioneColorePiuRicorrente = (double) (timeRimozioneColorePiuRicorrente / timeRimozioneColorePiuRicorrenteCount) / 1000;
-
-        //System.out.println("Ciclo: " + gestoreMlst.ciclo());
-        return mlst;
+        return esegui(null, random);
     }
 
-    public ArrayList<Integer> esegui(ArrayList<Integer> listaColori) {
-        ArrayList<Integer> listaColoriUsati = new ArrayList<>();
+    public GrafoColorato esegui(List<Integer> listaColori) {
+        return esegui(listaColori, true);
+    }
+    
+    public GrafoColorato esegui (List<Integer> listaColori, boolean random) {
 
-        GrafoColorato mlst = new GrafoColorato(grafo.getNodi(), grafo.getListaColori().size());
+        GrafoColorato mlst = new GrafoColorato(grafo.getCopiaNodi(), grafo.getListaColori().size());
         ArrayList<Arco> tmpArchi = grafo.getCopiaArchi();
         ArrayList<Colore> tmpColori = grafo.getCopiaColori();
 
@@ -138,49 +41,56 @@ public class Greedy {
 
         ArrayList<Arco> edgeWithMinColors;
         ArrayList<Integer> indexOfEdgeWithMinColors;
-
-        listaColoriUsati.addAll(listaColori);
         
         int colorePiùFrequente = 0;
 
         //Inserisco tutti i colori dati in input
-        while (!listaColori.isEmpty()) {
-            colorePiùFrequente = listaColori.remove(0);
-            rimuoviColore(tmpArchi, tmpColori, colorePiùFrequente);
+        if (listaColori != null) {
+            while (!listaColori.isEmpty()) {
+                colorePiùFrequente = listaColori.remove(0);
+                rimuoviColore(tmpArchi, tmpColori, colorePiùFrequente);
+            }
         }
 
         //Ciclo, fin quando mlst non e' connesso
         while (!gestoreMlst.connesso()) {
-            indexOfEdgeWithMinColors = getIndexOfEdgesWithMinNumberOfColors(tmpArchi);
-            edgeWithMinColors = getEdgesWithMinNumberOfColors(tmpArchi, indexOfEdgeWithMinColors);
+            //Prelevo gli indici degli archi con colore minimo, poichè le operazioni effettuate su un arraylist 
+            //con gli indici (get, set) hanno complessità O(1), diversamente dalle operazioni effettuate con gli oggetti
+            indexOfEdgeWithMinColors = getIndiciArchiConColoriMinimi(tmpArchi);
+
+            //Prendo gli archi con il minor numero di colori
+            edgeWithMinColors = getArchiConColoriMinimi(tmpArchi, indexOfEdgeWithMinColors);
 
             //Se gli archi minimi non hanno colori, inseriscili nel mlst
             if (edgeWithMinColors.get(0).getColori().isEmpty()) {
+
                 for (int i : indexOfEdgeWithMinColors) {
 
                     Arco originale = grafo.getArco(i);
                     gestoreMlst.addArcoSenzaInserireCicli(i, originale);
-
+                    
                     //In questo modo, lavoriamo con complessità O(1)
                     tmpArchi.set(i, null);
                 }
-
+                
                 rimuoviArchiCheGeneranoCicli(tmpArchi, tmpColori, mlst);
 
             } else {
-                colorePiùFrequente = colorePiùFrequente(edgeWithMinColors, true);
-                listaColoriUsati.add(colorePiùFrequente);
+                //Determino il colore più ricorrente in edgeWithMinColors
+                //Estrazione colori più ricorrenti solo dagli archi con numero colori minimo
+                colorePiùFrequente = colorePiùFrequente(edgeWithMinColors, random);
 
                 //Elimino il colore dagli archi (temporanei)
                 rimuoviColore(tmpArchi, tmpColori, colorePiùFrequente);
             }
-
         }
-
-        return listaColoriUsati;
+        
+        return mlst;
     }
+    
+    
 
-    private ArrayList<Integer> getIndexOfEdgesWithMinNumberOfColors(ArrayList<Arco> pEdges) {
+    private ArrayList<Integer> getIndiciArchiConColoriMinimi(ArrayList<Arco> pEdges) {
         ArrayList<Integer> indexOfEdgesWithMinColors = new ArrayList<>();
         int previousTotColorEdge = -1;
         int totColorForEdge = -1;
@@ -209,7 +119,7 @@ public class Greedy {
         return indexOfEdgesWithMinColors;
     }
 
-    private ArrayList<Arco> getEdgesWithMinNumberOfColors(ArrayList<Arco> pEdges, ArrayList<Integer> pIndexOfEdge) {
+    private ArrayList<Arco> getArchiConColoriMinimi(ArrayList<Arco> pEdges, ArrayList<Integer> pIndexOfEdge) {
         ArrayList<Arco> pArchiConColoriMinimi = new ArrayList<>();
 
         for (int i : pIndexOfEdge) {
@@ -220,7 +130,6 @@ public class Greedy {
     }
 
     private int colorePiùFrequente(ArrayList<Arco> pEdges, boolean random) {
-        int colorePiuFrequente = -1;
         int ricorrenzaMaggiore = -1;
 
         int[] ricorrenzeColori = new int[this.grafo.getColori().size()];
@@ -241,7 +150,6 @@ public class Greedy {
                 coloriPiuComuni.clear();
                 coloriPiuComuni.add(i);
                 ricorrenzaMaggiore = ricorrenzeColori[i];
-                colorePiuFrequente = i;
             } else if (ricorrenzeColori[i] == ricorrenzaMaggiore) {
                 coloriPiuComuni.add(i);
             }
@@ -282,6 +190,7 @@ public class Greedy {
                     for (int colore : archi.get(i).getColori()) {
                         colori.get(colore).rimuoviIndiceArcoCollegato(i);
                     }
+                    
                     archi.set(i, null);
                 }
             }

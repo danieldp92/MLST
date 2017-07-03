@@ -9,7 +9,7 @@ import gestore.GeneratoreGrafo;
 import gestore.XlsGrafo;
 import grafo.GrafoColorato;
 import greedy.Greedy;
-import greedy.Statistiche;
+import greedy.MultiThreadGreedy;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,7 +19,11 @@ import java.util.ArrayList;
  * @author Rhobar
  */
 public class TestMultistart {
-    public static void test() throws IOException {
+
+    private static final int NUM_ITERATE = 300;
+    private static final int THREAD_IN_PARALLELO = 100;
+
+    public static void test() throws IOException, InterruptedException {
         XlsGrafo xls = new XlsGrafo();
         String pathTabellaRisultati = "src/Risultati/TabellaRisultati.xls";
         xls.carica(pathTabellaRisultati);
@@ -31,44 +35,50 @@ public class TestMultistart {
             System.out.println(s);
             GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
             grafo.nomeGrafo = s;
-            Statistiche statistiche = null;
 
             long inizio = System.currentTimeMillis();
-            Greedy greedy = new Greedy(grafo);
-            GrafoColorato mlst = null;
-            int totaleColoriMigliori = grafo.getListaColori().size() + 1;
-            int iterataSoluzione = -1;
-            
-            //Ottengo un MLST eseguendo l'algoritmo greedy sul grafo, iterativamente, al fine di trovare la soluzione migliore
-            int iterata = 0;
-            int maxIterateDalMigliore = 80;
-            int numeroIterateEffettuateDalMigliore = 0;
-            
-            while (iterata++ < 300 && numeroIterateEffettuateDalMigliore < maxIterateDalMigliore) {
-                mlst = greedy.esegui(true);
-                
-                if (mlst.getListaColori().size() < totaleColoriMigliori) {
-                    totaleColoriMigliori = mlst.getListaColori().size();
-                    numeroIterateEffettuateDalMigliore = 0;
-                    iterataSoluzione = iterata;
-                }
-                
-                numeroIterateEffettuateDalMigliore++;
-            }
-            
 
-            statistiche = greedy.getStatistiche();
-            xls.addInfoGrafo(grafo.nomeGrafo, "multistart", (System.currentTimeMillis() - inizio), totaleColoriMigliori, iterataSoluzione);
+            ArrayList<GrafoColorato> listaMlst = new ArrayList<>();
+            Greedy greedy = new Greedy(grafo);
+
+            //Ottengo un MLST eseguendo l'algoritmo greedy sul grafo, iterativamente, al fine di trovare la soluzione migliore
+            MultiThreadGreedy multiThread = new MultiThreadGreedy(NUM_ITERATE, THREAD_IN_PARALLELO, greedy);
+            listaMlst = multiThread.avviaMultiThreadGreedy();
+            
+            ArrayList<Integer> soluzioni = new ArrayList<>();
+            for (GrafoColorato mlst : listaMlst)
+                soluzioni.add(mlst.getListaColori().size());
+            
+            //Trovo la soluzione migliore
+            int iterataSoluzione = indiceMiglioreSoluzione(soluzioni);
+            int totaleColoriMigliori = soluzioni.get(iterataSoluzione);
+
+            xls.addInfoGrafo(grafo.nomeGrafo, "multistart", ((double) (System.currentTimeMillis() - inizio) / 1000), totaleColoriMigliori, iterataSoluzione);
             xls.salva(pathTabellaRisultati);
             System.out.println("Numero colori: " + totaleColoriMigliori);
-            System.out.println("Tempo di esecuzione: " + statistiche.tempoDiEsecuzione);
+            System.out.println("Thread soluzione: " + iterataSoluzione);
+            System.out.println("Tempo di esecuzione: " + ((double) (System.currentTimeMillis() - inizio) / 1000));
 
         }
-        
+
         xls.salva(pathTabellaRisultati);
     }
 
-    public static ArrayList<String> listaFile() {
+    private static int indiceMiglioreSoluzione(ArrayList<Integer> lista) {
+        int indiceMiglioreSoluzione = -1;
+        int soluzioneMigliore = 1000000;
+
+        for (int i = 0; i < lista.size(); i++) {
+            if (lista.get(i) < soluzioneMigliore) {
+                indiceMiglioreSoluzione = i;
+                soluzioneMigliore = lista.get(i);
+            }
+        }
+
+        return indiceMiglioreSoluzione;
+    }
+    
+    private static ArrayList<String> listaFile() {
         ArrayList<String> listaFile = new ArrayList<>();
 
         //Archi da 50 200 50
@@ -124,7 +134,7 @@ public class TestMultistart {
         for (int i = 1; i <= 5; i++) {
             listaFile.add("1000_8000_1000_125_" + i + ".mlst");
         }
-
+        
         //Archi da 10000 40000 10000
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_40000_10000_2500_" + i + ".mlst");
@@ -139,7 +149,8 @@ public class TestMultistart {
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_160000_10000_625_" + i + ".mlst");
         }
-
+        
         return listaFile;
     }
+
 }

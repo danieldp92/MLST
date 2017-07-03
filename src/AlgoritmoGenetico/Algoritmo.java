@@ -53,17 +53,8 @@ public class Algoritmo {
     public Popolazione execute() {
         long time;
         
-        while (this.generazione++ < 5000 && iter < 10) {
+        while (this.generazione++ < 500){
             System.out.println("Iterata " + generazione);
-
-            if (iter == 10) {
-                time = System.currentTimeMillis();
-                System.out.println("STRONG MUTATION!!!");
-                iter = 0;
-                
-                this.mutazione.STRONGMUTATION(popolazione);
-                System.out.println("TEMPO SM: " + (System.currentTimeMillis()-time));
-            }
             
             //Valutazione della popolazione
             valutaPopolazione();
@@ -79,8 +70,11 @@ public class Algoritmo {
             System.out.println("TEMPO CROSSOVER: " +  + (System.currentTimeMillis()-time));
 
             //Mutazione
+            //Tasso di mutazione variabile
+            double mutationRate = this.impostazioni.mutationRate + (0.02 * iter);
+            
             time = System.currentTimeMillis();
-            this.mutazione.mutazione(figli);
+            this.mutazione.mutazione(figli, mutationRate);
             System.out.println("TEMPO MUTAZIONE: " +  + (System.currentTimeMillis()-time));
             this.popolazione.getCromosomi().addAll(figli);
 
@@ -156,7 +150,7 @@ public class Algoritmo {
         System.out.println("PREVMEDIA: " + prevMediaFF);
         System.out.println("ACTUALMEDIA: " + actualMediaFF);
         
-        if (prevMediaFF == actualMediaFF) {
+        if (Math.abs(prevMediaFF - actualMediaFF) < 0.1) {
             iter++;
         } else {
             iter = 0;

@@ -8,11 +8,11 @@ package mlst;
 import gestore.GeneratoreGrafo;
 import gestore.XlsGrafo;
 import grafo.GrafoColorato;
+import greedy.Greedy;
 import ilog.concert.IloException;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import pilot.Pilot;
 
 /**
  *
@@ -27,28 +27,32 @@ public class TestPilot {
 
         ArrayList<String> listaGrafi = listaFile();
 
-        //Per ogni grafico
-        for (int i = 0; i < listaGrafi.size(); i++) {
-
-            GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + listaGrafi.get(i)));
+        //Per ogni grafo
+        for (String s : listaGrafi) {
+            //Carico il grafo
+            System.out.println(s);
+            GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
+            grafo.nomeGrafo = s;
+            
             int numCol = grafo.getColori().size();
 
             ArrayList<Integer> colorsToDelete = new ArrayList<>();
+            GrafoColorato mlst;
             int sol;
             ArrayList<Integer> solArray = new ArrayList<>();
             long startTime = System.currentTimeMillis();
 
+            Greedy greedy = new Greedy(grafo);
             
             //Primo livello
             for (int z = 0; z < numCol; z++) {
                 colorsToDelete.add(z);
-                Pilot pilot = new Pilot(grafo);
-                sol = pilot.esegui(colorsToDelete);
+                
+                mlst = greedy.esegui(colorsToDelete);
+                sol = mlst.getListaColori().size();
+                
                 solArray.add(sol);
                 colorsToDelete.clear();
-                if (System.currentTimeMillis() - startTime > 600000) {
-                    break;
-                }
             }
             
             ArrayList<Integer> mins = CercaMins(solArray); //cerca i colori con la soluzione migliore
@@ -61,31 +65,24 @@ public class TestPilot {
                         if (mins.get(j) != z) {
                             colorsToDelete.add(mins.get(j));
                             colorsToDelete.add(z);
-                            Pilot pilot = new Pilot(grafo);
-                            sol = pilot.esegui(colorsToDelete);
+
+                            mlst = greedy.esegui(colorsToDelete);
+                            sol = mlst.getListaColori().size();
+                            
                             solArray.add(sol);
 
                             colorsToDelete.clear();
                         }
                     }
-                    if (System.currentTimeMillis() - startTime > 600000) {
-                        break;
-                    }
-                }
-                if (System.currentTimeMillis() - startTime > 600000) {
-                    break;
                 }
             }
 
             int minSol = CercaMin(solArray);
+            
+            System.out.println("Numero colori: " + minSol);
+            System.out.println("Tempo di esecuzione: " + ((double)(System.currentTimeMillis() - startTime) / 1000));
 
-            float endTime = System.currentTimeMillis() - startTime;
-            float timeInSec = endTime / 1000;
-
-            System.out.println("Grafo:" + listaGrafi.get(i) + " Sol:" + minSol + " Tempo ms:" + endTime);
-            System.out.println("");
-
-            xls.addInfoGrafo(listaGrafi.get(i), "pilot", timeInSec, minSol);
+            xls.addInfoGrafo(grafo.nomeGrafo, "pilot", ((double)(System.currentTimeMillis() - startTime) / 1000), minSol);
             xls.salva(pathTabellaRisultati);
         }
 

@@ -61,8 +61,6 @@ public class GrafoColorato extends Grafo {
     public GrafoColorato(ArrayList<Nodo> nodi, LinkedHashMap<Integer, Arco> archi, LinkedHashMap<Integer, Colore> colori) {
         super(nodi, archi);
         this.colori = colori;
-        
-        setPesiArchi();
     }
 
     
@@ -212,7 +210,9 @@ public class GrafoColorato extends Grafo {
     }
 
     
-    
+    public int numeroColori() {
+        return getListaColori().size();
+    }
     /**
      * Questa funzione va ad eliminare tutti gli archi e tutti i suoi
      * riferimenti
@@ -256,7 +256,6 @@ public class GrafoColorato extends Grafo {
         
         grafoColoratoClone = new GrafoColorato(nodiClone, archiClone, coloriClone);
         grafoColoratoClone.listaNodiConnessiAComponente = grafoClone.listaNodiConnessiAComponente;
-        grafoColoratoClone.setPesiArchi();
         
         return grafoColoratoClone;
     }
@@ -293,21 +292,6 @@ public class GrafoColorato extends Grafo {
         
 
         
-    }
-    
-    private void setPesiArchi () {
-        for (Map.Entry<Integer, Arco> entry : this.archi.entrySet()) {
-            Integer indiceArco = entry.getKey();
-            Arco arco = entry.getValue();
-            
-            int pesoArco = 1;
-            for (int colore : arco.getColori()) {
-                pesoArco *= this.getColore(colore).getOccorrenze();
-            }
-            
-            this.archi.get(indiceArco).setPeso(pesoArco);
-            
-        }
     }
     
 }

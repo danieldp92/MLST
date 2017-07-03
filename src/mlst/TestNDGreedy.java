@@ -31,7 +31,6 @@ public class TestNDGreedy {
             System.out.println(s);
             GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
             grafo.nomeGrafo = s;
-            Statistiche statistiche = null;
 
             long inizio = System.currentTimeMillis();
             
@@ -39,11 +38,10 @@ public class TestNDGreedy {
             Greedy greedy = new Greedy(grafo);
             GrafoColorato mlst = greedy.esegui(true);
 
-            statistiche = greedy.getStatistiche();
-            xls.addInfoGrafo(grafo.nomeGrafo, "nd-greedy", (System.currentTimeMillis() - inizio), mlst.getListaColori().size());
+            xls.addInfoGrafo(grafo.nomeGrafo, "nd-greedy", ((double)(System.currentTimeMillis() - inizio) / 1000), mlst.getListaColori().size());
             xls.salva(pathTabellaRisultati);
             System.out.println("Numero colori: " + mlst.getListaColori().size());
-            System.out.println("Tempo di esecuzione: " + statistiche.tempoDiEsecuzione);
+            System.out.println("Tempo di esecuzione: " + ((double)(System.currentTimeMillis() - inizio) / 1000));
 
         }
         

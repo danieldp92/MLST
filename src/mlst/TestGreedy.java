@@ -29,19 +29,17 @@ public class TestGreedy {
             System.out.println(s);
             GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
             grafo.nomeGrafo = s;
-            Statistiche statistiche = null;
 
             long inizio = System.currentTimeMillis();
             
             //Ottengo un MLST eseguendo l'algoritmo greedy sul grafo
             Greedy greedy = new Greedy(grafo);
-            GrafoColorato mlst = greedy.esegui(false);
+            GrafoColorato mlst = greedy.esegui(null, false);
 
-            statistiche = greedy.getStatistiche();
-            xls.addInfoGrafo(grafo.nomeGrafo, "greedy", (System.currentTimeMillis() - inizio), mlst.getListaColori().size());
+            xls.addInfoGrafo(grafo.nomeGrafo, "greedy", ((double)(System.currentTimeMillis() - inizio) / 1000), mlst.getListaColori().size());
             xls.salva(pathTabellaRisultati);
             System.out.println("Numero colori: " + mlst.getListaColori().size());
-            System.out.println("Tempo di esecuzione: " + statistiche.tempoDiEsecuzione);
+            System.out.println("Tempo di esecuzione: " + ((double)(System.currentTimeMillis() - inizio) / 1000));
 
         }
         
@@ -104,7 +102,7 @@ public class TestGreedy {
         for (int i = 1; i <= 5; i++) {
             listaFile.add("1000_8000_1000_125_" + i + ".mlst");
         }
-
+        
         //Archi da 10000 40000 10000
         for (int i = 1; i <= 5; i++) {
             listaFile.add("10000_40000_10000_2500_" + i + ".mlst");

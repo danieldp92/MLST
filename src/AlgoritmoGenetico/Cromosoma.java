@@ -15,11 +15,13 @@ public class Cromosoma extends ArrayList<Integer> {
     
     private int valoreDiFitness;
     private int valoreDiFitnessDiBackup;
+    private ArrayList<Integer> coloriGenitori;
     
     public Cromosoma () { 
         super();
         this.valoreDiFitness = 0;
         this.valoreDiFitnessDiBackup = 0;
+        this.coloriGenitori = new ArrayList<>();
     }
     
     public int getValoreFunzioneDiFitness () {
@@ -37,6 +39,21 @@ public class Cromosoma extends ArrayList<Integer> {
     
     public void ripristinaValoreFunzioneDiFitness () {
         this.valoreDiFitness = this.valoreDiFitnessDiBackup;
+    }
+
+    public ArrayList<Integer> getColoriGenitori() {
+        return coloriGenitori;
+    }
+
+    public void setColoriGenitori(ArrayList<Integer> coloriGenitori) {
+        this.coloriGenitori = coloriGenitori;
+    }
+    
+    public boolean èFiglio() {
+        if(this.coloriGenitori.isEmpty())
+            return false;
+        
+        return true;
     }
     
     @Override
