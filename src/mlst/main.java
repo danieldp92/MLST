@@ -60,7 +60,7 @@ public class main {
                     }
 
                     if (sceltaGrafo != 0) {
-                        if (sceltaGrafo <= 20) {
+                        if (sceltaGrafo <= 10) {
 
                             if (!esitoGrafi.get(sceltaGrafo - 1).equals("(COMPLETATO)")) {
                                 TestCPLEX.test(listaGrafi.get(sceltaGrafo - 1));

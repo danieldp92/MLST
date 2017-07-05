@@ -136,6 +136,8 @@ public class Crossover {
         for(int i = 0; i < listaMlstFigli.size(); i++) {
             figlio = figli.get(i);
             figlio.addAll(listaMlstFigli.get(i).getListaColori());
+            
+            
             figli.set(i, figlio);
         }
         

@@ -33,7 +33,7 @@ public class Greedy {
     
     public GrafoColorato esegui (List<Integer> listaColori, boolean random) {
 
-        GrafoColorato mlst = new GrafoColorato(grafo.getCopiaNodi(), grafo.getListaColori().size());
+        GrafoColorato mlst = new GrafoColorato(grafo.getCopiaNodi(), grafo.getColori().size());
         ArrayList<Arco> tmpArchi = grafo.getCopiaArchi();
         ArrayList<Colore> tmpColori = grafo.getCopiaColori();
 

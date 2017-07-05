@@ -6,9 +6,18 @@
 package AlgoritmoGenetico;
 
 import gestore.GeneratoreGrafo;
+import gestore.GestoreGrafo;
+import gestore.XlsGrafo;
+import grafo.Arco;
 import grafo.GrafoColorato;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -51,11 +60,13 @@ public class Algoritmo {
     }
 
     public Popolazione execute() {
+        
+        long start = System.currentTimeMillis();
         long time;
         
-        while (this.generazione++ < 1000 && iter < 100){
+        while (this.generazione++ < 1000){
             System.out.println("ITERATA " + generazione);
-            System.out.println("ITER" + iter);
+            System.out.println("ITER " + iter);
 
             //Valutazione iniziale della popolazione
             valutaPopolazione();
@@ -105,7 +116,30 @@ public class Algoritmo {
         System.out.println("Best Cromosoma");
         System.out.println("POS: " + posMaxFF);
         System.out.println("FF Value: " + FfMax);
-
+        
+        GestoreCromosoma gC = new GestoreCromosoma(this.popolazione.getCromosoma(posMaxFF));
+        GrafoColorato mlst = gC.getGrafoDaCromosoma();
+        GestoreGrafo gG = new GestoreGrafo(mlst);
+        System.out.println("Connesso: " + gG.connesso());
+        Set<Integer> totColori = new HashSet<>();
+        for (Map.Entry<Integer, Arco> en : mlst.getArchi().entrySet()) {
+            Arco arco = en.getValue();
+            totColori.addAll(arco.getColori());
+            System.out.print(arco.getDa() + " " + arco.getA() + " Colori:");
+            for (int colore : arco.getColori())
+                System.out.print(" " + colore);
+            System.out.print("\n");
+            
+        }
+        Set<Integer> colori = new HashSet<>();
+        for (int i = 0; i < 50; i++)
+            colori.add(i);
+        colori.removeAll(totColori);
+        System.out.println("TOT COLORI: " + totColori.size());
+        System.out.println("COLORI RESTANTI: " + colori.size());
+        colori.forEach(i -> {
+            System.out.println(i);
+        });
         return popolazione;
     }
 

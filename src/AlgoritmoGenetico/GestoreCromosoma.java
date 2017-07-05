@@ -27,7 +27,7 @@ public class GestoreCromosoma {
 
     public GestoreCromosoma(Cromosoma cromosoma) {
         this.impostazioni = new Impostazioni();
-        //this.grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + this.impostazioni.nomeGrafo));
+        this.grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + this.impostazioni.nomeGrafo));
         this.mlst = new GrafoColorato(this.grafo.getNodi(), this.grafo.getColori().size());
 
         this.cromosoma = cromosoma;
@@ -35,12 +35,13 @@ public class GestoreCromosoma {
 
     public void aggiornaCromosoma(Cromosoma cromosoma) {
         this.cromosoma = cromosoma;
-        //this.grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + this.impostazioni.nomeGrafo));
+        this.grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + this.impostazioni.nomeGrafo));
 
         creaGrafo(cromosoma);
     }
 
     public GrafoColorato getGrafoDaCromosoma() {
+        creaGrafo(cromosoma);
         return this.mlst;
     }
 

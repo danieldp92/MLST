@@ -28,7 +28,7 @@ public class TestCPLEX {
         long inizio = System.currentTimeMillis();
 
         CPLEXModel cplex = new CPLEXModel(grafo);
-        int numColori = cplex.esegui();
+        int numColori = cplex.eseguiVersioneFixata();
 
         double tempoDiEsecuzione = (double) (System.currentTimeMillis() - inizio) / 1000;
         xls.addInfoGrafo(grafo.nomeGrafo, "cplex", tempoDiEsecuzione, numColori);
