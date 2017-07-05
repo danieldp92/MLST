@@ -3,7 +3,7 @@ package mlst;
 import gestore.GeneratoreGrafo;
 import gestore.XlsGrafo;
 import grafo.GrafoColorato;
-import pilot.Pilot;
+import Pilot.Pilot;
 import ilog.concert.IloException;
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +29,7 @@ public class FrPilot {
         xls.carica(pathTabellaRisultati);
         
         ArrayList<String> listaGrafi = listaFile();
-        double value = 100.0;
+        double value;
         
         //Per ogni grafico
         for (int i = 0; i < listaGrafi.size(); i++) {
@@ -39,6 +39,27 @@ public class FrPilot {
             ArrayList<Integer> colorsToDelete = new ArrayList<>();
             int sol;
             ArrayList<ArrayList<Integer>> solutionArray = new ArrayList<>();
+            
+            switch (numCol){
+                case 50:
+                    value = 100.0;
+                    break;
+                case 100:
+                    value = 100.0;
+                    break;
+                case 500:
+                    value = 50.0;
+                    break;
+                case 1000:
+                    value = 10.0;
+                    break;
+                case 10000:
+                    value = 0.05;
+                    break;
+                default:
+                    value = 100;
+            }
+            
             int colorLimit = (int) (numCol*(value/100));
 
             long startTime = System.currentTimeMillis();
@@ -120,10 +141,7 @@ public class FrPilot {
 
             xls.addInfoGrafo(listaGrafi.get(i), "frpilot", endTime, minimumSolution);
             xls.salva(pathTabellaRisultati);
-            
-            value -= 0.9995;
         }
-        
 
         xls.salva(pathTabellaRisultati);
     }
