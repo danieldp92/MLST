@@ -3,7 +3,7 @@ package mlst;
 import gestore.GeneratoreGrafo;
 import gestore.XlsGrafo;
 import grafo.GrafoColorato;
-import pilot.Pilot;
+import Pilot.Pilot;
 import ilog.concert.IloException;
 import java.io.File;
 import java.io.IOException;
@@ -92,11 +92,12 @@ public class PilotNew {
             //ArrayList<ArrayList<Integer>> minimumSolutionColor = cercaMinimi(solutionArray);
 
             float endTime = System.currentTimeMillis() - startTime;
-
+            float timeInSec = endTime/1000;
+                    
             System.out.println("Grafo:" + listaGrafi.get(i) + " Sol:" + minimumSolution + " Tempo ms:" + endTime);
             System.out.println("");
 
-            xls.addInfoGrafo(listaGrafi.get(i), "newpilot", endTime, minimumSolution);
+            xls.addInfoGrafo(listaGrafi.get(i), "pilot", timeInSec, minimumSolution);
             xls.salva(pathTabellaRisultati);
         }
 
