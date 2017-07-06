@@ -16,9 +16,9 @@ import java.util.ArrayList;
 public class TestCPLEX {
 
     public static void test(String nomeGrafo) throws IOException, IloException {
-        XlsGrafo xls = new XlsGrafo();
+        //XlsGrafo xls = new XlsGrafo();
         String pathTabellaRisultati = "src/Risultati/TabellaRisultati.xls";
-        xls.carica(pathTabellaRisultati);
+        //xls.carica(pathTabellaRisultati);
 
         //Carico il grafo
         System.out.println(nomeGrafo);
@@ -31,11 +31,11 @@ public class TestCPLEX {
         int numColori = cplex.eseguiVersioneFixata();
 
         double tempoDiEsecuzione = (double) (System.currentTimeMillis() - inizio) / 1000;
-        xls.addInfoGrafo(grafo.nomeGrafo, "cplex", tempoDiEsecuzione, numColori);
+        //xls.addInfoGrafo(grafo.nomeGrafo, "cplex", tempoDiEsecuzione, numColori);
 
         System.out.println("Tempo di esecuzione: " + tempoDiEsecuzione);
 
-        xls.salva(pathTabellaRisultati);
+        //xls.salva(pathTabellaRisultati);
     }
 
     public static ArrayList<String> listaFile() {

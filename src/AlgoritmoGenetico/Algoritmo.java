@@ -42,7 +42,7 @@ public class Algoritmo {
     public Algoritmo() {
         this.impostazioni = new Impostazioni();
 
-        this.grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + this.impostazioni.nomeGrafo));
+        this.grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + this.impostazioni.getNomeGrafo()));
 
         //Creo la popolazione iniziale
         this.popolazione = new Popolazione(this.grafo);
@@ -60,11 +60,11 @@ public class Algoritmo {
     }
 
     public Popolazione execute() {
-        
+        int maxValutazioni = this.impostazioni.getMaxValutazioni();
         long start = System.currentTimeMillis();
         long time;
         
-        while (this.generazione++ < 1000){
+        while (this.generazione++ < maxValutazioni && iter < 300 && (System.currentTimeMillis() - start) < 600000){
             System.out.println("ITERATA " + generazione);
             System.out.println("ITER " + iter);
 
@@ -101,6 +101,7 @@ public class Algoritmo {
 
         valutaPopolazione();
         
+        /*
         int posMaxFF = -1;
         int FfMax = 10000000;
 
@@ -117,8 +118,14 @@ public class Algoritmo {
         System.out.println("POS: " + posMaxFF);
         System.out.println("FF Value: " + FfMax);
         
-        GestoreCromosoma gC = new GestoreCromosoma(this.popolazione.getCromosoma(posMaxFF));
-        GrafoColorato mlst = gC.getGrafoDaCromosoma();
+        
+        
+        
+        
+        
+        
+        GestoreCromosoma gC = new GestoreCromosoma();
+        GrafoColorato mlst = gC.getGrafoDaCromosoma(this.popolazione.getCromosoma(posMaxFF));
         GestoreGrafo gG = new GestoreGrafo(mlst);
         System.out.println("Connesso: " + gG.connesso());
         Set<Integer> totColori = new HashSet<>();
@@ -140,6 +147,11 @@ public class Algoritmo {
         colori.forEach(i -> {
             System.out.println(i);
         });
+        
+        
+        
+        */
+        
         return popolazione;
     }
 
@@ -156,7 +168,7 @@ public class Algoritmo {
 
     public void stampa() {
         int posMaxFF = -1;
-        int FfMax = 100001;
+        int FfMax = 10000001;
 
         for (int i = 0; i < this.popolazione.size(); i++) {
             System.out.println("Cromosoma " + (i + 1) + ": " + this.popolazione.getCromosoma(i).getValoreFunzioneDiFitness());

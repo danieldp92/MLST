@@ -38,11 +38,29 @@ public class Selezione {
         //Lista cromosomi ordinati per fitness
         ArrayList<Cromosoma> cromosomiOrdinatiPerFitness = getListaCromosomiOrdinatiPerFitness(popolazione.getCromosomi());
 
-        for (int i = 0; i < this.impostazioni.sizePopolazione; i++)
-            sopravvissuti.add(cromosomiOrdinatiPerFitness.get(i));
+        for (int i = 0; i < this.impostazioni.getPopolazione(); i++) {
+            if (Math.random() < 0.08)
+                sopravvissuti.add(cromosomiOrdinatiPerFitness.remove((int)(Math.random()*cromosomiOrdinatiPerFitness.size())));
+            else
+                sopravvissuti.add(cromosomiOrdinatiPerFitness.remove(0));
+            
+        }
+            
 
         return sopravvissuti;
     }
+    /*
+    public ArrayList<Cromosoma> selezionePerSopravvivenza(Popolazione popolazione) {
+        ArrayList<Cromosoma> sopravvissuti = new ArrayList<>();
+
+        //Lista cromosomi ordinati per fitness
+        ArrayList<Cromosoma> cromosomiOrdinatiPerFitness = getListaCromosomiOrdinatiPerFitness(popolazione.getCromosomi());
+
+        for (int i = 0; i < this.impostazioni.getPopolazione(); i++)
+            sopravvissuti.add(cromosomiOrdinatiPerFitness.get(i));
+
+        return sopravvissuti;
+    }*/
     
     //Dal valore di fitness più alto al più basso
     private ArrayList<Cromosoma> getListaCromosomiOrdinatiPerFitness(ArrayList<Cromosoma> cromosomiPopolazione) {
@@ -56,7 +74,7 @@ public class Selezione {
 
         while (!cromosomi.isEmpty()) {
             posMaxCromosoma = -1;
-            minFF = this.impostazioni.sizeCromosoma + 1;
+            minFF = this.impostazioni.getNumeroColori() + 1;
             for (int i = 0; i < cromosomi.size(); i++) {
                 if (cromosomi.get(i).getValoreFunzioneDiFitness() < minFF) {
                     minFF = cromosomi.get(i).getValoreFunzioneDiFitness();

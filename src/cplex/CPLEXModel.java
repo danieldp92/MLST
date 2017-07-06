@@ -56,7 +56,7 @@ public class CPLEXModel {
         }
         
         //Vincoli sulla ciclicità
-        IloNumVar[] f_ij = modello.numVarArray(E * 2, 0, V);
+        IloNumVar[] f_ij = modello.numVarArray(E * 2, 0, V - 1);
         
         
         IloLinearNumExpr v3 = modello.linearNumExpr();
@@ -70,7 +70,7 @@ public class CPLEXModel {
             }
         }
         modello.addEq(v3, V - 1);
-        //modello.addEq(v4, 0);
+        modello.addEq(v4, 0);
 
         
         for (int i = 1; i < V; i++) {
@@ -91,7 +91,7 @@ public class CPLEXModel {
         //Vincolo di unione tra flussi e archi
         for (int i = 0; i < E; i++) {
             IloLinearIntExpr v6 = modello.linearIntExpr();
-            v6.addTerm(x_e[i], V);
+            v6.addTerm(x_e[i], V - 1);
             modello.addLe(f_ij[i], v6);
             modello.addLe(f_ij[i + E], v6);
         }
@@ -100,12 +100,16 @@ public class CPLEXModel {
         //Execute
         if (modello.solve()) {
             numColori = (int) modello.getObjValue();
-            System.out.println("Soluzione:" + (modello.getObjValue()));
-            System.out.println("Num Archi" + modello.sum(x_e));
+            System.out.println("Soluzione: " + (modello.getObjValue()));
+            System.out.println("Num Archi: " + x_e.length);
+            System.out.println("Lista Archi");
             for(int i=0; i<x_e.length; i++){
                 if(modello.getValue(x_e[i])==1){
-                    System.out.println("Value:" + modello.getValue(x_e[i]));
-                    System.out.println("Arches" + grafo.getArco(i).getDa().getChiave()+ " " + grafo.getArco(i).getA().getChiave());
+                    System.out.print(grafo.getArco(i).getDa().getChiave()+ " " + grafo.getArco(i).getA().getChiave() + " Colori:");
+                    for (Integer colore : grafo.getArco(i).getColori()) {
+                        System.out.print(" " + colore);
+                    }
+                    System.out.print("\n");
                 }
             }
         } else {
@@ -142,7 +146,7 @@ public class CPLEXModel {
 
         //Vincolo sulla selezione dei colori
         for (int i = 0; i < E; i++) {
-            for (int j = 0; j < grafo.getArchi().get(i).getColori().size(); j++) {
+            for (int j = 0; j < grafo.getArco(i).getColori().size(); j++) {
                 modello.addGe(c_k[grafo.getArco(i).getColori().get(j)], x_e[i]);
             }
         }

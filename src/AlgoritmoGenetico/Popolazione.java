@@ -56,12 +56,12 @@ public class Popolazione {
      */
     private void creaPopolazioneIniziale() {
         ArrayList<Integer> listaColori = new ArrayList<>();
-        for (int i = 0; i < this.impostazioni.sizeCromosoma; i++)
+        for (int i = 0; i < this.impostazioni.getNumeroColori(); i++)
             listaColori.add(i);
         
-        for (int i = 0; i < this.impostazioni.sizePopolazione; i++) {
+        for (int i = 0; i < this.impostazioni.getPopolazione(); i++) {
             Cromosoma cromosoma = new Cromosoma();
-            GrafoColorato mlst = new GrafoColorato(this.grafo.getNodi(), this.impostazioni.sizeCromosoma);
+            GrafoColorato mlst = new GrafoColorato(this.grafo.getNodi(), this.impostazioni.getNumeroColori());
             GestoreGrafo gestoreMlst = new GestoreGrafo(mlst);
             ArrayList<Integer> copiaListaColori = new ArrayList<>(listaColori);
             int [] ricorrenzeColoriInArchi = new int[this.grafo.getArchi().size()];
@@ -85,24 +85,4 @@ public class Popolazione {
             this.cromosomi.add(cromosoma);
         }
     }
-    
-    /*
-    private void creaPopolazioneIniziale() {
-        ArrayList<Integer> listaColoriOrdinati = new ArrayList<>();
-        for (int i = 0; i < this.impostazioni.sizeCromosoma; i++) {
-            listaColoriOrdinati.add(i);
-        }
-
-        for (int i = 0; i < this.impostazioni.sizePopolazione; i++) {
-            Cromosoma tmpCromosoma = new Cromosoma();
-            ArrayList<Integer> tmpListaColoriOrdinati = (ArrayList<Integer>) listaColoriOrdinati.clone();
-            for (int j = 0; j < this.impostazioni.sizeCromosoma; j++) {
-                int indiceRandom = (int) (Math.random() * tmpListaColoriOrdinati.size());
-                int coloreDaInserire = tmpListaColoriOrdinati.remove(indiceRandom);
-                tmpCromosoma.add(coloreDaInserire);
-            }
-            this.cromosomi.add(tmpCromosoma);
-        }
-        
-    }*/
 }

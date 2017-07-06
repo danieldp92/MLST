@@ -34,7 +34,7 @@ public class Mutazione {
 
     public void mutazione(ArrayList<Cromosoma> figli) {
         for (int i = 0; i < figli.size(); i++) {
-            if (Math.random() < this.impostazioni.mutationRate) {
+            if (Math.random() < this.impostazioni.getMutationRate()) {
                 System.out.println("MUTAZIONE CROMOSOMA " + (i+1));
                 
                 Cromosoma figlioMutato = new Cromosoma();
@@ -55,7 +55,7 @@ public class Mutazione {
         List<List<Integer>> listaFigliMutati = new ArrayList<>();
         
         for (int i = 0; i < figli.size(); i++) {
-            if (Math.random() < this.impostazioni.mutationRate) {
+            if (Math.random() < this.impostazioni.getMutationRate()) {
                 System.out.println("MUTAZIONE CROMOSOMA " + (i+1));
                 
                 List<Integer> listaColoriGenitori = figli.get(i).getColoriGenitori();
@@ -81,36 +81,5 @@ public class Mutazione {
             figlioMutato.addAll(listaMlstCromosomiMutati.get(i).getListaColori());
             figli.set(indiciFigliDaMutare.get(i), figlioMutato);
         }
-    }
-
-    public void STRONGMUTATION(Popolazione popolazione) {
-        for (int i = 0; i < popolazione.size(); i++) {
-            if (Math.random() < this.impostazioni.strongMutationRate) {
-                System.out.println("STRONG MUTATION Cromosoma " + (i + 1));
-
-                Cromosoma cromosoma = creaCromosomaRandom();
-
-                popolazione.setCromosoma(i, cromosoma);
-            }
-        }
-    }
-
-    private Cromosoma creaCromosomaRandom() {
-        Cromosoma cromosoma = new Cromosoma();
-
-        ArrayList<Integer> listaColori = new ArrayList<>();
-        for (int i = 0; i < this.impostazioni.sizeCromosoma; i++) {
-            listaColori.add(i);
-        }
-
-        GestoreCromosoma gestoreCromosoma = new GestoreCromosoma(cromosoma);
-
-        //RANDOM SHUFFLE
-        long seed = System.nanoTime();
-        Collections.shuffle(listaColori, new Random(seed));
-
-        cromosoma = gestoreCromosoma.getNuovoCromosomaDaPartenzaNonAmmissibile(listaColori);
-
-        return cromosoma;
     }
 }

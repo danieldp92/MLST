@@ -21,30 +21,38 @@ public class GestoreCromosoma {
 
     private Impostazioni impostazioni;
     private GrafoColorato grafo;
-    private GrafoColorato mlst;
 
-    private Cromosoma cromosoma;
-
-    public GestoreCromosoma(Cromosoma cromosoma) {
+    public GestoreCromosoma() {
         this.impostazioni = new Impostazioni();
-        this.grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + this.impostazioni.nomeGrafo));
-        this.mlst = new GrafoColorato(this.grafo.getNodi(), this.grafo.getColori().size());
-
-        this.cromosoma = cromosoma;
+        this.grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + this.impostazioni.getNomeGrafo()));
     }
 
-    public void aggiornaCromosoma(Cromosoma cromosoma) {
-        this.cromosoma = cromosoma;
-        this.grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + this.impostazioni.nomeGrafo));
+    public GrafoColorato getGrafoDaCromosoma(Cromosoma cromosoma) {
+        GrafoColorato mlst = new GrafoColorato(this.grafo.getCopiaNodi(), this.grafo.getListaColori().size());
+        int[] coloriUsatiPerArco = new int[this.grafo.getArchi().size()];
 
-        creaGrafo(cromosoma);
+        int indiceGene = 0;
+        int colore = 0;
+
+        while (indiceGene < cromosoma.size()) {
+            //Preleva archi relativi al colore i-esimo
+            colore = cromosoma.get(indiceGene);
+            ArrayList<Integer> listaArchi = this.grafo.getColore(colore).getIndiciArchiCollegati();
+
+            for (Integer indiceArco : listaArchi) {
+                Arco arco = this.grafo.getArco(indiceArco);
+                coloriUsatiPerArco[indiceArco]++;
+                if (coloriUsatiPerArco[indiceArco] == arco.getColori().size()) {
+                    mlst.addArco(indiceArco, arco);
+                }
+            }
+            indiceGene++;
+        }
+        
+        return mlst;
     }
 
-    public GrafoColorato getGrafoDaCromosoma() {
-        creaGrafo(cromosoma);
-        return this.mlst;
-    }
-
+    /*
     public Cromosoma getNuovoCromosomaDaPartenzaNonAmmissibile(ArrayList<Integer> listaColori) {
         GestoreCromosoma gestoreFiglio = new GestoreCromosoma(this.cromosoma);
         GrafoColorato mlst = gestoreFiglio.getGrafoDaCromosoma();
@@ -108,33 +116,5 @@ public class GestoreCromosoma {
         }
 
         return this.cromosoma;
-    }
-
-    private void creaGrafo(Cromosoma cromosoma) {
-        this.mlst = new GrafoColorato(this.grafo.getNodi(), this.grafo.getListaColori().size());
-        int[] coloriUsatiPerArco = new int[this.grafo.getArchi().size()];
-
-        int indiceGene = 0;
-        int colore = 0;
-
-        while (indiceGene < cromosoma.size()) {
-            //Preleva archi relativi al colore i-esimo
-            colore = cromosoma.get(indiceGene);
-            ArrayList<Integer> listaArchi = this.grafo.getColore(colore).getIndiciArchiCollegati();
-
-            for (Integer indiceArco : listaArchi) {
-                Arco arco = this.grafo.getArco(indiceArco);
-                coloriUsatiPerArco[indiceArco]++;
-                if (coloriUsatiPerArco[indiceArco] == arco.getColori().size()) {
-                    this.mlst.addArco(indiceArco, arco);
-                }
-            }
-            indiceGene++;
-        }
-    }
-    
-    public GrafoColorato getGrafoIndotto(Cromosoma cromosoma) {
-        return null;
-    }
-
+    }*/
 }

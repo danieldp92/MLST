@@ -1,0 +1,6 @@
+nomeGrafo: 0
+totColori: 0
+maxValutazioni: 0
+popolazione: 0
+crossoverRate: 0
+mutationRate: 0
