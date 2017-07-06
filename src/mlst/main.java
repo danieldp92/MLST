@@ -23,8 +23,9 @@ public class main {
         System.out.println("3) ND-Greedy");
         System.out.println("4) Multistart");
         System.out.println("5) Pilot");
-        System.out.println("6) Algoritmo Genetico");
-        System.out.println("7) TUTTI (tranne CPLEX)");
+        System.out.println("6) PilotFr");
+        System.out.println("7) Algoritmo Genetico");
+        System.out.println("8) TUTTI (tranne CPLEX)");
         System.out.println("0) Esci");
 
         System.out.println();
@@ -107,13 +108,17 @@ public class main {
                 TestPilot.test();
                 break;
             case 6:
-                TestGenetico.test();
+                TestPilotFr.test();
                 break;
             case 7:
+                TestGenetico.test();
+                break;
+            case 8:
                 TestGreedy.test();
                 TestNDGreedy.test();
                 TestMultistart.test();
                 TestPilot.test();
+                TestPilotFr.test();
                 TestGenetico.test();
                 break;
             default:
