@@ -64,7 +64,7 @@ public class Algoritmo {
         long start = System.currentTimeMillis();
         long time;
         
-        while (this.generazione++ < maxValutazioni && iter < 300 && (System.currentTimeMillis() - start) < 600000){
+        while (this.generazione++ < maxValutazioni && iter < 300 && (System.currentTimeMillis() - start) < 1200000){
             System.out.println("ITERATA " + generazione);
             System.out.println("ITER " + iter);
 

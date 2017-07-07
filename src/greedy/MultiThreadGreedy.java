@@ -27,7 +27,10 @@ public class MultiThreadGreedy {
      
     public MultiThreadGreedy (int totaleThread, int threadInParallelo, Greedy greedy) {
         this.totThread = totaleThread;
-        this.threadDaEseguireInParallelo = threadInParallelo;
+        if (totaleThread > threadInParallelo)
+            this.threadDaEseguireInParallelo = threadInParallelo;
+        else
+            this.threadDaEseguireInParallelo = totaleThread;
         
         this.greedy = greedy;
         this.listaColoriDiPartenza = null;

@@ -1,10 +1,8 @@
 package mlst;
 
-import AlgoritmoGenetico.Impostazioni;
 import ilog.concert.IloException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Scanner;
 
 /**
@@ -117,7 +115,7 @@ public class main {
                 TestGreedy.test();
                 TestNDGreedy.test();
                 TestMultistart.test();
-                TestPilot.test();
+                //TestPilot.test();
                 TestPilotFr.test();
                 TestGenetico.test();
                 break;

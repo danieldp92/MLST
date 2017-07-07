@@ -5,7 +5,6 @@ import gestore.XlsGrafo;
 import grafo.GrafoColorato;
 import greedy.Greedy;
 import greedy.MultiThreadGreedy;
-import pilot.Pilot;
 import ilog.concert.IloException;
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +14,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-import jdk.internal.org.objectweb.asm.tree.MultiANewArrayInsnNode;
 
 /**
  *
@@ -155,7 +153,7 @@ public class TestPilotFr {
             System.out.println("Grafo:" + s + " Sol:" + minimumSolution + " Tempo ms:" + endTime);
             System.out.println("");
 
-            xls.addInfoGrafo(s, "frpilot", endTime, minimumSolution);
+            xls.addInfoGrafo(s, "pilot", (double)endTime/1000, minimumSolution);
             xls.salva(pathTabellaRisultati);
         }
 

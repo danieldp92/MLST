@@ -22,10 +22,8 @@ public class Selezione {
 
         for (int i = 1; i < popolazioneOrdinataPerFitness.size(); i++) {
             genitori.add(popolazioneOrdinataPerFitness.get(i));
-            int indiceCromosomaRandom = (int) (Math.random() * i);
-
-            indiceCromosomaRandom = (int) (Math.random() * i);
             
+            int indiceCromosomaRandom = (int) (Math.random() * i);
             genitori.add(popolazioneOrdinataPerFitness.get(indiceCromosomaRandom));
         }
 
@@ -39,7 +37,7 @@ public class Selezione {
         ArrayList<Cromosoma> cromosomiOrdinatiPerFitness = getListaCromosomiOrdinatiPerFitness(popolazione.getCromosomi());
 
         for (int i = 0; i < this.impostazioni.getPopolazione(); i++) {
-            if (Math.random() < 0.08)
+            if (Math.random() < (this.impostazioni.getMutationRate()/2))
                 sopravvissuti.add(cromosomiOrdinatiPerFitness.remove((int)(Math.random()*cromosomiOrdinatiPerFitness.size())));
             else
                 sopravvissuti.add(cromosomiOrdinatiPerFitness.remove(0));

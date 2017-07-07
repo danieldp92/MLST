@@ -29,6 +29,21 @@ public class TestGenetico {
         for (String nomeGrafo : listaGrafi) {
             System.out.println(nomeGrafo);
             
+            int sizePopolazione = 0;
+            double mutationRate = 0;
+            int numeroColori = Integer.valueOf(nomeGrafo.split("_")[2]);
+            
+            if (numeroColori <= 100) {
+                sizePopolazione = 100;
+                mutationRate = 0.02;
+            } else if (numeroColori <= 1000) {
+                sizePopolazione = 50;
+                mutationRate = 0.04;
+            } else {
+                sizePopolazione = 20;
+                mutationRate = 0.16;
+            }
+            
             Impostazioni impostazioni = new Impostazioni();
             impostazioni.setParametro(Impostazioni.NOME_GRAFO, nomeGrafo);
             impostazioni.setParametro(Impostazioni.TOT_COLORI, nomeGrafo.split("_")[2]);
