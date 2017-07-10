@@ -15,8 +15,6 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -36,7 +34,7 @@ public class Crossover {
         this.grafo = grafo.clone();
         this.greedy = new Greedy(this.grafo);
         
-        this.multiThread = new MultiThreadGreedy(10, 10, greedy);
+        this.multiThread = new MultiThreadGreedy(this.impostazioni.getPopolazione(), this.impostazioni.getThreadInParallelo(), greedy);
     }
     
     public ArrayList<Cromosoma> crossover(ArrayList<Cromosoma> genitori) {
@@ -53,7 +51,7 @@ public class Crossover {
         unioneGenitori = new ArrayList<>(genitori.get(0));
         ordinaColoriPerRicorrenza(unioneGenitori);
         figlio.setColoriGenitori(unioneGenitori);
-        mezzaUnione = unioneGenitori.subList(0, (3*unioneGenitori.size())/4);
+        mezzaUnione = unioneGenitori.subList(0, unioneGenitori.size()/2);
         figlio.addAll(this.greedy.esegui(mezzaUnione).getListaColori());
         figli.add(figlio);
         
@@ -131,7 +129,7 @@ public class Crossover {
         try {
             //Avvia il multiThreadCrossover
             listaMlstFigli = this.multiThread.avviaMultiThreadGreedy(listaFigliPreGreedy);
-        } catch (InterruptedException ex) { System.out.println("PORCO DIO I THREAD NON VANNO"); }
+        } catch (InterruptedException ex) { System.out.println("MULTITHREAD NON FUNZIONANTE"); }
 
         for(int i = 0; i < listaMlstFigli.size(); i++) {
             figlio = figli.get(i);

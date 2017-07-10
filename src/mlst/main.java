@@ -20,10 +20,9 @@ public class main {
         System.out.println("2) Greedy");
         System.out.println("3) ND-Greedy");
         System.out.println("4) Multistart");
-        System.out.println("5) Pilot");
-        System.out.println("6) PilotFr");
-        System.out.println("7) Algoritmo Genetico");
-        System.out.println("8) TUTTI (tranne CPLEX)");
+        System.out.println("5) Pilot (con frequenza)");
+        System.out.println("6) Algoritmo Genetico");
+        System.out.println("7) TUTTI (tranne CPLEX)");
         System.out.println("0) Esci");
 
         System.out.println();
@@ -103,22 +102,41 @@ public class main {
                 TestMultistart.test();
                 break;
             case 5:
-                TestPilot.test();
-                break;
-            case 6:
                 TestPilotFr.test();
                 break;
-            case 7:
-                TestGenetico.test();
+            case 6:
+                System.out.println("Inserire la size della popolazione:");
+                System.out.println("1) 20");
+                System.out.println("2) 50");
+                System.out.println("3) 100");
+                System.out.println();
+                
+                scelta = scanner.nextInt();
+                
+                switch (scelta) {
+                    case 1:
+                        TestGenetico.test(20);
+                        break;
+                    case 2:
+                        TestGenetico.test(50);
+                        break;
+                    case 3:
+                        TestGenetico.test(100);
+                        break;
+                    default: 
+                        break;
+                }
+                
                 break;
-            case 8:
+            case 7:
                 TestGreedy.test();
                 TestNDGreedy.test();
                 TestMultistart.test();
-                //TestPilot.test();
                 TestPilotFr.test();
-                TestGenetico.test();
+                TestGenetico.test(50);
                 break;
+            case 8:
+                TestPilot.test();
             default:
                 break;
         }

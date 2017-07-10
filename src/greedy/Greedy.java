@@ -44,6 +44,16 @@ public class Greedy {
         
         int colorePiùFrequente = 0;
 
+        //Controllo se esiste qualche nodo con 1 solo arco incidente
+        for (int i = 0; i < this.grafo.getNodi().size(); i++) {
+            if (this.grafo.getNodo(i).getIndiciArchiIncidenti().size() == 1) {
+                int indiceArco = this.grafo.getNodo(i).getIndiciArchiIncidenti().get(0);
+                for (int colore : this.grafo.getArco(indiceArco).getColori()) {
+                    rimuoviColore(tmpArchi, tmpColori, colore);
+                }
+            }
+        }
+        
         //Inserisco tutti i colori dati in input
         if (listaColori != null) {
             while (!listaColori.isEmpty()) {
@@ -78,7 +88,7 @@ public class Greedy {
             } else {
                 //Determino il colore più ricorrente in edgeWithMinColors
                 //Estrazione colori più ricorrenti solo dagli archi con numero colori minimo
-                colorePiùFrequente = colorePiùFrequente(edgeWithMinColors, random);
+                colorePiùFrequente = colorePiùFrequente2(edgeWithMinColors, random);
 
                 //Elimino il colore dagli archi (temporanei)
                 rimuoviColore(tmpArchi, tmpColori, colorePiùFrequente);
@@ -142,6 +152,49 @@ public class Greedy {
             }
         }
 
+        //Trovo il colore più ricorrente
+        //Complessità: O(c)         c -> num. colori
+        ArrayList<Integer> coloriPiuComuni = new ArrayList();
+        for (int i = 0; i < ricorrenzeColori.length; i++) {
+            if (ricorrenzeColori[i] > ricorrenzaMaggiore) {
+                coloriPiuComuni.clear();
+                coloriPiuComuni.add(i);
+                ricorrenzaMaggiore = ricorrenzeColori[i];
+            } else if (ricorrenzeColori[i] == ricorrenzaMaggiore) {
+                coloriPiuComuni.add(i);
+            }
+        }
+
+        int indiceDaSelezionare = 0;
+
+        if (random) {
+            indiceDaSelezionare = (int) (Math.random() * coloriPiuComuni.size());
+        }
+
+        //return colorePiùFrequente;
+        return coloriPiuComuni.get(indiceDaSelezionare);
+    }
+    
+    private int colorePiùFrequente2(ArrayList<Arco> pEdges, boolean random) {
+        double ricorrenzaMaggiore = -1;
+
+        double[] ricorrenzeColori = new double[this.grafo.getColori().size()];
+
+        double [] rapportoMaxIncidenti = new double[pEdges.size()];
+        for (int i = 0; i < pEdges.size(); i++)
+            rapportoMaxIncidenti[i] = (double) 1 / Math.max(pEdges.get(i).getDa().getIndiciArchiIncidenti().size(), pEdges.get(i).getA().getIndiciArchiIncidenti().size());
+        
+        
+        //Scorro tutti gli archi e memorizzo le ricorrenze
+        //Compessità: O(m * 3)      m -> num. archi, 3 -> num colori per arco
+        for (int i = 0; i < pEdges.size(); i++) {
+            for (int indiceColore : pEdges.get(i).getColori()) {
+                ricorrenzeColori[indiceColore] += rapportoMaxIncidenti[i];
+            }
+        }
+        
+        
+        
         //Trovo il colore più ricorrente
         //Complessità: O(c)         c -> num. colori
         ArrayList<Integer> coloriPiuComuni = new ArrayList();

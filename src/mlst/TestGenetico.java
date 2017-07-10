@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class TestGenetico {
 
-    public static void test() throws IOException {
+    public static void test(int sizePopolazione) throws IOException {
         XlsGrafo xls = new XlsGrafo();
         String pathTabellaRisultati = "src/Risultati/TabellaRisultati.xls";
         xls.carica(pathTabellaRisultati);
@@ -28,48 +28,42 @@ public class TestGenetico {
 
         for (String nomeGrafo : listaGrafi) {
             System.out.println(nomeGrafo);
-            
-            int sizePopolazione = 0;
-            double mutationRate = 0;
-            int numeroColori = Integer.valueOf(nomeGrafo.split("_")[2]);
-            
-            if (numeroColori <= 100) {
-                sizePopolazione = 100;
-                mutationRate = 0.02;
-            } else if (numeroColori <= 1000) {
-                sizePopolazione = 50;
-                mutationRate = 0.04;
+
+            double mutationRate;
+            if (sizePopolazione <= 20) {
+                mutationRate = 0.1;
+            } else if (sizePopolazione <= 50) {
+                mutationRate = 0.4;
             } else {
-                sizePopolazione = 20;
-                mutationRate = 0.16;
+                mutationRate = 0.3;
             }
-            
+
             Impostazioni impostazioni = new Impostazioni();
             impostazioni.setParametro(Impostazioni.NOME_GRAFO, nomeGrafo);
             impostazioni.setParametro(Impostazioni.TOT_COLORI, nomeGrafo.split("_")[2]);
-            impostazioni.setParametro(Impostazioni.POPOLAZIONE, String.valueOf(10));
+            impostazioni.setParametro(Impostazioni.POPOLAZIONE, String.valueOf(sizePopolazione));
             impostazioni.setParametro(Impostazioni.VALUTAZIONI, String.valueOf(1000));
             impostazioni.setParametro(Impostazioni.CROSSOVER_RATE, String.valueOf(0.8));
-            impostazioni.setParametro(Impostazioni.MUTATION_RATE, String.valueOf(0.2));
-            
-            long inizio = System.currentTimeMillis();
-            
+            impostazioni.setParametro(Impostazioni.MUTATION_RATE, String.valueOf(mutationRate));
+
+            long inizio = System.nanoTime();
+
             Algoritmo algoritmo = new Algoritmo();
             Popolazione popolazione = algoritmo.execute();
             Cromosoma soluzione = migliorSoluzione(popolazione);
-            
-            xls.addInfoGrafo(nomeGrafo, "ag", ((double) (System.currentTimeMillis() - inizio) / 1000), soluzione.size());
+
+            xls.addInfoGrafo(nomeGrafo, "ag" + String.valueOf(sizePopolazione), ((double) (System.nanoTime() - inizio) / 1000000000), soluzione.size());
             xls.salva(pathTabellaRisultati);
-            
+
             System.out.println("Numero colori: " + soluzione.size());
-            System.out.println("Tempo di esecuzione: " + (double) (System.currentTimeMillis() - inizio) / 1000);
+            System.out.println("Tempo di esecuzione: " + (double) (System.nanoTime() - inizio) / 1000000000);
         }
-        
+
         xls.salva(pathTabellaRisultati);
 
     }
-    
-    private static Cromosoma migliorSoluzione (Popolazione popolazione) {
+
+    private static Cromosoma migliorSoluzione(Popolazione popolazione) {
         int posMinFF = -1;
         int FfMin = 10000000;
 
@@ -81,7 +75,7 @@ public class TestGenetico {
                 posMinFF = i;
             }
         }
-        
+
         return popolazione.getCromosoma(posMinFF);
     }
 
@@ -92,12 +86,13 @@ public class TestGenetico {
         for (int i = 1; i <= 10; i++) {
             listaFile.add("50_200_50_13_" + i + ".mlst");
         }
+
         //Archi da 50 1000 50
         for (int i = 1; i <= 10; i++) {
             listaFile.add("50_1000_50_3_" + i + ".mlst");
         }
 
-        //Archi da 100 400 100 
+        //Archi da 100 400 100
         for (int i = 1; i <= 10; i++) {
             listaFile.add("100_400_100_25_" + i + ".mlst");
         }
@@ -121,7 +116,7 @@ public class TestGenetico {
         for (int i = 1; i <= 10; i++) {
             listaFile.add("100_3000_100_4_" + i + ".mlst");
         }
-        
+
         //Archi da 500 2000 500
         for (int i = 1; i <= 5; i++) {
             listaFile.add("500_2000_500_125_" + i + ".mlst");

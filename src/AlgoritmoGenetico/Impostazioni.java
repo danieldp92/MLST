@@ -86,6 +86,21 @@ public class Impostazioni {
     public String getParametro(String parametro) {
         return this.parametri.get(parametro);
     }
+    
+    public int getThreadInParallelo() {
+        int threadInParallelo = 0;
+        
+        if (getPopolazione() <= 50)
+            threadInParallelo = 50;
+        else {
+            if (getNumeroColori() > 1000)
+                threadInParallelo = 50;
+            else
+                threadInParallelo = getPopolazione();
+        }
+        
+        return threadInParallelo;
+    }
 
     public void setParametro(String parametro, String valore) {
         BufferedReader br = null;

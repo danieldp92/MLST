@@ -1,6 +1,6 @@
-nomeGrafo: 10000_40000_10000_2500_1.mlst
+nomeGrafo: 10000_160000_10000_625_5.mlst
 totColori: 10000
 maxValutazioni: 1000
-popolazione: 10
+popolazione: 100
 crossoverRate: 0.8
-mutationRate: 0.2
+mutationRate: 0.3

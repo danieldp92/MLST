@@ -36,7 +36,7 @@ public class TestMultistart {
             GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
             grafo.nomeGrafo = s;
 
-            long inizio = System.currentTimeMillis();
+            long inizio = System.nanoTime();
 
             ArrayList<GrafoColorato> listaMlst = new ArrayList<>();
             Greedy greedy = new Greedy(grafo);
@@ -53,11 +53,11 @@ public class TestMultistart {
             int iterataSoluzione = indiceMiglioreSoluzione(soluzioni);
             int totaleColoriMigliori = soluzioni.get(iterataSoluzione);
 
-            xls.addInfoGrafo(grafo.nomeGrafo, "multistart", ((double) (System.currentTimeMillis() - inizio) / 1000), totaleColoriMigliori, iterataSoluzione);
+            xls.addInfoGrafo(grafo.nomeGrafo, "multistart", ((double)(System.nanoTime() - inizio) / 1000000000), totaleColoriMigliori, iterataSoluzione);
             xls.salva(pathTabellaRisultati);
             System.out.println("Numero colori: " + totaleColoriMigliori);
             System.out.println("Thread soluzione: " + iterataSoluzione);
-            System.out.println("Tempo di esecuzione: " + ((double) (System.currentTimeMillis() - inizio) / 1000));
+            System.out.println("Tempo di esecuzione: " + ((double)(System.nanoTime() - inizio) / 1000000000));
 
         }
 

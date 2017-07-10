@@ -36,7 +36,7 @@ public class TestPilot {
             ArrayList<ArrayList<Integer>> solutionArray = new ArrayList<>();
             Greedy greedy = new Greedy(grafo);
 
-            long startTime = System.currentTimeMillis();
+            long startTime = System.nanoTime();
 
             List<List<Integer>> coloriDiPartenza = new ArrayList<>();
             ArrayList<Integer> zeta = new ArrayList<>();
@@ -106,8 +106,8 @@ public class TestPilot {
             int minimumSolution = CercaMinimo(solutionArray);
            // ArrayList<ArrayList<Integer>> minimumSolutionColor = cercaMinimi(solutionArray);
 
-            float endTime = System.currentTimeMillis() - startTime;
-            float timeInSec = endTime / 1000;
+            double endTime = System.nanoTime() - startTime;
+            double timeInSec = endTime / 1000000000;
 
             System.out.println("Grafo:" + s + " Sol:" + minimumSolution + " Tempo ms:" + endTime);
             System.out.println("");

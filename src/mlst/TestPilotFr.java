@@ -65,7 +65,7 @@ public class TestPilotFr {
             
             int colorLimit = (int) (numCol*(value/100));
 
-            long startTime = System.currentTimeMillis();
+            long startTime = System.nanoTime();
             
             HashMap<Integer, Integer> fr = CalcolaFrequenze(grafo);
             int sommaFr = 0;
@@ -148,12 +148,12 @@ public class TestPilotFr {
             int minimumSolution = CercaMinimo(solutionArray);
             //ArrayList<ArrayList<Integer>> minimumSolutionColor = cercaMinimi(solutionArray);
 
-            float endTime = System.currentTimeMillis() - startTime;
+            double endTime = System.nanoTime() - startTime;
 
             System.out.println("Grafo:" + s + " Sol:" + minimumSolution + " Tempo ms:" + endTime);
             System.out.println("");
 
-            xls.addInfoGrafo(s, "pilot", (double)endTime/1000, minimumSolution);
+            xls.addInfoGrafo(s, "pilot", (double)endTime/1000000000, minimumSolution);
             xls.salva(pathTabellaRisultati);
         }
 
@@ -163,8 +163,6 @@ public class TestPilotFr {
     private static ArrayList<String> listaFile() {
         ArrayList<String> listaFile = new ArrayList<>();
 
-    //    listaFile.add("50_200_50_13_1.mlst");
-   
         //Archi da 50 200 50
         for (int i = 1; i <= 10; i++) {
             listaFile.add("50_200_50_13_" + i + ".mlst");

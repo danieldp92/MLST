@@ -30,16 +30,16 @@ public class TestGreedy {
             GrafoColorato grafo = GeneratoreGrafo.generaGrafo(new File("src/GrafiColorati3Colori/" + s));
             grafo.nomeGrafo = s;
 
-            long inizio = System.currentTimeMillis();
+            long inizio = System.nanoTime();
             
             //Ottengo un MLST eseguendo l'algoritmo greedy sul grafo
             Greedy greedy = new Greedy(grafo);
-            GrafoColorato mlst = greedy.esegui(null, false);
+            GrafoColorato mlst = greedy.esegui(false);
 
-            xls.addInfoGrafo(grafo.nomeGrafo, "greedy", ((double)(System.currentTimeMillis() - inizio) / 1000), mlst.getListaColori().size());
+            xls.addInfoGrafo(grafo.nomeGrafo, "greedy", ((double)(System.nanoTime() - inizio) / 1000000000), mlst.getListaColori().size());
             xls.salva(pathTabellaRisultati);
             System.out.println("Numero colori: " + mlst.getListaColori().size());
-            System.out.println("Tempo di esecuzione: " + ((double)(System.currentTimeMillis() - inizio) / 1000));
+            System.out.println("Tempo di esecuzione: " + ((double)(System.nanoTime() - inizio) / 1000000000));
 
         }
         

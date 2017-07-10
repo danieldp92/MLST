@@ -74,7 +74,7 @@ public class Mutazione {
         
         try {
             listaMlstCromosomiMutati = this.multiThread.avviaMultiThreadGreedy(listaFigliMutati);
-        } catch (InterruptedException ex) {}
+        } catch (InterruptedException ex) { System.out.println("MULTITHREAD NON FUNZIONANTE"); }
         
         for (int i = 0; i < listaMlstCromosomiMutati.size(); i++) {
             Cromosoma figlioMutato = new Cromosoma();

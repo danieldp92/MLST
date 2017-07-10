@@ -27,8 +27,12 @@ public class XlsGrafo {
     private int indiceColonnaTempoDiEsecuzioneMultistart;
     private int indiceColonnaTotColoriMultistart;
     private int indiceColonnaIterataSoluzioneMultistart;
-    private int indiceColonnaTempoDiEsecuzioneAG;
-    private int indiceColonnaTotColoriAG;
+    private int indiceColonnaTempoDiEsecuzioneAG100;
+    private int indiceColonnaTotColoriAG100;
+    private int indiceColonnaTempoDiEsecuzioneAG50;
+    private int indiceColonnaTotColoriAG50;
+    private int indiceColonnaTempoDiEsecuzioneAG20;
+    private int indiceColonnaTotColoriAG20;
     private int indiceColonnaTempoDiEsecuzionePilot;
     private int indiceColonnaTotColoriPilot;
 
@@ -73,9 +77,17 @@ public class XlsGrafo {
                 indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzionePilot;
                 indiceColonnaColori = this.indiceColonnaTotColoriPilot;
                 break;
-            case "ag":
-                indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneAG;
-                indiceColonnaColori = this.indiceColonnaTotColoriAG;
+            case "ag100":
+                indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneAG100;
+                indiceColonnaColori = this.indiceColonnaTotColoriAG100;
+                break;
+            case "ag50":
+                indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneAG50;
+                indiceColonnaColori = this.indiceColonnaTotColoriAG50;
+                break;
+            case "ag20":
+                indiceColonnaTempo = this.indiceColonnaTempoDiEsecuzioneAG20;
+                indiceColonnaColori = this.indiceColonnaTotColoriAG20;
                 break;
             default:
                 break;
@@ -190,8 +202,12 @@ public class XlsGrafo {
         this.indiceColonnaIterataSoluzioneMultistart = 9;
         this.indiceColonnaTempoDiEsecuzionePilot = 10;
         this.indiceColonnaTotColoriPilot = 11;
-        this.indiceColonnaTempoDiEsecuzioneAG = 12;
-        this.indiceColonnaTotColoriAG = 13;
+        this.indiceColonnaTempoDiEsecuzioneAG100 = 12;
+        this.indiceColonnaTotColoriAG100 = 13;
+        this.indiceColonnaTempoDiEsecuzioneAG50 = 14;
+        this.indiceColonnaTotColoriAG50 = 15;
+        this.indiceColonnaTempoDiEsecuzioneAG20 = 16;
+        this.indiceColonnaTotColoriAG20 = 17;
     }
 
     private void creaListaGrafi() throws FileNotFoundException, IOException {
